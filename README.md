@@ -23,10 +23,15 @@ The physics for this example come from discussions with Dr. Marilyn Lightstone, 
 The folders include
 
 SRS - Software Requirements Specification
+
 VVPlan - Verification and Validation Plan
+
 MG - Module Guide
+
 MIS - Module Interface Specification
+
 Program - the implementation
+
 VVReport - Verification and Validation Report
 
 
