@@ -9,6 +9,7 @@
 \usepackage{xr}
 \usepackage{hyperref}
 \usepackage{longtable}
+\usepackage{multirow}
 \usepackage{xfrac}
 \usepackage{tabularx}
 \usepackage{float}
@@ -25,6 +26,19 @@
     filecolor=magenta,      % color of file links
     urlcolor=cyan           % color of external links
 }
+\newif\ifcomments\commentstrue
+
+\ifcomments
+\newcommand{\authornote}[3]{\textcolor{#1}{[#3 ---#2]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+\newcommand{\authornote}[3]{}
+\newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\wss}[1]{\authornote{blue}{SS}{#1}}
+\newcommand{\bmac}[1]{\authornote{red}{BM}{#1}}
+
 \newcommand{\NN}[1]{{\color{red}#1}}
 \newcommand{\WSS}[1]{{\color{blue}#1}}
 
@@ -77,7 +91,7 @@
 
 \title{Verification and Validation Plan for Solar Water Heating Systems Incorporating 
 Phase Change Material} 
-\author{Maya Grab}
+\author{Maya Grab and Brooks MacLachlan}
 \date{\today}
 	
 \maketitle
@@ -90,12 +104,12 @@ Phase Change Material}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{General Informationl}
+\section{General Information}
 The following section provides an overview of the Verification and Validation (V\&V) Plan 
-for a solar water heating systems incorporating phase change material simulator.
+for a solar water heating system incorporating phase change material simulator.
  This section explains the purpose of this document, the scope of the system,
   common definitions, acronyms and abbreviations that are used in the document,
-   and an overview of the following sections
+   and an overview of the following sections.
 
 %1.1 Purpose
 \subsection{Purpose}
@@ -111,6 +125,8 @@ determine if the software is implemented correctly.
 
 %1.2 Scope
 \subsection{Scope}
+
+\bmac{No content... should this be here?}
 
 
 %1.3  Definitions, Acronyms, and abbreviations 
@@ -132,12 +148,14 @@ determine if the software is implemented correctly.
   \bottomrule
 \end{tabular}\\
 
+\bmac{The value for epsilon in the actual Matlab scripts is different.}
+
 %1.4 Overview of Document
 \subsection{Overview of Document }
 The following sections provide more detail about the V\&V of a solar water heating
  simulator. Information about the testing process is provided, and the software specifications
 that were discussed in the SRS document are stated.  The evaluation process that will be followed during 
-testing is outlined, and test cases for both the system testing and unit testing are provided 
+testing is outlined, and test cases for both the system testing and unit testing are provided.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -153,8 +171,8 @@ perform the testing, the milestones for the testing phase, and the budget alloca
 \subsection{Software Description}
 The software being tested is a simulator for a SWHS
 incorporating PCM. Given the physical parameters of the system,
- including dimensions, properties of the water and PCM,and relevant physical constants,
-  the simulator calculates the changes in temperature and enrgy of the water and PCM 
+ including dimensions, properties of the water and PCM, and relevant physical constants,
+  the simulator calculates the changes in temperature and energy of the water and PCM 
   over time.
 
 %2.2 Test Team
@@ -172,7 +190,7 @@ The team that will execute the test cases, write and review the V\&VR consists o
 
 %2.3.1 Location
 \subsubsection{Location}
-The location where the testing will be performed is Hamilton Ontario. The institution that
+The location where the testing will be performed is Hamilton, Ontario. The institution that
 will be performing the testing is McMaster University. 
 
 
@@ -187,14 +205,14 @@ The deadline for the creation of the test cases is June 15th 2015.
 ~\newline
 Test Case Implementation:
 ~\newline
-Implementing code for the automation of the unit testing is scheduled to being 
+Implementing code for the automation of the unit testing is scheduled to begin 
 June 15th 2015. The implementation period
 is expected to last approximately two weeks and has a deadline of June 30th 2015.
 ~\newline
 ~\newline
 Verification and Validation Report:
 ~\newline
-The writting of the V\&VR is scheduled to begin July 1st 2015 and end on July 15th 2015. 
+The writing of the V\&VR is scheduled to begin July 1st 2015 and end on July 15th 2015. 
 
 %2.4 Budget
 \subsection{Budget}
@@ -245,7 +263,7 @@ to the next, and how to determine if the test was successful.
 
 %4.1.1 Methodology
 \subsubsection{Methodology} 
-The testing of the SWHS will be fully automated with the exception one testing 
+The testing of the SWHS will be fully automated with the exception of one testing 
 method, where a change to the ODE solver algorithm is required.
 
 % 4.1.2 Extent of Testing
@@ -272,7 +290,7 @@ There are currently no anticipated limitations on the testing.
 
 % 4.2.3 Testing Criteria
 \subsubsection{ Testing Criteria}
-Test criteria a divided into two categories:
+Test criteria are divided into two categories:
 \begin{enumerate}
 \item \textbf{Numerical}: testing results will be compared to expected results within an allowable margin of error $\epsilon$.
 
@@ -308,7 +326,7 @@ the physical constraints column, altering a specific input variable to a non-per
 
 \begin{center}
 	\begin{longtable}{ | r | p{4cm} | p{4cm} | p{4cm} | p{4cm} |}
-	\caption{Faulty Input Cases} \\ \hline \label{TblInputVar} 
+	\caption{Faulty Input Cases} \\ \hline \label{TblFaultyInput} 
 	No. & Input & Expected Outcome & MsgID \\ \hline
 	01 & $L = -2$ & error: Tank length must be $> 0$ & input:L \\ \hline
 	02 & $L = 0$ & error: Tank length must be $> 0$ & input:L\\ \hline
@@ -316,38 +334,45 @@ the physical constraints column, altering a specific input variable to a non-per
 	04 & $D = 0$ & error: Tank diameter must be $> 0$ & input:diam \\ \hline
 	05 & $V_P = -0.05$ &error: PCM volume must be $> 0$ & input:Vp\\ \hline
 	06 & $V_P = 0$ &error: PCM volume must be $> 0$ & input:Vp\\ \hline
-	07 & \shortstack{\\ $L = 0.5$ \\ $D = 0.5$ \\ $V_P = 0.5$} &error: Tank volume
-	must be $>$ PCM volume & input:VpVt \\ \hline
-	08 & \shortstack{\\ $V_P$\\$ = 0.199974938771605$\\ (tank volume)\\ $A_P$ \\ 
-	$= 2.208137511613965$\\(tank surface area)} &error: Tank volume must be $>$ PCM volume & input:VpVt \\ \hline
+	\multirow{3}{*}{07} & $L = 0.5$ & \multirow{3}{*}{\parbox{4cm}{error: Tank volume must 
+	be $>$ PCM volume}} & \multirow{3}{*}{input:VpVt} \\
+	& $D = 0.5$ & & \\
+	& $Vp = 0.5$ & & \\ \hline
+	\multirow{6}{*}{08} & $V_P$ & \multirow{6}{*}{\parbox{4cm}{error: Tank volume must be $>$ PCM volume}} & \multirow{6}{*}{input:VpVt} \\ 
+	& $=0.199974938771605$ & & \\
+	& (tank volume) & & \\
+	& $A_P$ & & \\
+	& $=2.208137511613965$ & & \\
+	& (tank surface area) & & \\ \hline
 	09 & $A_P = -1.5$ &error: PCM area must be $> 0$ & input:Ap\\ \hline
 	10 & $A_P = 0$ &error: PCM area must be $> 0$ & input:Ap \\ \hline
-	11 & $\rho_P = -1000$ &error: $\rho_P$ must be $> 0$ & input:rho\_{p} \\ \hline
-	12 & $\rho_P = 0$ &error: $\rho_P$ must be $> 0$ & input:rho\_{p} \\ \hline
-	13 & $T^P_{\text{melt}} = -10$ & error: $T_{\text{melt}}$ must be $> 0$ and $< T_C$ & 
+	11 & $\rho_P = -1000$ &error: rho\_p must be $> 0$ & input:rho\_{p} \\ \hline
+	12 & $\rho_P = 0$ &error: rho\_p must be $> 0$ & input:rho\_{p} \\ \hline
+	13 & $T^P_{\text{melt}} = -10$ & error: Tmelt must be $> 0$ and $<$ Tc & 
 	input:Tmelt \\ \hline
-	14 & $T^P_{\text{melt}} = 0$ & error: $T_{\text{melt}}$ must be $> 0$ and $< T_C$ 
+	14 & $T^P_{\text{melt}} = 0$ & error: Tmelt must be $> 0$ and $<$ Tc 
 	&input:Tmelt \\ \hline
-	15 & \shortstack{\\$T^P_{\text{melt}} = 45$\\$T_C = 40$} & error: $T_{\text{melt}}$ must
-	 be $> 0$ and $< T_C$ &input:Tmelt \\ \hline
-	16 & $C^S_P = -1000$ & error: $C_{PS} \text{ must be } > 0$ &input:C\_{ps} \\ \hline
-	17 & $C^S_P = 0$ & error: $C_{PS} \text{ must be } > 0$ &input:C\_{ps} \\ \hline
-	18 & $C^L_P = -1000$ & error: $C_{PL} \text{ must be } > 0$ &input:C\_{pl} \\ \hline
-	19 & $C^L_P = 0$ & error: $C_{PL} \text{ must be } > 0$ &input:C\_{pl} \\ \hline
+	\multirow{2}{*}{15} & $T^P_{\text{melt}} = 45$ & \multirow{2}{*}{\parbox{4cm}{error: 
+	Tmelt must be $> 0$ and $<$ Tc}} & input:Tmelt \\
+	& $T_C = 40$ & & \\ \hline
+	16 & $C^S_P = -1000$ & error: C\_ps must be $> 0$ &input:C\_{ps} \\ \hline
+	17 & $C^S_P = 0$ & error: C\_ps must be $> 0$ &input:C\_{ps} \\ \hline
+	18 & $C^L_P = -1000$ & error: C\_pl must be $> 0$ &input:C\_{pl} \\ \hline
+	19 & $C^L_P = 0$ & error: C\_pl must be $> 0$ &input:C\_{pl} \\ \hline
 	20 & $H_f = -200000$& error: Hf must be $> 0$ & input:Hf \\ \hline
 	21 & $H_f = 0$ & error: Hf must be $> 0$ & input:Hf \\ \hline
 	22 & $A_C = -0.12$ & error: Ac must be $> 0$ &input:Ac \\ \hline
 	23 & $A_C = 0$ & error: Ac must be $> 0$ &input:Ac \\ \hline
-	24 & $T_C = -50$ & error: $T_{\text{melt}}$ must
-	 be $> 0$ and $< T_C$ &input:Tmelt \\ \hline
-	25 & $T_C = 0$ & error: $T_{\text{melt}}$ must
-	 be $> 0$ and $< T_C$ &input:Tmelt \\ \hline
+	24 & $T_C = -50$ & error: Tmelt must
+	 be $> 0$ and $<$ Tc &input:Tmelt \\ \hline
+	25 & $T_C = 0$ & error: Tmelt must
+	 be $> 0$ and $<$ Tc &input:Tmelt \\ \hline
 	26 & $T_C = 100$ & error: Tc must be $> 0 \text{ and } < 100$ &input:Tc \\ \hline
 	27 & $T_C = 110$ & error: Tc must be $> 0 \text{ and } < 100$ &input:Tc \\ \hline
-	28 & $\rho_W = -1000$ & error: $\rho_W$ must be $> 0$ &input:rho\_{w} \\ \hline
-	29 & $\rho_W = 0$ & error: $\rho_W$ must be $> 0$ &input:rho\_{w} \\ \hline
-	30 & $C_W = -4000$ & error: $C_W$ must be $> 0$ &input:C\_{w} \\ \hline
-	31 & $C_W = 0$ & error: $C_W$ must be $> 0$ &input:C\_{w} \\ \hline
+	28 & $\rho_W = -1000$ & error: rho\_w must be $> 0$ &input:rho\_{w} \\ \hline
+	29 & $\rho_W = 0$ & error: rho\_w must be $> 0$ &input:rho\_{w} \\ \hline
+	30 & $C_W = -4000$ & error: C\_w must be $> 0$ &input:C\_{w} \\ \hline
+	31 & $C_W = 0$ & error: C\_w must be $> 0$ &input:C\_{w} \\ \hline
 	32 & $h_C = -1000$ & error: hc must be $> 0$ &input:hc \\ \hline
 	33 & $h_C = 0$ & error: hc must be $> 0$ &input:hc \\ \hline
 	34 & $h_P = -1000$ & error: hp must be $> 0$ &input:hp \\ \hline
@@ -356,7 +381,7 @@ the physical constraints column, altering a specific input variable to a non-per
 	37 & $T_{\text{init}} = 0$ & error: Tinit must be $> 0$ and $< 100$ &input:Tinit \\ \hline
 	38 & $T_{\text{init}} = 100$ & error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
 	39 & $T_{\text{init}} = 110$ & error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
-	40 & $T_{\text{init}} = 45$ &error: Tinit must be $< 0$ Tmelt & input:TinitTmelt \\ \hline
+	40 & $T_{\text{init}} = 45$ &error: Tinit must be $<$ Tmelt & input:TinitTmelt \\ \hline
 	41 & $T_{\text{init}} = 50$ &error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
 	42 & $T_{\text{init}} = 60$ &error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
 	43 & $t_{\text{final}} = 0$ &error: tfinal must be $> 0$ &input:tfinal \\ \hline
@@ -381,16 +406,18 @@ the physical constraints column, altering a specific input variable to a non-adv
  
 \begin{center}
 	\begin{longtable}{ | r | p{3cm} | p{5cm} | p{4cm} |}
-	\caption{Unrecommended Input Cases} \\ \hline \label{TblInputVar} 
+	\caption{Unrecommended Input Cases} \\ \hline \label{TblUnrecommendedInput} 
 	No. & Input & Expected Outcome & MsgID \\ \hline
-	01 & \shortstack{\\ $L = 0.01$\\ $V_P = 0.001$} & It is recommended that $0.1 <= L
-	 <= 50$& inputwarn:L\\ \hline
-	02 & $L = 55$ & It is recommended that $0.1 <= L <= 50$ & intputwarn:L\\ \hline
+	\multirow{2}{*}{01} & $L = 0.01$ & \multirow{2}{*}{\parbox{5cm}{It is recommended that $0.1 <=$ L $<= 50$}}& inputwarn:L\\ 
+	& $V_P = 0.001$ & & \\ \hline
+	02 & $L = 55$ & It is recommended that $0.1 <=$ L $<= 50$ & intputwarn:L\\ \hline
 	03 & $L = 30$ & It is recommended that 
-	$0.002 <= D/L <= 200$ & inputwarn:diam \\ \hline
-	04 & $D = 400$ & It is recommended that $0.002 <= D/L <= 200$ & inputwarn:diam\\ \hline
-	05 & \shortstack{\\ $L = 15$\\ $D = 4.12$\\ $V_P = 0.0006$} & It is recommended that Vp be $>= 0.0001\% \text{of Vt}$ & inputwarn:VpVt\\ \hline
-	06 & $A_P = 110$ & It is recommended that $Vp <= Ap <= 2*Vp/0.001$ inputwarn:VpAp& \\ \hline
+	$0.002 <=$ D/L $<= 200$ & inputwarn:diam \\ \hline
+	04 & $D = 400$ & It is recommended that $0.002 <=$ D/L $<= 200$ & inputwarn:diam\\ \hline
+	\multirow{3}{*}{05} & $L = 15$ & \multirow{3}{*}{\parbox{5cm}{It is recommended that Vp be $>= 0.0001\%$ of Vt}} & \multirow{3}{*}{inputwarn:VpVt}\\ 
+	& $D = 4.12$ & & \\
+	& $V_P = 0.0006$ & & \\ \hline
+	06 & $A_P = 110$ & It is recommended that Vp $<=$ Ap $<=$ 2*Vp/0.001 & inputwarn:VpAp \\ \hline
 	07 & $\rho_P = 450$ & It is recommended that $500 < \text{rho\_{p}} < 20000$ &inputwarn:rho\_{p} \\ \hline
 	08 & $\rho_P = 20005$ & It is recommended that $500 < \text{rho\_{p}} < 20000$ & inputwarn:rho\_{p}\\ \hline
 	09 & $C^S_P = 90$ & It is recommended that $100 < \text{C\_{ps}} < 4000$ & inputwarn:C\_{ps}\\ \hline
@@ -399,7 +426,7 @@ the physical constraints column, altering a specific input variable to a non-adv
 	12 & $C^L_P = 5005$ & It is recommended that $100 < \text{C\_{pl}} < 5000$ & intwarn:C\_{pl} \\ \hline
 	13 & $H_f = \text{min}$ & & \\ \hline
 	14 & $H_f = \text{max}$ & & \\ \hline
-	15 & $A_C = 0.7$ & It is recommended that $Ac <= pi*D/2$ & intwarn:Ac\\ \hline
+	15 & $A_C = 0.7$ & It is recommended that Ac $<=$ pi*D/2 & intwarn:Ac\\ \hline
 	16 & $\rho_W = 900$ & It is recommended that $950 < \text{rho\_{w}} <= 1000$ & intwarn:rho\_{w} \\ \hline
 	17 & $\rho_W = 1010$ & It is recommended that $950 < \text{rho\_{w}} <= 1000$ & intwarn:rho\_{w} \\ \hline
 	18 & $C_W = 4160$ & It is recommended that $4170 < \text{C\_{w}} < 4210$ & intwarn:C\_{w} \\ \hline
@@ -420,7 +447,7 @@ A closed form solution for the temperature of water is derived using Maple18 for
 a case of latent heating. The solution vector generated over time will be 
 compared to the latent heating stage from the output generated by Standard Input Variables.
 \subsubsection{Input}
-The file will be based on the Standard input table and its output. Since the closed
+The file will be based on the Standard input table (Table \ref{TblInputVar}) and its output. Since the closed
  form solution is only correct for latent heating, the initial temperature will
   be set at the melting temperature of the PCM, and the time span will be the 
   amount of time required for full melting.
@@ -441,7 +468,7 @@ $$
 \subsection{Alternative Algorithm}
 \subsubsection{Means of Control}
 The program will be manually compared to an implementation substituting the ode45
- algorithm for ode23. 
+ algorithm with ode23. 
 
 \subsubsection{Input}
 The input will be the standard working input, run once through the ode45 implementation
@@ -460,32 +487,35 @@ Valid output from the current Matlab implementation will be compared to output
  from the original Fortran implementation.
  
 \subsubsection{Input}
-The standard input file for Matlab and the corresponding file in Fortran format
- will be ran through their respective implementations. 
+The standard input file (outlined in Table \ref{TblInputVar}) for Matlab and the corresponding file in Fortran format will be run through their respective implementations. 
  \\ The standard input file will be modified to five different variations, as described in the table below.
  
  \begin{center}
 	\begin{longtable}{ | r | p{4cm} | p{4cm} |}
-	\caption{Faulty Input Cases} \\ \hline \label{TblInputVar} 
+	\caption{Faulty Input Cases} \\ \hline \label{TblOrigImplement} 
 	No. & Purpose & $\Delta$ Input \\ \hline
 	01 & & Standard \\ \hline
-	02 & Set coil temperature just above melting temperature of PCM. & \shortstack{
-	\\ $T_{\text{C}} = 44.21\degree{C}$ \\ $T_{\text{melt}} = 44.2\degree{C}$} \\ \hline
+	\multirow{3}{*}{02} & \multirow{3}{*}{\parbox{4cm}{Set coil temperature just above melting temperature of PCM.}} & $T_{\text{C}} = 44.21\degree{C}$ \\
+	& & $T_{\text{melt}} = 44.2\degree{C}$ \\
+	& & \\ \hline
 	03 & Set $t$ at exactly the initial melting time according to No.1 (Fortran
 	 implementation). & $t = 20570\text{s}$ \\ \hline
 	04 & Set $t$ just above the initial melting time. & $t = 20580\text{s}$ \\ \hline
-		\end{longtable}
+	\end{longtable}
 \end{center}
+ 
+\bmac{Text says 5 cases, but table only shows 4}
  
 \subsubsection{Expected Output}
 The delta between the output vectors should be
- $< \epsilon \text{ where } \epsilon = 10^{-2}$.
+ $< \epsilon$.
 
 \subsubsection{Procedure}
 
 
 \subsubsection{Preparation}
 
+\bmac{Should these sections be blank?}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -510,7 +540,7 @@ The Temperature modules take as input:
 \item a time $t$;
 \item a temperature vector $T$ where $T(1) = T_{\text{W}} \text{ and } 
 T(2) = T_{\text{P}}$;
-\item an input parameters structures containing the typical simulator parameters
+\item an input parameters structure containing the typical simulator parameters
 \end{itemize}
 
 \subsubsection{Module Outputs}
@@ -522,7 +552,7 @@ The Temperature modules output a vector dTdt where:
 \end{itemize}
 
 \subsubsection{Related Modules}
-The module loadparams.m was used in testing in order to load the input parameters
+The module load\_params.m was used in testing in order to load the input parameters
  structure into each function.
 
 \subsection{Test Data}
@@ -531,7 +561,7 @@ The module loadparams.m was used in testing in order to load the input parameter
 \subsubsection{Inputs}
  \begin{center}
 	\begin{longtable}{ | r | c |}
-	\caption{Temperature Tests Input} \\ \hline \label{TblInputVar} 
+	\caption{Temperature Tests Input} \\ \hline \label{TblTempIn} 
 	Test & Input \\ \hline
 	temperature 1 & \shortstack{\\ $t = 100$ \\ $T = [40.7, 40.5]$ \\params} \\ \hline
 	temperature 2a & \shortstack{\\ $t = 3000$ \\ $T = [44.2, 44.2]$ \\ params} \\ \hline
@@ -544,7 +574,7 @@ The module loadparams.m was used in testing in order to load the input parameter
 \subsubsection{Expected Outputs}
  \begin{center}
 	\begin{longtable}{ | r | c |}
-	\caption{Temperature Tests Expected Outputs} \\ \hline \label{TblInputVar} 
+	\caption{Temperature Tests Expected Outputs} \\ \hline \label{TblTempOut} 
 	Test & Input \\ \hline
 	temperature 1 & [0.00139536, 0.002708315] \\ \hline
 	temperature 2a & [0.001108642, 0, 0] \\ \hline
@@ -569,7 +599,7 @@ The Energy modules take as input:
 \begin{itemize}
 \item a temperature matrix $T$ where $T(:,1) = T_{\text{W}} \text{, }
 T(;,2) = T_{\text{P}} \text{ and (energy2 only) } T(:,3) = Q_{\text{P}}$
-\item an input parameters structures containing the typical simulator parameters
+\item an input parameters structure containing the typical simulator parameters
 \end{itemize}
 
 \subsubsection{Module Outputs}
@@ -580,19 +610,21 @@ The Energy modules output two vectors: $E_{\text{W}} \text{ and } E_{\text{P}}$.
 \subsubsection{Inputs}
  \begin{center}
 	\begin{longtable}{ | r | c |}
-	\caption{Energy Tests Input} \\ \hline \label{TblInputVar} 
+	\caption{Energy Tests Input} \\ \hline \label{TblEnergyIn} 
 	Test & Input \\ \hline
-	energy 1 & \shortstack{\\ $T = [40:44; 40:44]$ \\params} \\ \hline
+	energy 1 & \shortstack{\\ $T = [40:44; 40:44]'$ \\params} \\ \hline
 	energy 2 & \shortstack{\\$T = [44.2:0.1:44.6; 44.2, 44.2, 44.2, 44.2, 44.2; 
-	372000:51000:576000]$ \\ params} \\ \hline
-	energy 3 & \shortstack{\\ $T = [45:49; 45:49]$ \\ params} \\ \hline	
+	372000:51000:576000]'$ \\ params} \\ \hline
+	energy 3 & \shortstack{\\ $T = [45:49; 45:49]'$ \\ params} \\ \hline	
 		\end{longtable}
 \end{center}
+
+\bmac{In these tables throughout the document, values are expressed using Matlab's syntax. Is that okay, or do we want this document to be completely independent from the choice of software?"}
 
 \subsubsection{Expected Outputs}
  \begin{center}
 	\begin{longtable}{ | r | c | c |}
-	\caption{Energy Tests Output} \\ \hline \label{TblInputVar} 
+	\caption{Energy Tests Output} \\ \hline \label{TblEnergyOut} 
 	Test & $E_{\text{W}}$ & $E_{\text{P}}$ \\ \hline
 	energy 1 & \shortstack{\\ 0\\ 627795.0938\\ 1255590.188\\ 1883385.281\\ 2511180.375} &
 	 \shortstack{\\ 0\\ 88616\\ 177232\\ 265848\\ 354464} \\ \hline
@@ -617,14 +649,14 @@ The Event modules take as input:
 \item a time $t$;
 \item a temperature vector $T$ where $T(1) = T_{\text{W}} \text{, } 
 T(2) = T_{\text{P}} \text{ and (event 2 only) } T(3) = Q_{\text{P}}$;
-\item an input parameters structures containing the typical simulator parameters
+\item an input parameters structure containing the typical simulator parameters
 \end{itemize}
 
 \subsubsection{Module Outputs}
 The Event modules output three values: [value, isterminal, direction]. 
 
 \subsubsection{Related Modules}
-The module loadparams.m was used in testing in order to load the input parameters 
+The module load\_params.m was used in testing in order to load the input parameters 
 structure into each function.
 
 \subsection{Test Data}
@@ -632,7 +664,7 @@ structure into each function.
 \subsubsection{Inputs}
  \begin{center}
 	\begin{longtable}{ | r | c |}
-	\caption{Event Tests Input} \\ \hline \label{TblInputVar} 
+	\caption{Event Tests Input} \\ \hline \label{TblEventIn} 
 	Test & Input \\ \hline
 	event 1a & \shortstack{\\ $t = 100$ \\ $T = [41, 40.9]$ \\params} \\ \hline
 	event 1b & \shortstack{\\ $t = 3000$ \\ $T = [44.2, 44.2]$ \\ params} \\ \hline
@@ -645,7 +677,7 @@ structure into each function.
 \subsubsection{Expected Outputs}
  \begin{center}
 	\begin{longtable}{ | r | c |}
-	\caption{Event Tests Expected Output} \\ \hline \label{TblInputVar} 
+	\caption{Event Tests Expected Output} \\ \hline \label{TblEventOut} 
 	Test & Output \\ \hline
 	event 1a & [3.3, 1, 0] \\ \hline
 	event 1b & [0, 1, 0] \\ \hline
@@ -655,14 +687,67 @@ structure into each function.
 		\end{longtable}
 \end{center}
 
+\section{Output Verification Module}
+
+\subsection{Module Information}
+This testing suite will test the Output Verification module, which verifies that the energy outputs obey the law of conservation of energy.
+
+\subsubsection{Module Inputs}
+The Output Verification module takes as input:
+\begin{itemize}
+	\item an input parameters structure containing the typical simulator parameters;
+	\item a vector of times, $t$;
+	\item a matrix with at least two columns of temperature values, $T$ where $T(:,1) = T_{\text{W}}$, and $T(:,2) = T_{\text{P}}$;
+	\item a vector of values for energy in the water, $Ew$;
+	\item a vector of values for energy in the PCM, $Ep$;
+\end{itemize}
+
+\subsubsection{Module Outputs}
+The Output Verification Module has no outputs.
+
+\subsubsection{Related Modules}
+The module load\_params.m was used in testing in order to load the input parameters 
+structure into each function.
+
+\subsection{Test Data}
+
+\subsubsection{Input}
+
+\begin{center}
+	\begin{longtable}{ | r | c |}
+		\caption{Output Verification Tests Input} \\ \hline \label{TblOutVerifyIn} 
+		Test No. & Input \\ \hline
+		1 &  \shortstack{\\ params \\ t = [0;10;20;30] \\ T = [40 40; 42 41.9; 44 43.8; 46 45.7;] \\ Ew = [0;1000;2000;19800] \\ Ep = [0;1000;2000;5400]}\\ \hline
+		2 &  \shortstack{\\ params \\ t = [0;10;20;30] \\ T = [40 40; 42 41.9; 44 43.8; 46 45.7;] \\ Ew = [0;1000;2000;19800] \\ Ep = [0;1000;2000;3000]}\\ \hline
+		3 &  \shortstack{\\ params \\ t = [0;10;20;30] \\ T = [40 40; 42 41.9; 44 43.8; 46 45.7;] \\ Ew = [0;1000;2000;3000] \\ Ep = [0;1000;2000;5400]}\\ \hline
+		4 &  \shortstack{\\ params \\ t = [0;10;20;30] \\ T = [40 40; 42 41.9; 44 43.8; 46 45.7;] \\ Ew = [0;1000;2000;3000] \\ Ep = [0;1000;2000;3000]}\\ \hline
+	\end{longtable}
+\end{center}
+
+\subsubsection{Expected Output}
+
+\begin{center}
+	\begin{longtable}{ | r | p{9cm} | c |}
+		\caption{Output Verification Tests Expected Output} \\ \hline \label{TblOutVerifyOut} 
+		Test No. & Expected Warning & MsgID \\ \hline
+		1 &  None & N/A \\ \hline
+		2 &  'There is greater than 0.00001 relative error between the Ep output and the expected output based on the law of conservation of energy' & 'output:Ep' \\ \hline
+		3 &  'There is greater than 0.00001 relative error between the Ew output and the expected output based on the law of conservation of energy' & 'output:Ew'\\ \hline
+		4 &  'There is greater than 0.00001 relative error between the Ew output and the expected output based on the law of conservation of energy' and 'There is greater than 0.00001 relative error between the Ep output and the expected output based on the law of conservation of energy' & 'output:Ew' and 'output:Ep'\\ \hline
+	\end{longtable}
+\end{center}
+
 \section{Appendix}
-\begin{table}[!h]
-\caption{Standard Input Variables} \label{TblInputVar}
+
+\begin{table}
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{l l l c} 
+\caption{Standard Input Variables} \label{TblInputVar}
+~\newline
+\centering
+\noindent \begin{tabular}{l l} 
   \toprule
   \textbf{Var} & \textbf{Typical Value}\\
-  \midrule 
+  \midrule
   $L$	& 1.5 \si[per-mode=symbol]	{\metre}
   \\
   $D$	& 0.412 \si[per-mode=symbol] {\metre}	
@@ -679,7 +764,7 @@ structure into each function.
   \\
   $C_P^L$ & 2270 \si[per-mode=symbol] {\joule\per\kilo\gram\per\celsius} 
   \\
-  $H_f$ & 211600 \si[per-mode=symbol] {\joule\per\kilo\gram} & 
+  $H_f$ & 211600 \si[per-mode=symbol] {\joule\per\kilo\gram} 
   \\
   $A_C$ & 0.12 \si[per-mode=symbol] {\square\metre}
   \\
@@ -702,15 +787,15 @@ structure into each function.
   RelTol & $10^{-10}$
   \\
   \bottomrule
-\end{longtable}
+\end{tabular}
 \end{table}
 
 \newpage
 
-\begin{table}[!h]
-\caption{Data Constraints on Input} \label{TblInputVar}
+\begin{table*}
+\caption{Data Constraints on Input} \label{TblInputConstraints}
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable}{l l l c} 
+\noindent \begin{longtable}{l l} 
   \toprule
   \textbf{Var} & \textbf{Physical Constraints} \\
   \midrule 
@@ -752,15 +837,12 @@ structure into each function.
   \\
   \bottomrule
 \end{longtable}
-\end{table}
+\end{table*}
 
 \noindent \begin{description}
 \item[(*)] These quantities cannot be equal to zero, or there will be a divide by
   zero in the model.
-\item[(+)] These quantities cannot be zero, or there would be freezing (\aref{A_OpRange}).
+\item[(+)] These quantities cannot be zero, or there would be freezing.
 \end{description}
-
-\bibliographystyle {plain}
-\bibliography {PCM_SRS}
 
 \end{document}
