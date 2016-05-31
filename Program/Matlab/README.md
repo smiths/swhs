@@ -15,10 +15,10 @@ parameters must appear in the correct order, and comments must be denoted with a
 
 - Run the following command in MatLab:
 
-main('test.in')
+  main('test.in')
 
-where test.in should be replaced by the name of the file containing the input
-parameters that you want to use.
+  where test.in should be replaced by the name of the file containing the input
+  parameters that you want to use.
 
 - A file containing the output data, as well as files containing graphs of the
 water and PCM temperature and energy over the simulation time will be written to
