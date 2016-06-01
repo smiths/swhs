@@ -96,3 +96,7 @@ function testUI20(testCase)
 f = @()main('UI20.txt');
 verifyWarning(testCase, f, 'inputwarn:tfinal');
 end
+
+function teardownOnce(testCase)
+delete UI*.out;
+end
