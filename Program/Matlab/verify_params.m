@@ -158,7 +158,7 @@ elseif params.C_w <= 4170 || params.C_w >= 4210
 
 elseif params.tfinal <= 0 || params.tfinal >= 86400
 
-      warning('input:tfinal', 'It is recommended that 0 < tfinal < 86400');
+      warning('inputwarn:tfinal', 'It is recommended that 0 < tfinal < 86400');
 
 end
 

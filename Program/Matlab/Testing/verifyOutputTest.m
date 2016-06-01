@@ -4,6 +4,7 @@ end
 
 function setupOnce(testCase)
 addpath('Matlab');
+addpath('..');
 end
 
 function [params] = getParams

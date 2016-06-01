@@ -411,12 +411,13 @@ the physical constraints column, altering a specific input variable to a non-adv
 	\multirow{2}{*}{01} & $L = 0.01$ & \multirow{2}{*}{\parbox{5cm}{It is recommended that $0.1 <=$ L $<= 50$}}& inputwarn:L\\ 
 	& $V_P = 0.001$ & & \\ \hline
 	02 & $L = 55$ & It is recommended that $0.1 <=$ L $<= 50$ & intputwarn:L\\ \hline
-	03 & $L = 30$ & It is recommended that 
-	$0.002 <=$ D/L $<= 200$ & inputwarn:diam \\ \hline
+    \multirow{3}{*}{03} & $L = 30$ & \multirow{3}{*}{\parbox{5cm}{It is recommended that $0.002 <=$ D/L $<= 200$}} & \multirow{3}{*}{inputwarn:diam} \\
+    & $D = 0.03$ & & \\
+    & $V_P = 0.001$ & & \\ \hline
 	04 & $D = 400$ & It is recommended that $0.002 <=$ D/L $<= 200$ & inputwarn:diam\\ \hline
 	\multirow{3}{*}{05} & $L = 15$ & \multirow{3}{*}{\parbox{5cm}{It is recommended that Vp be $>= 0.0001\%$ of Vt}} & \multirow{3}{*}{inputwarn:VpVt}\\ 
 	& $D = 4.12$ & & \\
-	& $V_P = 0.0006$ & & \\ \hline
+	& $V_P = 0.00006$ & & \\ \hline
 	06 & $A_P = 110$ & It is recommended that Vp $<=$ Ap $<=$ 2*Vp/0.001 & inputwarn:VpAp \\ \hline
 	07 & $\rho_P = 450$ & It is recommended that $500 < \text{rho\_{p}} < 20000$ &inputwarn:rho\_{p} \\ \hline
 	08 & $\rho_P = 20005$ & It is recommended that $500 < \text{rho\_{p}} < 20000$ & inputwarn:rho\_{p}\\ \hline

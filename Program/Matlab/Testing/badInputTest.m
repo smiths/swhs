@@ -4,7 +4,7 @@ end
 
 function setupOnce(testCase)
 addpath('UnrecommendedInput');
-addpath('/nfs/u50/grabm/PCM/Modules');
+addpath('..');
 end
 
 function testUI01(testCase)
