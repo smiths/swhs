@@ -155,6 +155,14 @@ elseif params.rho_w <= 950 || params.rho_w > 1000
 elseif params.C_w <= 4170 || params.C_w >= 4210
 
       warning('inputwarn:C_w', 'It is recommended that 4170 < C_w < 4210');
+	  
+elseif params.hc <= 10 || params.hc >= 10000
+
+      warning('inputwarn:hc', 'It is recommended that 10 <= hc <= 10000');
+	  
+elseif params.hp <= 10 || params.hp >= 10000
+
+      warning('inputwarn:hp', 'It is recommended that 10 <= hp <= 10000');
 
 elseif params.tfinal <= 0 || params.tfinal >= 86400
 

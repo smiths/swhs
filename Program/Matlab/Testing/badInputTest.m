@@ -39,7 +39,7 @@ end
 
 function testUI07(testCase)
 f = @()main('UI07.txt');
-verifyWarning(testCase, f, 'inputwarn:rho_p');
+verifyWarning(testCase, f, 'inputwarn:VpAp');
 end
 
 function testUI08(testCase)
@@ -49,7 +49,7 @@ end
 
 function testUI09(testCase)
 f = @()main('UI09.txt');
-verifyWarning(testCase, f, 'inputwarn:C_ps');
+verifyWarning(testCase, f, 'inputwarn:rho_p');
 end
 
 function testUI10(testCase)
@@ -59,7 +59,7 @@ end
 
 function testUI11(testCase)
 f = @()main('UI11.txt');
-verifyWarning(testCase, f, 'inputwarn:C_pl');
+verifyWarning(testCase, f, 'inputwarn:C_ps');
 end
 
 function testUI12(testCase)
@@ -67,14 +67,14 @@ f = @()main('UI12.txt');
 verifyWarning(testCase, f, 'inputwarn:C_pl');
 end
 
-function testUI15(testCase)
-f = @()main('UI15.txt');
-verifyWarning(testCase, f, 'inputwarn:Ac');
+function testUI13(testCase)
+f = @()main('UI13.txt');
+verifyWarning(testCase, f, 'inputwarn:C_pl');
 end
 
 function testUI16(testCase)
 f = @()main('UI16.txt');
-verifyWarning(testCase, f, 'inputwarn:rho_w');
+verifyWarning(testCase, f, 'inputwarn:Ac');
 end
 
 function testUI17(testCase)
@@ -84,7 +84,7 @@ end
 
 function testUI18(testCase)
 f = @()main('UI18.txt');
-verifyWarning(testCase, f, 'inputwarn:C_w');
+verifyWarning(testCase, f, 'inputwarn:rho_w');
 end
 
 function testUI19(testCase)
@@ -94,6 +94,31 @@ end
 
 function testUI20(testCase)
 f = @()main('UI20.txt');
+verifyWarning(testCase, f, 'inputwarn:C_w');
+end
+
+function testUI21(testCase)
+f = @()main('UI21.txt');
+verifyWarning(testCase, f, 'inputwarn:hc');
+end
+
+function testUI22(testCase)
+f = @()main('UI22.txt');
+verifyWarning(testCase, f, 'inputwarn:hc');
+end
+
+function testUI23(testCase)
+f = @()main('UI23.txt');
+verifyWarning(testCase, f, 'inputwarn:hp');
+end
+
+function testUI24(testCase)
+f = @()main('UI24.txt');
+verifyWarning(testCase, f, 'inputwarn:hp');
+end
+
+function testUI25(testCase)
+f = @()main('UI25.txt');
 verifyWarning(testCase, f, 'inputwarn:tfinal');
 end
 
