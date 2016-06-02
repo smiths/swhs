@@ -1785,6 +1785,69 @@ maintainability.
 
 \end{itemize}
 
+\section{Traceability Matrix}
+The purpose of this matrix is to provide an easy reference on what has to be 
+additionally modified if a certain component is changed.  Every time a 
+component is changed, the items in the column of that component that are 
+marked with an ``X'' should be modified as well.\par
+NOTE: The traceability matrix shown in Table~\ref{Table:trace} is not the full 
+traceability matrix for \progname{}.  It is a subset developed to fit the 
+matrix in one page.  Building a tool to automatically generate the graphical 
+representation of the matrix by scanning the labels and reference can be 
+future work.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+	&	T1	&	T2	&	T3	&	A1	&	A2	&	A3	&	A4	&	GD1	&	GD2	
+	&	DD1	&	DD2	&	DD3	&	DD4	\\
+\hline
+GD1	&		&		&		&		&	X	&		&		&		&		
+	&		&		&		&		\\
+\hline
+GD2	&	X	&		&		&		&	X	&	X	&	X	&	X	&		
+	&		&		&		&		\\
+\hline
+DD1	&		&		&		&		&		&		&		&	X	&		
+	&		&		&		&		\\
+\hline
+DD2	&		&		&		&		&		&	X	&	X	&	X	&		
+	&		&		&		&		\\
+\hline
+DD3	&		&		&		&		&		&		&		&		&		
+	&		&		&		&		\\
+\hline
+DD4	&		&		&		&		&		&		&		&		&		
+	&		&		&	X	&		\\
+\hline
+IM1	&		&		&		&		&		&		&		&		&	X	
+	&	X	&	X	&		&		\\
+\hline
+IM2	&		&		&		&		&		&		&		&		&	X	
+	&		&	X	&		&	X	\\
+\hline
+IM3	&		&	X	&		&		&		&		&		&		&		
+	&		&		&		&		\\
+\hline
+IM4	&		&	X	&	X	&		&		&		&		&		&		
+	&		&	X	&	X	&	X	\\
+\hline
+T1	&		&		&		&	X	&		&		&		&		&		
+	&		&		&		&		\\
+\hline
+T2	&		&		&	X	&		&		&		&		&		&		
+	&		&		&		&		\\
+\hline
+T3	&		&		&		&		&		&		&		&		&		
+	&		&		&		&	X	\\
+\hline
+\end{tabular}
+\caption{Traceability Matrix Showing the Connections Between Items of 
+Different Sections}
+\label{Table:trace}
+\end{table}
+
 \bibliographystyle {plain}
 \bibliography {PCM_SRS}
 
