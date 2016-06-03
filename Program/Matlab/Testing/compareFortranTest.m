@@ -8,7 +8,6 @@ end
 
 function setupOnce(testCase)
 addpath('compareFortran');
-
 addpath('..');
 end
 

@@ -5,7 +5,7 @@
 0.12, 50.0                ACOIL [m2](set to about half of Mather's), TCOIL [C]
 1000.0, 4186.0            DENW [kg/m3], CPW [J/kgK]
 1000.0, 1000.0               HCOIL [W/m2K], HPCM [W/m2K]
-40.0, 1, 20570         Initial temp [C], timestep [s], simulation time [s]
+40.0, 10, 20570         Initial temp [C], timestep [s], simulation time [s]
 
 
 Notes:

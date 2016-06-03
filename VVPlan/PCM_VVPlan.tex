@@ -483,10 +483,11 @@ The standard input file (outlined in Table \ref{TblInputVar}) for Matlab and the
 	03 & Set $t$ at exactly the initial melting time according to No.1 (Fortran
 	 implementation). & $t = 20570\text{s}$ \\ \hline
 	04 & Set $t$ just above the initial melting time. & $t = 20580\text{s}$ \\ \hline
+	\multirow{3}{*}{05} & \multirow{3}{*}{Remove PCM} & $V_P = 10^-7$\\
+	& & $A_P = 10^-7$ \\
+	& & $\rho_P = 1$ \\ \hline
 	\end{longtable}
 \end{center}
- 
-\bmac{Text says 5 cases, but table only shows 4}
  
 \subsubsection{Expected Output}
 The delta between the output vectors should be
