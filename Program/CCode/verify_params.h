@@ -79,7 +79,7 @@ void verify_params(struct parameters params){
         printf("Warning: It is recommended that 0.002 <= D/L <= 200");
     }
     else if(params.Vp < pow(10, -6) * params.Vt){
-        printf("Warning: It is recommended that Vp be >= 0.0001% of Vt");
+        printf("Warning: It is recommended that Vp be >= 0.000001 of Vt");
     }
     else if(params.Vp > params.Ap || params.Ap > (2/0.001) * params.Vp){
         printf("Warning: It is recommended that Vp <= Ap <= (2/0.001) * Vp");
