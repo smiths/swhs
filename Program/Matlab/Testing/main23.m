@@ -15,6 +15,8 @@
 %
 function [] = main(filename)
 
+addpath('..');
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [ params ] = load_params(filename);
 
@@ -22,7 +24,7 @@ verify_params(params);
 
 %calculate temperature and change in energy of water and PCM when T<Tmelt
 options = odeset('Events', @(t,T)event1(t,T,params), 'AbsTol', params.AbsTol, 'RelTol', params.RelTol);
-[t1,T1] = ode45(@(t,T)temperature1(t,T,params), [0 params.tfinal], [params.Tinit; params.Tinit], options);
+[t1,T1] = ode23(@(t,T)temperature1(t,T,params), [0 params.tfinal], [params.Tinit; params.Tinit], options);
 [Ew1,Ep1] = energy1(T1,params);
 meltstart = t1(end);
 if T1(end,2) < params.Tmelt 
@@ -34,7 +36,7 @@ end
 %Calculate temperature and change in energy of water and PCM when T=Tmelt
 if (meltstart <  params.tfinal)
     options = odeset('Events', @(t,T)event2(t,T, params), 'AbsTol', params.AbsTol, 'RelTol', params.RelTol);
-    [t2,T2,~,~,IE] = ode45(@(t,T)temperature2(t,T,params), [t1(end) params.tfinal], [T1(end,1) T1(end,2) 0.0], options);
+    [t2,T2,~,~,IE] = ode23(@(t,T)temperature2(t,T,params), [t1(end) params.tfinal], [T1(end,1) T1(end,2) 0.0], options);
     meltfinish = t2(end);
     [Ew2,Ep2] = energy2(T2,params);
     phi     =   T2(end,3)/(params.Hf * params.Mp);
@@ -53,7 +55,7 @@ end
 %Calculate temperature and change in energy of water and PCM when T>Tmelt
 if (meltfinish < params.tfinal)
     options = odeset('AbsTol', params.AbsTol, 'RelTol', params.RelTol);
-    [t3,T3] = ode45(@(t,T)temperature3(t,T,params), [t2(end) params.tfinal], [T2(end,1) T2(end,2)], options);
+    [t3,T3] = ode23(@(t,T)temperature3(t,T,params), [t2(end) params.tfinal], [T2(end,1) T2(end,2)], options);
     [Ew3,Ep3] = energy3(T3,params);
 else
     t3 = []; T3 = [];
