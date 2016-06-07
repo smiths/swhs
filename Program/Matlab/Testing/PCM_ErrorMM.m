@@ -3,11 +3,11 @@ function delta_rel = PCM_ErrorMM(Mfile1, Mfile2, comparator)
 %Calculates the relative error between the data in file1 and file2 (PCM output). 
 
 MfileID1 = fopen(Mfile1);
-M1 = textscan(MfileID1, '%f %f %f %f %f %f', 'Delimiter', ' ', 'MultipleDelimsAsOne', 1, 'Headerlines', 35);
+M1 = textscan(MfileID1, '%f %f %f %f %f %f', 'Delimiter', ' ', 'MultipleDelimsAsOne', 1, 'Headerlines', 36);
 fclose(MfileID1);
 
 MfileID2 = fopen(Mfile2);
-M2 = textscan(MfileID2, '%f %f %f %f %f %f', 'Delimiter', ' ', 'MultipleDelimsAsOne', 1, 'Headerlines', 35);
+M2 = textscan(MfileID2, '%f %f %f %f %f %f', 'Delimiter', ' ', 'MultipleDelimsAsOne', 1, 'Headerlines', 36);
 fclose(MfileID2);
 
 if strcmp(comparator, 'Twat') %Chooses the relevant column vectors from the matrices

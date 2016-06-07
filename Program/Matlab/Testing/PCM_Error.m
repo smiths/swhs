@@ -6,7 +6,7 @@ function delta_rel = PCM_Error(Ffile, Mfile, comparator)
 % M = dlmread(Mfile, '', 34, 0); %Matlab file
 
 MfileID = fopen(Mfile);
-M = textscan(MfileID, '%f %f %f %f %f %f', 'Delimiter', ' ', 'MultipleDelimsAsOne', 1, 'Headerlines', 35);
+M = textscan(MfileID, '%f %f %f %f %f %f', 'Delimiter', ' ', 'MultipleDelimsAsOne', 1, 'Headerlines', 36);
 fclose(MfileID);
 
 FfileID = fopen(Ffile);

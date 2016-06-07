@@ -46,6 +46,7 @@ function [ params ] = load_params(filename)
     params.tfinal  = param(18); % Time at which to stop simulation
     params.AbsTol  = param(19); % Absolute tolerance
     params.RelTol  = param(20); % Relative tolerance
+    params.ConsTol = param(21); % Relative tolerance for law of conservation of energy
 
     %calculated parameters
     params.Vt      = pi*(params.diam/2)*(params.diam/2)*params.L;       % Total volume of tank, including pcm and water

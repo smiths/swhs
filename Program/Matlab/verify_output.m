@@ -1,9 +1,8 @@
 %% Output Verification Module
 
-% This module verifies that the input parameters lie within  
-% physical and software constraints by throwing errors and
-
-% warnings, respectively, if any parameter does not.
+% This module verifies that the output results for water and PCM 
+% conform to the law of conservation of energy and throws
+% warnings if either does not.
 
 %
 
@@ -13,7 +12,7 @@
 
 %
 
-% Date Last Revised: May 27, 2016
+% Date Last Revised: June 7, 2016
 
 %
 
@@ -73,16 +72,16 @@ pcm_error = abs(tot_pcm_E - Ep(end))/Ep(end)*100;
 
 
 
-if(water_error > 0.001)
+if(water_error > params.ConsTol)
 
-    warning('output:Ew', 'There is greater than 0.00001 relative error between the Ew output and the expected output based on the law of conservation of energy.')
+    warning('output:Ew', 'There is greater than %f%% relative error between the Ew output and the expected output based on the law of conservation of energy.', params.ConsTol)
 end
 
 
 
-if(pcm_error > 0.001)
+if(pcm_error > params.ConsTol)
 
-    warning('output:Ep', 'There is greater than 0.00001 relative error between the Ep output and the expected output based on the law of conservation of energy.')
+    warning('output:Ep', 'There is greater than %f%% relative error between the Ep output and the expected output based on the law of conservation of energy.', params.ConsTol)
 
 end
 end
