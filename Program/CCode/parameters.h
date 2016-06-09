@@ -1,3 +1,4 @@
+#pragma once
 struct parameters{
     float L;           // Length of tank
     float diam;        // Diameter of tank
@@ -19,6 +20,7 @@ struct parameters{
     float tfinal;      // Time at which to stop simulation
     float AbsTol;      // Absolute tolerance
     float RelTol;      // Relative tolerance
+    float ConsTol;     // Relative tolerance for conservation of energy
     float Vt;          // Total volume of tank, including PCM and water
     float Mw;          // Mass of water
     float tau_w;       // ODE parameter for water
