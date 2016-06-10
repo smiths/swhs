@@ -1,3 +1,18 @@
+/* Input Parameters Module
+
+This module defines the structure that will hold all of the input
+parameters.
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+Considerations: The meaning of each parameter is given as a comment in
+the code below
+
+*/
+
 #pragma once
 struct parameters{
     float L;           // Length of tank

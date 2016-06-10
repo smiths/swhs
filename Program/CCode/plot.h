@@ -1,7 +1,23 @@
+/* Plot Module
+
+This module takes the output values produced and plots them using
+GNUplot, and outputs the plots to a png file.
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+State Variables: none
+
+Environment Variables: the file associated with the filename
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
-void plot(float time[], float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults){
+void plot(float time[], float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults, char outputFilename[]){
 
     FILE *gnuplot = popen("gnuplot", "w");
     fprintf(gnuplot, "set terminal png enhanced font 'Verdana,8'\n");
@@ -15,12 +31,12 @@ void plot(float time[], float tempW[], float tempP[], float eW[], float eP[], st
     fprintf(gnuplot, "set title \"Temperature Profiles\"\n");
     fprintf(gnuplot, "set xlabel \"Time (seconds)\"\n");
     fprintf(gnuplot, "set ylabel \"Temperature (Celsius)\"\n");
-    fprintf(gnuplot, "plot \"test.out\" every ::34 using 1:2 title 'Water', \"test.out\" every ::34 using 1:3 title 'PCM'\n");
+    fprintf(gnuplot, "plot \"%s\" every ::34 using 1:2 title 'Water', \"%s\" every ::34 using 1:3 title 'PCM'\n", outputFilename, outputFilename);
     fprintf(gnuplot, "set origin 0.5, 0.0\n");
     fprintf(gnuplot, "set title \"Energy Profiles\"\n");
     fprintf(gnuplot, "set xlabel \"Time (seconds)\"\n");
     fprintf(gnuplot, "set ylabel \"Energy (J)\"\n");
-    fprintf(gnuplot, "plot \"test.out\" every ::34 using 1:4 title 'Water', \"test.out\" every ::34 using 1:5 title 'PCM'\n");
+    fprintf(gnuplot, "plot \"%s\" every ::34 using 1:4 title 'Water', \"%s\" every ::34 using 1:5 title 'PCM'\n", outputFilename, outputFilename);
     fprintf(gnuplot, "unset multiplot");
     fflush(gnuplot);
 

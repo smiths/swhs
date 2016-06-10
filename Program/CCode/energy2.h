@@ -1,3 +1,22 @@
+/* Energy Module, when Tp = Tmelt
+
+This module uses the input parameters in params and the temperatures of
+water and PCM calculated by main.c and the temperature2 function to specify
+the equations that govern the change in energy of the water and PCM
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+Governing Equations:
+
+Ew(t) = Cw * Mw * (Tw(t) - Tinit)
+
+Ep(t) = Epmelt_init + Qp(t)
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "parameters.h"

@@ -1,73 +1,104 @@
+/* Input Verification Module
+
+This module verifies that the input parameters comply with physical and
+software constraints by throwing errors and warnings, respectively, if
+any parameter does not.
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
+#include "parameters.h"
 #include "load_params.h"
 
 void verify_params(struct parameters params){
 
     // Check that inputs are valid
 
-    /* Note to self: Consider using printf and exit(EXIT_FAILURE) if perror
-    still displays "No error" once you are finished coding the program. */
-
     if(params.L <= 0){
-        perror("Tank length must be > 0");
+        printf("Error: Tank length must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.diam <= 0){
-        perror("Tank diameter must be > 0");
+        printf("Error: Tank diameter must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.Vp <= 0){
-        perror("PCM volume must be > 0");
+        printf("Error: PCM volume must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.Vp >= params.Vt){
-        perror("PCM volume must be < tank volume");
+        printf("Error: PCM volume must be < tank volume");
+        exit(EXIT_FAILURE);
     }
     else if(params.Ap <= 0){
-        perror("PCM area must be > 0");
+        printf("Error: PCM area must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.rho_p <= 0){
-        perror("rho_p must be > 0");
+        printf("Error: rho_p must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.Tmelt <= 0 || params.Tmelt >= params.Tc){
-        perror("Tmelt must be > 0 and < Tc");
+        printf("Error: Tmelt must be > 0 and < Tc");
+        exit(EXIT_FAILURE);
     }
     else if(params.Tc <= params.Tinit){
-        perror("Tc must be > Tinit");
+        printf("Error: Tc must be > Tinit");
+        exit(EXIT_FAILURE);
     }
     else if(params.Tc >= 100 || params.Tc <= 0){
-        perror("Tc must be > 0 and < 100");
+        printf("Error: Tc must be > 0 and < 100");
+        exit(EXIT_FAILURE);
     }
     else if(params.C_ps <= 0){
-        perror("C_ps must be > 0");
+        printf("Error: C_ps must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.C_pl <= 0){
-        perror("C_pl must be > 0");
+        printf("Error: C_pl must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.Hf <= 0){
-        perror("Hf must be > 0");
+        printf("Error: Hf must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.Ac <= 0){
-        perror("Ac must be > 0");
+        printf("Error: Ac must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.rho_w <= 0){
-        perror("rho_w must be > 0");
+        printf("Error: rho_w must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.C_w <= 0){
-        perror("C_w must be > 0");
+        printf("Error: C_w must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.hc <= 0){
-        perror("hc must be > 0");
+        printf("Error: hc must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.hp <= 0){
-        perror("hp must be > 0");
+        printf("Error: hp must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.Tinit <= 0 || params.Tinit >= 100){
-        perror("Tinit must be > 0 and < 100");
+        printf("Error: Tinit must be > 0 and < 100");
+        exit(EXIT_FAILURE);
     }
     else if(params.tfinal <= 0){
-        perror("tfinal must be >0");
+        printf("Error: tfinal must be > 0");
+        exit(EXIT_FAILURE);
     }
     else if(params.Tinit > params.Tmelt){
-        perror("Tinit must be < Tmelt");
+        printf("Tinit must be < Tmelt");
+        exit(EXIT_FAILURE);
     }
 
     // Software Constraints

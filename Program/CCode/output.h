@@ -1,5 +1,22 @@
+/* Output Format Module
+
+This module takes the parameter and output vales produced and
+writes them to a file.
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+State Variables: none
+
+Environment Variables: the file associated with the filename
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
+#include "parameters.h"
 
 void output(char filename[], float time[], float tempWat[], float tempPCM[], float eWat[], float ePCM[], float eTot[], struct parameters params, int sizeOfResults){
 

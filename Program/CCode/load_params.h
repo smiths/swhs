@@ -1,3 +1,23 @@
+/* Input Format Module
+
+This module takes a filename and then uses it to load the parameter
+values into the parameters structure (params).
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+State Variables: none
+
+Environment Variables: the file associated with the filename
+
+Assumptions: Once initialized, the parameter values are constant for the
+life of the program.
+
+*/
+
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

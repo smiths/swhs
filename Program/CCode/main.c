@@ -1,6 +1,18 @@
+/* Control Module
+
+This module coordinates the running of SHS
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks MacLachlan
+
+Date Last Revised: June 10, 2016
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "parameters.h"
+#include "load_params.h"
 #include "verify_params.h"
 #include "energy1.h"
 #include "energy2.h"
@@ -41,11 +53,27 @@ int Jac3(long int N, realtype t,
 
 int main()
 {
-
+    printf("Enter the name of your input file:\n");
+    fflush(stdout);
+    char filename[20];
+    scanf(" %s", filename);
     struct parameters params;
-    params = load_params("test.in");
+    params = load_params(filename);
+
+    int dotFinder;
+    char outputFilename[strlen(filename)+2];
+    for(dotFinder = 0; dotFinder < strlen(filename); dotFinder++){
+        outputFilename[dotFinder] = filename[dotFinder];
+        if(filename[dotFinder] == '.'){
+            break;
+        }
+    }
+
+    strcat(outputFilename, "out");
 
     verify_params(params);
+
+    // When Tp < Tmelt
 
     realtype reltol, t, tout, nout;
     N_Vector yPhase1, abstol1;
@@ -118,6 +146,8 @@ int main()
     /* Free integrator memory */
     CVodeFree(&cvode_mem);
 
+    // When Tp = Tmelt
+
     N_Vector yPhase2, abstol2;
 
     yPhase2 = abstol2 = NULL;
@@ -178,6 +208,8 @@ int main()
     /* Free integrator memory */
     CVodeFree(&cvode_mem);
 
+    // When Tp > Tmelt
+
     N_Vector yPhase3, abstol3;
 
     yPhase3 = abstol3 = NULL;
@@ -224,6 +256,15 @@ int main()
         eP3[j3] = energy3PCM(tempP[j3+counter1+counter2], params);
         eTot3[j3] = eW3[j3] + eP3[j3];
     }
+
+    /* Free y and abstol vectors */
+    N_VDestroy_Serial(yPhase1);
+    N_VDestroy_Serial(abstol1);
+    N_VDestroy_Serial(yPhase2);
+    N_VDestroy_Serial(abstol2);
+    N_VDestroy_Serial(yPhase3);
+    N_VDestroy_Serial(abstol3);
+
     /* Free integrator memory */
     CVodeFree(&cvode_mem);
 
@@ -247,19 +288,12 @@ int main()
         }
     }
 
+    // Output Results and plots
+
     float sizeOfResults = sizeof(time) / sizeof(time[0]);
     verify_output(tempW, tempP, eW, eP, params, sizeOfResults);
-    plot(time, tempW, tempP, eW, eP, params, sizeOfResults);
-    printf("Tell me when!");
-    output("test.out", time, tempW, tempP, eW, eP, eTot, params, sizeOfResults);
-
-    /* Free y and abstol vectors */
-    N_VDestroy_Serial(yPhase1);
-    N_VDestroy_Serial(abstol1);
-    N_VDestroy_Serial(yPhase2);
-    N_VDestroy_Serial(abstol2);
-    N_VDestroy_Serial(yPhase3);
-    N_VDestroy_Serial(abstol3);
+    plot(time, tempW, tempP, eW, eP, params, sizeOfResults, outputFilename);
+    output(outputFilename, time, tempW, tempP, eW, eP, eTot, params, sizeOfResults);
 
     return 0;
 }
@@ -327,7 +361,26 @@ int Jac3(long int N, realtype t,
   return(0);
 }
 
+/* Temperature ODEs Module, when Tp < Tmelt
+
+This module uses the input parameters in params to specify the ODEs
+that govern the temperature of the water and PCM.
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+Governing Equations:
+
+dTwdt = (1 / tau_w) * ((Tc - Tw(t)) + eta * (Tp(t) - Tw(t)))
+
+dTpdt = (1 / tau_ps) * (Tw(t) - Tp(t))
+
+*/
+
 int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_data){
+
     realtype y1, y2, yd1, yd2;
 
     struct parameters params;
@@ -341,7 +394,29 @@ int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_d
     return(0);
 }
 
+/* Temperature ODEs Module, when Tp = Tmelt
+
+This module uses the input parameters in params to specify the ODEs
+that govern the temperature of the water and PCM.
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+Governing Equations:
+
+dTw/dt = (1 / tau_w) * ((Tc - Tw(t)) + eta * (Tp(t) - Tw(t)))
+
+dTp/dt = 0
+
+dQp/dt = hp * Ap * (Tw(t) - Tmelt)
+
+*/
+
+
 int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_data){
+
     realtype y1, y2, y3, yd1, yd2, yd3;
 
     struct parameters params;
@@ -357,7 +432,26 @@ int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_d
     return(0);
 }
 
+/* Temperature ODEs Module, when Tp > Tmelt
+
+This module uses the input parameters in params to specify the ODEs
+that govern the temperature of the water and PCM.
+
+Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
+MacLachlan
+
+Date Last Revised: June 10, 2016
+
+Governing Equations:
+
+dTw/dt = (1 / tau_w) * ((Tc - Tw(t)) + eta * (Tp(t) - Tw(t)))
+
+dTp/dt = (1 / tau_pl) * (Tw(t) - Tp(t))
+
+*/
+
 int temperature3(realtype t, N_Vector yPhase3, N_Vector yPhase3dot, void *user_data){
+
     realtype y1, y2, yd1, yd2;
 
     struct parameters params;
