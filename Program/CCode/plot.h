@@ -19,9 +19,18 @@ Environment Variables: the file associated with the filename
 
 void plot(float time[], float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults, char outputFilename[]){
 
+    int i;
+    char filenamePrefix[strlen(outputFilename)-2];
+    for(i = 0; i < strlen(outputFilename); i++){
+        filenamePrefix[i] = outputFilename[i];
+        if(outputFilename[i] == '.'){
+            break;
+        }
+    }
+
     FILE *gnuplot = popen("gnuplot", "w");
     fprintf(gnuplot, "set terminal png enhanced font 'Verdana,8'\n");
-    fprintf(gnuplot, "set output 'plots.png'\n");
+    fprintf(gnuplot, "set output '%spng'\n", filenamePrefix);
     fprintf(gnuplot, "set style data lines\n");
     fprintf(gnuplot, "set key left box\n");
     fprintf(gnuplot, "set xtics 0,10000,50000\n");
