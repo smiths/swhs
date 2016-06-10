@@ -106,43 +106,43 @@ void verify_params(struct parameters params){
     if(params.L < 0.1 || params.L > 50){
         printf("Warning: It is recommended that 0.1 <= L <= 50");
     }
-    else if(params.diam / params.L < 0.002 || params.diam / params.L > 200){
+    if(params.diam / params.L < 0.002 || params.diam / params.L > 200){
         printf("Warning: It is recommended that 0.002 <= D/L <= 200");
     }
-    else if(params.Vp < pow(10, -6) * params.Vt){
+    if(params.Vp < pow(10, -6) * params.Vt){
         printf("Warning: It is recommended that Vp be >= 0.000001 of Vt");
     }
-    else if(params.Vp > params.Ap || params.Ap > (2/0.001) * params.Vp){
+    if(params.Vp > params.Ap || params.Ap > (2/0.001) * params.Vp){
         printf("Warning: It is recommended that Vp <= Ap <= (2/0.001) * Vp");
     }
-    else if(params.rho_p <= 500 || params.rho_p >= 20000){
+    if(params.rho_p <= 500 || params.rho_p >= 20000){
         printf("Warning: It is recommended that 500 < rho_p < 20000");
     }
-    else if(params.C_ps <= 100 || params.C_ps >= 4000){
+    if(params.C_ps <= 100 || params.C_ps >= 4000){
         printf("Warning: It is recommended that 100 < C_ps < 4000");
     }
-    else if(params.C_pl <= 100 || params.C_pl >= 5000){
+    if(params.C_pl <= 100 || params.C_pl >= 5000){
         printf("Warning: It is recommended that 100 < C_pl < 5000");
     }
-    /*else if(params.Hf <= ADD WHEN DECIDED){
+    /*if(params.Hf <= ADD WHEN DECIDED){
         warning
     }*/
-    else if(params.Ac > pi * pow(params.diam / 2, 2)){
+    if(params.Ac > pi * pow(params.diam / 2, 2)){
         printf("Warning: It is recommended that Ac <= pi * (D/2)^2");
     }
-    else if(params.rho_w <= 950 || params.rho_w > 1000){
+    if(params.rho_w <= 950 || params.rho_w > 1000){
         printf("Warning: It is recommended that 950 < rho_w <= 1000");
     }
-    else if(params.C_w <= 4170 || params.C_w >= 4210){
+    if(params.C_w <= 4170 || params.C_w >= 4210){
         printf("Warning: It is recommended that 4170 < C_w < 4210");
     }
-    else if(params.hc <= 10 || params.hc >= 10000){
+    if(params.hc <= 10 || params.hc >= 10000){
         printf("Warning: It is recommended that 10 <= hc <= 10000");
     }
-    else if(params.hp <= 10 || params.hp >= 10000){
+    if(params.hp <= 10 || params.hp >= 10000){
         printf("Warning: It is recommended that 10 <= hp <= 10000");
     }
-    else if(params.tfinal <= 0 || params.tfinal >= 86400){
+    if(params.tfinal <= 0 || params.tfinal >= 86400){
         printf("Warning: It is recommended that 0 < tfinal < 86400");
     }
 
