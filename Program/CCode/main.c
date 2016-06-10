@@ -51,20 +51,20 @@ int Jac3(long int N, realtype t,
                N_Vector yPhase3, N_Vector fy, DlsMat J, void *user_data,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3);
 
-int main()
+int main(int argc, char *argv[])
 {
-    printf("Enter the name of your input file:\n");
+   /* printf("Enter the name of your input file:\n");
     fflush(stdout);
     char filename[20];
-    scanf(" %s", filename);
+    scanf(" %s", filename); */
     struct parameters params;
-    params = load_params(filename);
+    params = load_params(argv[1]);
 
     int dotFinder;
-    char outputFilename[strlen(filename)+2];
-    for(dotFinder = 0; dotFinder < strlen(filename); dotFinder++){
-        outputFilename[dotFinder] = filename[dotFinder];
-        if(filename[dotFinder] == '.'){
+    char outputFilename[strlen(argv[1])+2];
+    for(dotFinder = 0; dotFinder < strlen(argv[1]); dotFinder++){
+        outputFilename[dotFinder] = argv[1][dotFinder];
+        if(argv[1][dotFinder] == '.'){
             break;
         }
     }
