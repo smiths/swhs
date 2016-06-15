@@ -24,7 +24,7 @@ life of the program.
 #include "parameters.h"
 #define pi 3.14159265358979
 
-struct parameters load_params(char inputFile[]){
+struct parameters load_params(const char inputFile[]){
     //Extract data from input parameters file
     FILE * fPointer;
     fPointer = fopen(inputFile, "r");

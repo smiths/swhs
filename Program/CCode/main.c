@@ -1,6 +1,6 @@
 /* Control Module
 
-This module coordinates the running of SHS
+This module coordinates the running of SWHS.
 
 Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks MacLachlan
 
@@ -53,10 +53,6 @@ int Jac3(long int N, realtype t,
 
 int main(int argc, char *argv[])
 {
-   /* printf("Enter the name of your input file:\n");
-    fflush(stdout);
-    char filename[20];
-    scanf(" %s", filename); */
     struct parameters params;
     params = load_params(argv[1]);
 
@@ -71,7 +67,12 @@ int main(int argc, char *argv[])
 
     strcat(outputFilename, "out");
 
-    verify_params(params);
+    int err = verify_valid(params);
+    if(err == 1){
+        exit(EXIT_FAILURE);
+    }
+
+    verify_recommended(params);
 
     // When Tp < Tmelt
 
