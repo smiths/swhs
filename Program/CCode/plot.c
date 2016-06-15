@@ -16,6 +16,8 @@ Environment Variables: the file associated with the filename
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "plot.h"
 
 void plot(float time[], float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults, char outputFilename[]){
 

@@ -17,6 +17,7 @@ Environment Variables: the file associated with the filename
 #include <stdio.h>
 #include <stdlib.h>
 #include "parameters.h"
+#include "output.h"
 
 void output(char filename[], float time[], float tempWat[], float tempPCM[], float eWat[], float ePCM[], float eTot[], struct parameters params, int sizeOfResults){
 

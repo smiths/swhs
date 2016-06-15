@@ -1,7 +1,7 @@
-/* Energy Module, when Tp < Tmelt
+/* Energy Module, when Tp > Tmelt
 
 This module uses the input parameters in params and the temperatures of
-water and PCM calculated by main.c and the temperature1 function to specify
+water and PCM calculated by main.c and the temperature3 function to specify
 the equations that govern the change in energy of the water and PCM.
 
 Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
@@ -13,30 +13,31 @@ Governing Equations:
 
 Ew(t) = Cw * Mw * (Tw(t) - Tinit)
 
-Ep(t) = C_ps * Mp * (Tp(t) - Tinit)
+Ep(t) = Epmelt_init + Qp(t)
 
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "parameters.h"
+#include "energy3.h"
 
-float energy1Wat(float tWat, struct parameters params){
+float energy3Wat(float tWat, struct parameters params){
 
     float eWat;
 
-    // Change in energy in water when T < Tmelt
+    // Change in energy in water when T > Tmelt
     eWat = params.C_w * params.Mw * (tWat - params.Tinit);
 
     return eWat;
 }
 
-float energy1PCM(float tPCM, struct parameters params){
+float energy3PCM(float tPCM, struct parameters params){
 
     float ePCM;
 
-    // Change in energy in PCM when T < Tmelt
-    ePCM = params.C_ps * params.Mp * (tPCM - params.Tinit);
+    // Change in energy in PCM when T > Tmelt
+    ePCM = params.Epmelt_init + params.Ep_melt3 + params.C_pl * params.Mp * (tPCM - params.Tmelt);
 
     return ePCM;
 }

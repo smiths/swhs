@@ -15,6 +15,7 @@ Date Last Revised: June 10, 2016
 #include <stdlib.h>
 #include <math.h>
 #include "parameters.h"
+#include "verify_output.h"
 
 void verify_output(float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults){
 

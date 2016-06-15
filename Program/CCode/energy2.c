@@ -20,6 +20,7 @@ Ep(t) = Epmelt_init + Qp(t)
 #include <stdio.h>
 #include <stdlib.h>
 #include "parameters.h"
+#include "energy2.h"
 
 float energy2Wat(float tWat, struct parameters params){
 
