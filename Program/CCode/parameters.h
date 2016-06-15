@@ -13,7 +13,9 @@ the code below
 
 */
 
-#pragma once
+#ifndef PARAMETERS_H_INCLUDE
+#define PARAMETERS_H_INCLUDE
+
 struct parameters{
     float L;           // Length of tank
     float diam;        // Diameter of tank
@@ -48,5 +50,9 @@ struct parameters{
     float Mw_noPCM;    // Mass of water if no PCM is present
     float tau_w_noPCM; // ODE parameter for water if no PCM is present
 };
+
+#endif // PARAMETERS_H_INCLUDE
+
+
 
 
