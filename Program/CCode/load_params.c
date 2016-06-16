@@ -22,7 +22,7 @@ life of the program.
 #include <math.h>
 #include "parameters.h"
 #include "load_params.h"
-#define pi 3.14159265358979
+#define pi 3.1415926535897932384626433832795
 
 struct parameters load_params(const char inputFile[]){
     //Extract data from input parameters file

@@ -17,7 +17,7 @@ Date Last Revised: June 10, 2016
 #include "parameters.h"
 #include "load_params.h"
 #include "verify_params.h"
-#define pi 3.14159265358979
+#define pi 3.1415926535897932384626433832795
 
 int verify_valid(struct parameters params){
 
@@ -29,81 +29,81 @@ int verify_valid(struct parameters params){
         printf("Error: Tank length must be > 0\n");
         err = 1;
     }
-    if(params.diam <= 0){
+    else if(params.diam <= 0){
         printf("Error: Tank diameter must be > 0\n");
-        err = 1;
+        err = 2;
     }
-    if(params.Vp <= 0){
+    else if(params.Vp <= 0){
         printf("Error: PCM volume must be > 0\n");
-        err = 1;
+        err = 3;
     }
-    if(params.Vp >= params.Vt){
+    else if(params.Vp >= params.Vt){
         printf("Error: PCM volume must be < tank volume\n");
-        err = 1;
+        err = 4;
     }
-    if(params.Ap <= 0){
+    else if(params.Ap <= 0){
         printf("Error: PCM area must be > 0\n");
-        err = 1;
+        err = 5;
     }
-    if(params.rho_p <= 0){
+    else if(params.rho_p <= 0){
         printf("Error: rho_p must be > 0\n");
-        err = 1;
+        err = 6;
     }
-    if(params.Tmelt <= 0 || params.Tmelt >= params.Tc){
+    else if(params.Tmelt <= 0 || params.Tmelt >= params.Tc){
         printf("Error: Tmelt must be > 0 and < Tc\n");
-        err = 1;
+        err = 7;
     }
-    if(params.Tc <= params.Tinit){
+    else if(params.Tc <= params.Tinit){
         printf("Error: Tc must be > Tinit\n");
-        err = 1;
+        err = 8;
     }
-    if(params.Tc >= 100 || params.Tc <= 0){
+    else if(params.Tc >= 100 || params.Tc <= 0){
         printf("Error: Tc must be > 0 and < 100\n");
-        err = 1;
+        err = 9;
     }
-    if(params.C_ps <= 0){
+    else if(params.C_ps <= 0){
         printf("Error: C_ps must be > 0\n");
-        err = 1;
+        err = 10;
     }
-    if(params.C_pl <= 0){
+    else if(params.C_pl <= 0){
         printf("Error: C_pl must be > 0\n");
-        err = 1;
+        err = 11;
     }
-    if(params.Hf <= 0){
+    else if(params.Hf <= 0){
         printf("Error: Hf must be > 0\n");
-        err = 1;
+        err = 12;
     }
-    if(params.Ac <= 0){
+    else if(params.Ac <= 0){
         printf("Error: Ac must be > 0\n");
-        err = 1;
+        err = 13;
     }
-    if(params.rho_w <= 0){
+    else if(params.rho_w <= 0){
         printf("Error: rho_w must be > 0\n");
-        err = 1;
+        err = 14;
     }
-    if(params.C_w <= 0){
+    else if(params.C_w <= 0){
         printf("Error: C_w must be > 0\n");
-        err = 1;
+        err = 15;
     }
-    if(params.hc <= 0){
+    else if(params.hc <= 0){
         printf("Error: hc must be > 0\n");
-        err = 1;
+        err = 16;
     }
-    if(params.hp <= 0){
+    else if(params.hp <= 0){
         printf("Error: hp must be > 0\n");
-        err = 1;
+        err = 17;
     }
-    if(params.Tinit <= 0 || params.Tinit >= 100){
+    else if(params.Tinit <= 0 || params.Tinit >= 100){
         printf("Error: Tinit must be > 0 and < 100\n");
-        err = 1;
+        err = 18;
     }
-    if(params.tfinal <= 0){
+    else if(params.tfinal <= 0){
         printf("Error: tfinal must be > 0\n");
-        err = 1;
+        err = 19;
     }
-    if(params.Tinit > params.Tmelt){
+    else if(params.Tinit > params.Tmelt){
         printf("Tinit must be < Tmelt\n");
-        err = 1;
+        err = 20;
     }
     return err;
 }
@@ -123,7 +123,7 @@ const char * verify_recommended(struct parameters params){
         printf("%s\n", msg);
     }
     if(params.Vp < pow(10, -6) * params.Vt){
-        msg = "Warning: It is recommended that Vp be >= 0.000001 of Vt";
+        msg = "Warning: It is recommended that Vp be >= 0.0001% of Vt";
         printf("%s\n", msg);
     }
     if(params.Vp > params.Ap || params.Ap > (2/0.001) * params.Vp){
@@ -146,7 +146,7 @@ const char * verify_recommended(struct parameters params){
         warning
     }*/
     if(params.Ac > pi * pow(params.diam / 2, 2)){
-        msg = "Warning: It is recommended that Ac <= pi * (D/2)^2";
+        msg = "Warning: It is recommended that Ac <= pi * (D/2) ^ 2";
         printf("%s\n", msg);
     }
     if(params.rho_w <= 950 || params.rho_w > 1000){

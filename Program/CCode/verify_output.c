@@ -17,7 +17,7 @@ Date Last Revised: June 10, 2016
 #include "parameters.h"
 #include "verify_output.h"
 
-void verify_output(float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults){
+int verify_output(float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults){
 
     int deltaTime = params.tstep;
 
@@ -34,7 +34,9 @@ void verify_output(float tempW[], float tempP[], float eW[], float eP[], struct 
         ePCM[i] = params.hp * params.Ap * deltaTime * (tempW[i+1] - tempP[i+1] + tempW[i] - tempP[i]) / 2;
         eWater[i] = eCoil[i] - ePCM[i];
     }
-    float eWaterTotal, ePCMTotal = 0;
+
+    float eWaterTotal = 0;
+    float ePCMTotal = 0;
     int j;
     for(j = 0; j < sizeOfResults-1; j++){
         eWaterTotal += eWater[j];
@@ -43,17 +45,21 @@ void verify_output(float tempW[], float tempP[], float eW[], float eP[], struct 
 
     float errorWater, errorPCM;
 
-    errorWater = fabs(eWaterTotal - eW[sizeOfResults]) / eW[sizeOfResults] * 100;
+    errorWater = fabs(eWaterTotal - eW[sizeOfResults-1]) / eW[sizeOfResults-1] * 100;
 
-    errorPCM = fabs(ePCMTotal - eP[sizeOfResults]) / eP[sizeOfResults] * 100;
+    errorPCM = fabs(ePCMTotal - eP[sizeOfResults-1]) / eP[sizeOfResults-1] * 100;
+
+    int warnings = 0;
 
     if(errorWater > params.ConsTol){
         printf("Warning: There is greater than %f%% relative error between the energy in the water output and the expected output based on the law of conservation of energy.\n", params.ConsTol);
+        warnings += 1;
     }
 
     if(errorPCM > params.ConsTol){
         printf("Warning: There is greater than %f%% relative error between the energy in the PCM output and the expected output based on the law of conservation of energy.\n", params.ConsTol);
+        warnings += 2;
     }
 
-    return;
+    return warnings;
 }

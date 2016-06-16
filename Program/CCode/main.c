@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     strcat(outputFilename, "out");
 
     int err = verify_valid(params);
-    if(err == 1){
+    if(err >= 1){
         exit(EXIT_FAILURE);
     }
 

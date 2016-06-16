@@ -1,0 +1,116 @@
+# depslib dependency file v1.0
+1466006516 source:c:\users\brooks\documents\swhs\swhs\program\ccode\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"parameters.h"
+	"load_params.h"
+	"verify_params.h"
+	"energy1.h"
+	"energy2.h"
+	"energy3.h"
+	"verify_output.h"
+	"plot.h"
+	"output.h"
+	<cvode/cvode.h>
+	<nvector/nvector_serial.h>
+	<cvode/cvode_dense.h>
+	<sundials/sundials_dense.h>
+	<sundials/sundials_types.h>
+
+1466007118 c:\users\brooks\documents\swhs\swhs\program\ccode\verify_params.h
+	<stdio.h>
+	<stdlib.h>
+	"parameters.h"
+	"load_params.h"
+
+1465575790 c:\users\brooks\documents\swhs\swhs\program\ccode\load_params.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"parameters.h"
+
+1465575829 c:\users\brooks\documents\swhs\swhs\program\ccode\parameters.h
+
+1438304880 c:\program files (x86)\sundials\include\cvode\cvode.h
+	<stdio.h>
+	<sundials/sundials_nvector.h>
+
+1438304846 c:\program files (x86)\sundials\include\sundials\sundials_nvector.h
+	<sundials/sundials_types.h>
+
+1438304846 c:\program files (x86)\sundials\include\sundials\sundials_types.h
+	<sundials/sundials_config.h>
+	<float.h>
+
+1465315046 c:\program files (x86)\sundials\include\sundials\sundials_config.h
+
+1438304846 c:\program files (x86)\sundials\include\nvector\nvector_serial.h
+	<sundials/sundials_nvector.h>
+
+1438304879 c:\program files (x86)\sundials\include\cvode\cvode_dense.h
+	<cvode/cvode_direct.h>
+	<sundials/sundials_dense.h>
+
+1438304879 c:\program files (x86)\sundials\include\cvode\cvode_direct.h
+	<sundials/sundials_direct.h>
+	<sundials/sundials_nvector.h>
+
+1438304846 c:\program files (x86)\sundials\include\sundials\sundials_direct.h
+	<sundials/sundials_types.h>
+
+1438304846 c:\program files (x86)\sundials\include\sundials\sundials_dense.h
+	<sundials/sundials_direct.h>
+
+1465576133 c:\users\brooks\documents\swhs\swhs\program\ccode\energy1.h
+	<stdio.h>
+	<stdlib.h>
+	"parameters.h"
+
+1465576865 c:\users\brooks\documents\swhs\swhs\program\ccode\output.h
+	<stdio.h>
+	<stdlib.h>
+	"parameters.h"
+
+1465576543 c:\users\brooks\documents\swhs\swhs\program\ccode\energy2.h
+	<stdio.h>
+	<stdlib.h>
+	"parameters.h"
+
+1465576510 c:\users\brooks\documents\swhs\swhs\program\ccode\energy3.h
+	<stdio.h>
+	<stdlib.h>
+	"parameters.h"
+
+1466005909 c:\users\brooks\documents\swhs\swhs\program\ccode\verify_output.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"parameters.h"
+
+1465588119 c:\users\brooks\documents\swhs\swhs\program\ccode\plot.h
+	<stdio.h>
+	<stdlib.h>
+
+1439404528 c:\program files (x86)\plplot\include\plplot\plplot.h
+	"plConfig.h"
+	<stdio.h>
+	<stdlib.h>
+	"pldll.h"
+	<stdint.h>
+	<Limits.h>
+
+1465484649 c:\program files (x86)\plplot\include\plplot\plconfig.h
+	<plplot_config.h>
+
+1465484649 c:\program files (x86)\plplot\include\plplot\pldll.h
+
+1465848764 source:c:\users\brooks\documents\swhs\swhs\program\ccode\testing\invalidinputtest.c
+	<stdarg.h>
+	<stddef.h>
+	<setjmp.h>
+	"../verify_params.h"
+	<cmocka.h>
+
+1465923398 c:\program files (x86)\cmocka\include\cmocka.h
+
