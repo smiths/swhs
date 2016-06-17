@@ -49,13 +49,18 @@ TST_SRC_FILES =\
   $(TST_DIR)/src/unrecommendedInputTest.c \
   $(TST_DIR)/src/invalidInputTest.c \
   $(TST_DIR)/src/loadParamsTest.c \
+  $(TST_DIR)/src/energyTest.c \
   $(TST_DIR)/src/verifyOutputTest.c \
   $(TST_DIR)/src/test_runners/unrecommendedInputTestRunner.c \
   $(TST_DIR)/src/test_runners/invalidInputTestRunner.c \
   $(TST_DIR)/src/test_runners/loadParamsTestRunner.c \
+  $(TST_DIR)/src/test_runners/energyTestRunner.c \
   $(TST_DIR)/src/test_runners/verifyOutputTestRunner.c \
   verify_params.c \
   load_params.c \
+  energy1.c \
+  energy2.c \
+  energy3.c \
   verify_output.c
 
 TST_INC_DIR = -I $(TST_DIR)/include
