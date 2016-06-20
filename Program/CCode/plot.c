@@ -19,20 +19,21 @@ Environment Variables: the file associated with the filename
 #include <string.h>
 #include "plot.h"
 
-void plot(float time[], float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults, char outputFilename[]){
+void plot(double time[], double tempW[], double tempP[], double eW[], double eP[], struct parameters params, int sizeOfResults, char outputFilename[]){
 
     int i;
-    char filenamePrefix[strlen(outputFilename)-2];
+    char filenamePrefix[strlen(outputFilename)+1];
     for(i = 0; i < strlen(outputFilename); i++){
         filenamePrefix[i] = outputFilename[i];
         if(outputFilename[i] == '.'){
             break;
         }
     }
+    strcat(filenamePrefix, "png");
 
     FILE *gnuplot = popen("gnuplot", "w");
     fprintf(gnuplot, "set terminal png enhanced font 'Verdana,8'\n");
-    fprintf(gnuplot, "set output '%spng'\n", filenamePrefix);
+    fprintf(gnuplot, "set output '%s'\n", filenamePrefix);
     fprintf(gnuplot, "set style data lines\n");
     fprintf(gnuplot, "set key left box\n");
     fprintf(gnuplot, "set xtics 0,10000,50000\n");

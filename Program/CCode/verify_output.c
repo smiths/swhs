@@ -17,17 +17,17 @@ Date Last Revised: June 10, 2016
 #include "parameters.h"
 #include "verify_output.h"
 
-int verify_output(float tempW[], float tempP[], float eW[], float eP[], struct parameters params, int sizeOfResults){
+int verify_output(double tempW[], double tempP[], double eW[], double eP[], struct parameters params, int sizeOfResults){
 
     int deltaTime = params.tstep;
 
     /* Using malloc() here to increase max array size. Should work as long as tstep is 1.0 or greater.
         If these arrays are initialized simply by "float eCoil[sizeOfResults-1]", for example, the program will
         require that tstep be at least 1.3 */
-    float *eCoil, *ePCM, *eWater;
-    eCoil = (float *) malloc((sizeOfResults - 1) * sizeof(float));
-    ePCM = (float *) malloc((sizeOfResults - 1) * sizeof(float));
-    eWater = (float *) malloc((sizeOfResults - 1) * sizeof(float));
+    double *eCoil, *ePCM, *eWater;
+    eCoil = (double *) malloc((sizeOfResults - 1) * sizeof(double));
+    ePCM = (double *) malloc((sizeOfResults - 1) * sizeof(double));
+    eWater = (double *) malloc((sizeOfResults - 1) * sizeof(double));
     int i;
     for(i = 0; i < sizeOfResults-1; i++){
         eCoil[i] = params.hc * params.Ac * deltaTime * (params.Tc - tempW[i+1] + params.Tc - tempW[i]) / 2;
@@ -35,19 +35,21 @@ int verify_output(float tempW[], float tempP[], float eW[], float eP[], struct p
         eWater[i] = eCoil[i] - ePCM[i];
     }
 
-    float eWaterTotal = 0;
-    float ePCMTotal = 0;
+    double eWaterTotal = 0;
+    double ePCMTotal = 0;
     int j;
     for(j = 0; j < sizeOfResults-1; j++){
         eWaterTotal += eWater[j];
         ePCMTotal += ePCM[j];
     }
 
-    float errorWater, errorPCM;
+    double errorWater, errorPCM;
 
     errorWater = fabs(eWaterTotal - eW[sizeOfResults-1]) / eW[sizeOfResults-1] * 100;
 
     errorPCM = fabs(ePCMTotal - eP[sizeOfResults-1]) / eP[sizeOfResults-1] * 100;
+
+    printf("%f, %f\n", errorPCM, errorWater);
 
     int warnings = 0;
 

@@ -28,14 +28,14 @@ struct parameters load_params(const char inputFile[]){
     //Extract data from input parameters file
     FILE * fPointer;
     fPointer = fopen(inputFile, "r");
-    float param[21];
+    double param[21];
     int counter = 0;
     char *endptr;
     char currentLine[25];
     while(!feof(fPointer)){
         fgets(currentLine, 25, fPointer);
         if(currentLine[0] != '#'){
-            float thisLine = strtof(currentLine, &endptr);
+            double thisLine = strtod(currentLine, &endptr);
             param[counter] = thisLine;
         }
         else continue;

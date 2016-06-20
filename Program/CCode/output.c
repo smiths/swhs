@@ -19,7 +19,7 @@ Environment Variables: the file associated with the filename
 #include "parameters.h"
 #include "output.h"
 
-void output(char filename[], float time[], float tempWat[], float tempPCM[], float eWat[], float ePCM[], float eTot[], struct parameters params, int sizeOfResults){
+void output(char filename[], double time[], double tempWat[], double tempPCM[], double eWat[], double ePCM[], double eTot[], struct parameters params, int sizeOfResults){
 
     FILE * fPointer;
     fPointer = fopen(filename, "w");

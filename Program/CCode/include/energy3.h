@@ -3,8 +3,8 @@
 #ifndef ENERGY_3_H_INCLUDE
 #define ENERGY_3_H_INCLUDE
 
-float energy3Wat(float tWat, struct parameters params);
-float energy3PCM(float tPCM, struct parameters params);
+double energy3Wat(double tWat, struct parameters params);
+double energy3PCM(double tPCM, struct parameters params);
 
 #endif // ENERGY_3_INCLUDE
 

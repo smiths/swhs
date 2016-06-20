@@ -22,9 +22,9 @@ Ep(t) = C_ps * Mp * (Tp(t) - Tinit)
 #include "parameters.h"
 #include "energy1.h"
 
-float energy1Wat(float tWat, struct parameters params){
+double energy1Wat(double tWat, struct parameters params){
 
-    float eWat;
+    double eWat;
 
     // Change in energy in water when T < Tmelt
     eWat = params.C_w * params.Mw * (tWat - params.Tinit);
@@ -32,9 +32,9 @@ float energy1Wat(float tWat, struct parameters params){
     return eWat;
 }
 
-float energy1PCM(float tPCM, struct parameters params){
+double energy1PCM(double tPCM, struct parameters params){
 
-    float ePCM;
+    double ePCM;
 
     // Change in energy in PCM when T < Tmelt
     ePCM = params.C_ps * params.Mp * (tPCM - params.Tinit);

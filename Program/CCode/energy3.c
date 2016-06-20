@@ -22,9 +22,9 @@ Ep(t) = Epmelt_init + Qp(t)
 #include "parameters.h"
 #include "energy3.h"
 
-float energy3Wat(float tWat, struct parameters params){
+double energy3Wat(double tWat, struct parameters params){
 
-    float eWat;
+    double eWat;
 
     // Change in energy in water when T > Tmelt
     eWat = params.C_w * params.Mw * (tWat - params.Tinit);
@@ -32,9 +32,9 @@ float energy3Wat(float tWat, struct parameters params){
     return eWat;
 }
 
-float energy3PCM(float tPCM, struct parameters params){
+double energy3PCM(double tPCM, struct parameters params){
 
-    float ePCM;
+    double ePCM;
 
     // Change in energy in PCM when T > Tmelt
     ePCM = params.Epmelt_init + params.Ep_melt3 + params.C_pl * params.Mp * (tPCM - params.Tmelt);

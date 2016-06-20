@@ -111,11 +111,11 @@ int main(int argc, char *argv[])
     counter = 1;  tout = RCONST(params.tstep); nout = RCONST(params.tfinal / tout);
     int num1 = nout;
     int counter1 = 0;
-    float time[num1]; float tempW[num1]; float tempP[num1];
+    double time[num1]; double tempW[num1]; double tempP[num1];
     time[0] = 0.0;
     tempW[0] = params.Tinit;
     tempP[0] = params.Tinit;
-    float tstep = params.tstep;
+    double tstep = params.tstep;
     while(1) {
       CVode(cvode_mem, tout, yPhase1, &t, CV_NORMAL);
       time[counter] = t;
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
       }
     }
 
-    float eW1[counter1], eP1[counter1], eTot1[counter1];
+    double eW1[counter1], eP1[counter1], eTot1[counter1];
     int j;
     for(j = 0; j <= counter1; j++){
         eW1[j] = energy1Wat(tempW[j], params);
@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 
     CVDlsSetDenseJacFn(cvode_mem, Jac2);
 
-    float latentHeat[num1]; float phi;
+    double latentHeat[num1]; double phi;
     int counter2 = 0;
     while(1) {
       CVode(cvode_mem, tout, yPhase2, &t, CV_NORMAL);
@@ -199,7 +199,7 @@ int main(int argc, char *argv[])
       }
     }
 
-    float eW2[counter2], eP2[counter2], eTot2[counter2];
+    double eW2[counter2], eP2[counter2], eTot2[counter2];
     int j2;
     for(j2 = 0; j2 <= counter2; j2++){
         eW2[j2] = energy2Wat(tempW[j2+counter1], params);
@@ -250,7 +250,7 @@ int main(int argc, char *argv[])
       }
     }
 
-    float eW3[counter3], eP3[counter3], eTot3[counter3];
+    double eW3[counter3], eP3[counter3], eTot3[counter3];
     int j3;
     for(j3 = 0; j3 <= counter3; j3++){
         eW3[j3] = energy3Wat(tempW[j3+counter1+counter2], params);
@@ -269,7 +269,7 @@ int main(int argc, char *argv[])
     /* Free integrator memory */
     CVodeFree(&cvode_mem);
 
-    float eW[num1], eP[num1], eTot[num1];
+    double eW[num1], eP[num1], eTot[num1];
     int k;
     for(k = 0; k <= num1; k++){
         if(k < counter1){
@@ -291,7 +291,7 @@ int main(int argc, char *argv[])
 
     // Output Results and plots
 
-    float sizeOfResults = sizeof(time) / sizeof(time[0]);
+    double sizeOfResults = sizeof(time) / sizeof(time[0]);
     verify_output(tempW, tempP, eW, eP, params, sizeOfResults);
     plot(time, tempW, tempP, eW, eP, params, sizeOfResults, outputFilename);
     output(outputFilename, time, tempW, tempP, eW, eP, eTot, params, sizeOfResults);
