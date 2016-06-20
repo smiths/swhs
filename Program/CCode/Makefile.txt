@@ -51,17 +51,20 @@ TST_SRC_FILES =\
   $(TST_DIR)/src/loadParamsTest.c \
   $(TST_DIR)/src/energyTest.c \
   $(TST_DIR)/src/verifyOutputTest.c \
+  $(TST_DIR)/src/compareFortranTest.c \
   $(TST_DIR)/src/test_runners/unrecommendedInputTestRunner.c \
   $(TST_DIR)/src/test_runners/invalidInputTestRunner.c \
   $(TST_DIR)/src/test_runners/loadParamsTestRunner.c \
   $(TST_DIR)/src/test_runners/energyTestRunner.c \
   $(TST_DIR)/src/test_runners/verifyOutputTestRunner.c \
+  $(TST_DIR)/src/test_runners/compareFortranTestRunner.c \
   verify_params.c \
   load_params.c \
   energy1.c \
   energy2.c \
   energy3.c \
-  verify_output.c
+  verify_output.c \
+  $(TST_DIR)/src/PCM_Error.c
 
 TST_INC_DIR = -I $(TST_DIR)/include
 TST_TARGET = tests.$(TARGET_EXTENSION)
@@ -75,7 +78,7 @@ GRAPH_FILES = $(patsubst %.in, %.png, $(INPUT_FILES))
 results : $(OUTPUT_FILES) $(GRAPH_FILES)
 
 %.png %.out : %.in $(SRC_FILES)
-	$(C_COMPILER) $(CFLAGS) $(SRC_FILES) -o $(TARGET) $(INC_DIR) $(LIB_DIRS) $(LIB_LINKS) -o $(TARGET)
+	$(C_COMPILER) $(CFLAGS) $(SRC_FILES) $(INC_DIR) $(LIB_DIRS) $(LIB_LINKS) -o $(TARGET)
 	./$(TARGET) $*.in
 
 .PHONY : tests
@@ -88,4 +91,5 @@ tests :
 clean :
 	rm -f $(OUTPUT_FILES)
 	rm -f $(GRAPH_FILES)
-	rm -f swhs.exe
+	rm -f $(TARGET)
+	rm -f $(TST_TARGET)
