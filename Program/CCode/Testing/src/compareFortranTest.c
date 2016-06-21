@@ -1,0 +1,89 @@
+#include "unity.h"
+#include "unity_fixture.h"
+#include "PCM_Error.h"
+#include "parameters.h"
+#include "load_params.h"
+
+TEST_GROUP(CompareFortran);
+
+TEST_SETUP(CompareFortran){
+}
+
+TEST_TEAR_DOWN(CompareFortran){
+}
+
+TEST(CompareFortran, testCompareFortran1){
+    struct parameters params;
+    params = load_params("Testing/src/compareFortran/C01.in");
+    double errTw, errTp, errEw, errEp;
+    double delta =  0.007;
+    errTw = PCM_Error("Testing/src/compareFortran/F01.out", "Testing/src/compareFortran/C01.out", "TWat", params);
+    errTp = PCM_Error("Testing/src/compareFortran/F01.out", "Testing/src/compareFortran/C01.out", "TPCM", params);
+    errEw = PCM_Error("Testing/src/compareFortran/F01.out", "Testing/src/compareFortran/C01.out", "EWat", params);
+    errEp = PCM_Error("Testing/src/compareFortran/F01.out", "Testing/src/compareFortran/C01.out", "EPCM", params);
+    printf("%f, %f, %f, %f\n", errTw, errTp, errEw, errEp);
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTw, "Water temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTp, "PCM temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEw, "Water energy");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEp, "PCM energy");
+}
+
+TEST(CompareFortran, testCompareFortran2){
+    struct parameters params;
+    params = load_params("Testing/src/compareFortran/C02.in");
+    double errTw, errTp, errEw, errEp;
+    double delta =  0.007;
+    errTw = PCM_Error("Testing/src/compareFortran/F02.out", "Testing/src/compareFortran/C02.out", "TWat", params);
+    errTp = PCM_Error("Testing/src/compareFortran/F02.out", "Testing/src/compareFortran/C02.out", "TPCM", params);
+    errEw = PCM_Error("Testing/src/compareFortran/F02.out", "Testing/src/compareFortran/C02.out", "EWat", params);
+    errEp = PCM_Error("Testing/src/compareFortran/F02.out", "Testing/src/compareFortran/C02.out", "EPCM", params);
+    printf("%f, %f, %f, %f\n", errTw, errTp, errEw, errEp);
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTw, "Water temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTp, "PCM temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEw, "Water energy");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEp, "PCM energy");
+}
+
+TEST(CompareFortran, testCompareFortran3){
+    struct parameters params;
+    params = load_params("Testing/src/compareFortran/C03.in");
+    double errTw, errTp, errEw, errEp;
+    double delta =  0.007;
+    errTw = PCM_Error("Testing/src/compareFortran/F03.out", "Testing/src/compareFortran/C03.out", "TWat", params);
+    errTp = PCM_Error("Testing/src/compareFortran/F03.out", "Testing/src/compareFortran/C03.out", "TPCM", params);
+    errEw = PCM_Error("Testing/src/compareFortran/F03.out", "Testing/src/compareFortran/C03.out", "EWat", params);
+    errEp = PCM_Error("Testing/src/compareFortran/F03.out", "Testing/src/compareFortran/C03.out", "EPCM", params);
+    printf("%f, %f, %f, %f\n", errTw, errTp, errEw, errEp);
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTw, "Water temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTp, "PCM temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEw, "Water energy");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEp, "PCM energy");
+}
+
+TEST(CompareFortran, testCompareFortran4){
+    struct parameters params;
+    params = load_params("Testing/src/compareFortran/C04.in");
+    double errTw, errTp, errEw, errEp;
+    double delta =  0.007;
+    errTw = PCM_Error("Testing/src/compareFortran/F04.out", "Testing/src/compareFortran/C04.out", "TWat", params);
+    errTp = PCM_Error("Testing/src/compareFortran/F04.out", "Testing/src/compareFortran/C04.out", "TPCM", params);
+    errEw = PCM_Error("Testing/src/compareFortran/F04.out", "Testing/src/compareFortran/C04.out", "EWat", params);
+    errEp = PCM_Error("Testing/src/compareFortran/F04.out", "Testing/src/compareFortran/C04.out", "EPCM", params);
+    printf("%f, %f, %f, %f\n", errTw, errTp, errEw, errEp);
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTw, "Water temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTp, "PCM temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEw, "Water energy");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEp, "PCM energy");
+}
+
+TEST(CompareFortran, testCompareFortran5){
+    struct parameters params;
+    params = load_params("Testing/src/compareFortran/C05.in");
+    double errTw, errEw;
+    double delta =  0.007;
+    errTw = PCM_Error("Testing/src/compareFortran/F01.out", "Testing/src/compareFortran/C05.out", "TWatNoP", params);
+    errEw = PCM_Error("Testing/src/compareFortran/F01.out", "Testing/src/compareFortran/C05.out", "EWatNoP", params);
+    printf("%.12f, %.12f\n", errTw, errEw);
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTw, "Water temperature");
+    TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEw, "Water energy");
+}
