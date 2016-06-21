@@ -8,6 +8,7 @@ static void RunAllTests(void){
     RUN_TEST_GROUP(Energy);
     RUN_TEST_GROUP(CompareFortran);
     RUN_TEST_GROUP(CompareMatlab);
+    RUN_TEST_GROUP(Event);
 }
 
 int main(int argc, const char * argv[])

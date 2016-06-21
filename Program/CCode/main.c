@@ -14,6 +14,7 @@ Date Last Revised: June 10, 2016
 #include "parameters.h"
 #include "load_params.h"
 #include "verify_params.h"
+#include "event.h"
 #include "energy1.h"
 #include "energy2.h"
 #include "energy3.h"
@@ -51,10 +52,14 @@ int Jac3(long int N, realtype t,
                N_Vector yPhase3, N_Vector fy, DlsMat J, void *user_data,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3);
 
+
+struct parameters params;
+
 int main(int argc, char *argv[])
 {
-    struct parameters params;
     params = load_params(argv[1]);
+
+    printf("%f", params.tau_w);
 
     int dotFinder;
     char outputFilename[strlen(argv[1])+2];
@@ -116,13 +121,15 @@ int main(int argc, char *argv[])
     tempW[0] = params.Tinit;
     tempP[0] = params.Tinit;
     double tstep = params.tstep;
+    double endval1;
     while(1) {
       CVode(cvode_mem, tout, yPhase1, &t, CV_NORMAL);
       time[counter] = t;
       tempW[counter] = Ith1(yPhase1,1);
       tempP[counter] = Ith1(yPhase1,2);
       tout += tstep;
-      if(tempP[counter] >= params.Tmelt){
+      endval1 = event1(tempP[counter], params);
+      if(endval1 >= 0){
         counter++;
         counter1++;
         printf("PCM has started melting at time %f\n", tout - tstep);
@@ -177,6 +184,7 @@ int main(int argc, char *argv[])
 
     double latentHeat[num1]; double phi;
     int counter2 = 0;
+    double endval2;
     while(1) {
       CVode(cvode_mem, tout, yPhase2, &t, CV_NORMAL);
       time[counter] = t;
@@ -185,7 +193,8 @@ int main(int argc, char *argv[])
       tout += tstep;
       latentHeat[counter] = Ith2(yPhase2,3);
       phi = latentHeat[counter] / (params.Hf * params.Mp);
-      if(phi >= 1.0){
+      endval2 = event2(latentHeat[counter], params);
+      if(endval2 >= 0){
         counter++;
         counter2++;
         printf("PCM has finished melting at time %f\n", tout - tstep);
@@ -384,9 +393,6 @@ int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_d
 
     realtype y1, y2, yd1, yd2;
 
-    struct parameters params;
-    params = load_params("test.in");
-
     y1 = Ith1(yPhase1,1); y2 = Ith1(yPhase1,2);
 
     yd1 = Ith1(yPhase1dot,1) = RCONST(params.Tc / params.tau_w) - RCONST((1 + params.eta) / params.tau_w) * y1 + RCONST(params.eta / params.tau_w) * y2;
@@ -420,9 +426,6 @@ int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_d
 
     realtype y1, y2, y3, yd1, yd2, yd3;
 
-    struct parameters params;
-    params = load_params("test.in");
-
     y1 = Ith2(yPhase2,1); y2 = Ith2(yPhase2,2); y3 = Ith2(yPhase2,3);
 
     yd1 = Ith2(yPhase2dot,1) = RCONST(params.Tc / params.tau_w) - RCONST((1 + params.eta) / params.tau_w) * y1 + RCONST(params.eta / params.tau_w) * y2;
@@ -454,9 +457,6 @@ dTp/dt = (1 / tau_pl) * (Tw(t) - Tp(t))
 int temperature3(realtype t, N_Vector yPhase3, N_Vector yPhase3dot, void *user_data){
 
     realtype y1, y2, yd1, yd2;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith3(yPhase3,1); y2 = Ith3(yPhase3,2);
 
