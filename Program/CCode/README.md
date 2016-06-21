@@ -35,4 +35,8 @@ Once all of this has been successfully completed, the program can be run from th
 
 - make -f Makefile.txt
 
-Software testing and the associated makefile updates are planned to be added later.
+The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute either of the following commands from this directory:
+
+- make tests
+
+- make -f Makefile.txt tests
