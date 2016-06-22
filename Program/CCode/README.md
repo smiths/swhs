@@ -46,3 +46,7 @@ Once all of this has been successfully completed, the program can be run from th
 The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute the following command from this directory:
 
 - make -f Makefile.txt tests
+
+To remove all of the generated files from your directory after running the software, use the following command:
+
+- make -f Makefile.txt clean
