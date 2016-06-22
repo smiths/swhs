@@ -23,9 +23,11 @@ To install gnuplot:
 
 The SWHS software is run using make. In order to ensure that the makefile will work, one of the following must be done:
 
-- In this directory, create a "lib" subdirectory and fill it with both the CVODE libraries and gnuplot libraries, or
+- In this directory, create "lib" and "include" subdirectories and fill them with the CVODE libraries and include (header) files, respectively, or
 
-- Edit the Makefile "LIB_DIRS" variable with the paths to the CVODE and gnuplot libraries
+- Edit the Makefile "LIB_DIRS" variable with the path to the CVODE libraries, and the "INC_DIR" variable with the path to the include (header) files.
+
+NOTE: The header files in the CVODE package are separated into three folders ("cvode", "nvector", and "sundials"). They should be kept in these folders and the include path in the makefile should refer to the parent folder containing these three folders.
 
 Regardless of which of the above options you choose, you must also add the paths to the CVODE and gnuplot libraries to your system's PATH variable.
 
