@@ -1,13 +1,3 @@
-/* Control Module
-
-This module coordinates the running of SWHS.
-
-Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks MacLachlan
-
-Date Last Revised: June 22, 2016
-
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,9 +11,9 @@ Date Last Revised: June 22, 2016
 #include "verify_output.h"
 #include "plot.h"
 #include "output.h"
-#include <cvode/cvode.h>
+#include <arkode/arkode.h>
 #include <nvector/nvector_serial.h>
-#include <cvode/cvode_dense.h>
+#include <arkode/arkode_dense.h>
 #include <sundials/sundials_dense.h>
 #include <sundials/sundials_types.h>
 
@@ -79,37 +69,36 @@ int main(int argc, char *argv[])
 
     // When Tp < Tmelt
 
-    realtype reltol, t, tout, nout;
-    N_Vector yPhase1, abstol1;
-    void *cvode_mem;
+    realtype reltol, t, tout, nout, abstol;
+    N_Vector yPhase1;
+    void *arkode_mem;
     int counter, N1, N2;
     realtype tinit = RCONST(0.0);
 
     N1 = 2;
     N2 = 3;
 
-    yPhase1 = abstol1 = NULL;
-    cvode_mem = NULL;
+    yPhase1 = NULL;
+    arkode_mem = NULL;
 
     yPhase1 = N_VNew_Serial(N1);
-    abstol1 = N_VNew_Serial(N1);
 
     /* Initialize y */
     Ith1(yPhase1,1) = Ith1(yPhase1,2) = RCONST(params.Tinit);
 
     // Set tolerances
     reltol = RCONST(params.RelTol);
-    Ith1(abstol1,1) = Ith1(abstol1,2) = RCONST(params.AbsTol);
+    abstol = RCONST(params.AbsTol);
 
-    cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
+    arkode_mem = ARKodeCreate();
 
-    CVodeInit(cvode_mem, temperature1, tinit, yPhase1);
+    ARKodeInit(arkode_mem, NULL, temperature1, tinit, yPhase1);
 
-    CVodeSVtolerances(cvode_mem, reltol, abstol1);
+    ARKodeSStolerances(arkode_mem, reltol, abstol);
 
-    CVDense(cvode_mem, N1);
+    ARKDense(arkode_mem, N1);
 
-    CVDlsSetDenseJacFn(cvode_mem, Jac1);
+    ARKDlsSetDenseJacFn(arkode_mem, Jac1);
 
     counter = 1;  tout = RCONST(params.tstep); nout = RCONST(params.tfinal / tout);
     int num1 = nout;
@@ -121,7 +110,7 @@ int main(int argc, char *argv[])
     double tstep = params.tstep;
     double endval1;
     while(counter <= num1) {
-      CVode(cvode_mem, tout, yPhase1, &t, CV_NORMAL);
+      ARKode(arkode_mem, tout, yPhase1, &t, ARK_NORMAL);
       time[counter] = t;
       tempW[counter] = Ith1(yPhase1,1);
       tempP[counter] = Ith1(yPhase1,2);
@@ -149,41 +138,37 @@ int main(int argc, char *argv[])
     }
 
     /* Free integrator memory */
-    CVodeFree(&cvode_mem);
+    ARKodeFree(&arkode_mem);
 
     // When Tp = Tmelt
 
-    N_Vector yPhase2, abstol2;
+    N_Vector yPhase2;
 
-    yPhase2 = abstol2 = NULL;
-    cvode_mem = NULL;
+    yPhase2 = NULL;
+    arkode_mem = NULL;
 
     yPhase2 = N_VNew_Serial(N2);
-    abstol2 = N_VNew_Serial(N2);
 
      /* Initialize y */
     Ith2(yPhase2,1) = Ith1(yPhase1,1);
     Ith2(yPhase2,2) = Ith1(yPhase1,2);
     Ith2(yPhase2,3) = RCONST(0.0);
 
-    // Set tolerances
-    Ith2(abstol2,1) = Ith2(abstol2,2) = Ith2(abstol2,3) = RCONST(params.AbsTol);
+    arkode_mem = ARKodeCreate();
 
-    cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
+    ARKodeInit(arkode_mem, NULL, temperature2, tout-tstep, yPhase2);
 
-    CVodeInit(cvode_mem, temperature2, tout-tstep, yPhase2);
+    ARKodeSStolerances(arkode_mem, reltol, abstol);
 
-    CVodeSVtolerances(cvode_mem, reltol, abstol2);
+    ARKDense(arkode_mem, N2);
 
-    CVDense(cvode_mem, N2);
-
-    CVDlsSetDenseJacFn(cvode_mem, Jac2);
+    ARKDlsSetDenseJacFn(arkode_mem, Jac2);
 
     double latentHeat[num1]; double phi;
     int counter2 = 0;
     double endval2;
     while(counter <= num1) {
-      CVode(cvode_mem, tout, yPhase2, &t, CV_NORMAL);
+      ARKode(arkode_mem, tout, yPhase2, &t, ARK_NORMAL);
       time[counter] = t;
       tempW[counter] = Ith2(yPhase2,1);
       tempP[counter] = Ith2(yPhase2,2);
@@ -212,38 +197,34 @@ int main(int argc, char *argv[])
         eTot2[j2] = eW2[j2] + eP2[j2];
     }
     /* Free integrator memory */
-    CVodeFree(&cvode_mem);
+    ARKodeFree(&arkode_mem);
 
     // When Tp > Tmelt
 
-    N_Vector yPhase3, abstol3;
+    N_Vector yPhase3;
 
-    yPhase3 = abstol3 = NULL;
-    cvode_mem = NULL;
+    yPhase3 = NULL;
+    arkode_mem = NULL;
 
     yPhase3 = N_VNew_Serial(N1);
-    abstol3 = N_VNew_Serial(N1);
 
      /* Initialize y */
     Ith3(yPhase3,1) = Ith2(yPhase2,1);
     Ith3(yPhase3,2) = Ith2(yPhase2,2);
 
-    // Set tolerances
-    Ith3(abstol3,1) = Ith3(abstol3,2) = RCONST(params.AbsTol);
+    arkode_mem = ARKodeCreate();
 
-    cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
+    ARKodeInit(arkode_mem, NULL, temperature3, tout-tstep, yPhase3);
 
-    CVodeInit(cvode_mem, temperature3, tout-tstep, yPhase3);
+    ARKodeSStolerances(arkode_mem, reltol, abstol);
 
-    CVodeSVtolerances(cvode_mem, reltol, abstol3);
+    ARKDense(arkode_mem, N1);
 
-    CVDense(cvode_mem, N1);
-
-    CVDlsSetDenseJacFn(cvode_mem, Jac3);
+    ARKDlsSetDenseJacFn(arkode_mem, Jac3);
 
     int counter3 = 0;
     while(counter <= num1) {
-      CVode(cvode_mem, tout, yPhase3, &t, CV_NORMAL);
+      ARKode(arkode_mem, tout, yPhase3, &t, ARK_NORMAL);
       time[counter] = t;
       tempW[counter] = Ith3(yPhase3,1);
       tempP[counter] = Ith3(yPhase3,2);
@@ -262,14 +243,11 @@ int main(int argc, char *argv[])
 
     /* Free y and abstol vectors */
     N_VDestroy_Serial(yPhase1);
-    N_VDestroy_Serial(abstol1);
     N_VDestroy_Serial(yPhase2);
-    N_VDestroy_Serial(abstol2);
     N_VDestroy_Serial(yPhase3);
-    N_VDestroy_Serial(abstol3);
 
     /* Free integrator memory */
-    CVodeFree(&cvode_mem);
+    ARKodeFree(&arkode_mem);
 
     double eW[num1], eP[num1], eTot[num1];
     int k;
