@@ -23,22 +23,26 @@ To install gnuplot:
 
 The SWHS software is run using make. In order to ensure that the makefile will work, one of the following must be done:
 
-- In this directory, create "lib" and "include" subdirectories and fill them with the CVODE libraries and include (header) files, respectively, or
+Option 1:
 
-- Edit the Makefile "LIB_DIRS" variable with the path to the CVODE libraries, and the "INC_DIR" variable with the path to the include (header) files.
+- In this directory, create a "lib" subdirectory and fill it with the CVODE libraries.
+
+- Add all of the header files from CVODE to the "include" directory that already exists in this directory.
+
+Option 2:
+
+- Edit the Makefile "LIB_DIRS" variable with the path to the CVODE libraries.
+
+- Add to the Makefile "INC_DIR" variable using -I and the path to the CVODE include (header) files. Do not remove the path that already exists in this variable, as it refers to the "include" directory that contains the header files specific to SWHS.
 
 NOTE: The header files in the CVODE package are separated into three folders ("cvode", "nvector", and "sundials"). They should be kept in these folders and the include path in the makefile should refer to the parent folder containing these three folders.
 
 Regardless of which of the above options you choose, you must also add the paths to the CVODE and gnuplot libraries to your system's PATH variable.
 
-Once all of this has been successfully completed, the program can be run from this directory using either of the following commands:
-
-- make
+Once all of this has been successfully completed, the program can be run from this directory using the following command:
 
 - make -f Makefile.txt
 
-The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute either of the following commands from this directory:
-
-- make tests
+The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute the following command from this directory:
 
 - make -f Makefile.txt tests
