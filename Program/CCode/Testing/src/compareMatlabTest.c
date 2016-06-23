@@ -1,6 +1,6 @@
 #include "unity.h"
 #include "unity_fixture.h"
-#include "PCM_ErrorM.h"
+#include "PCM_Error.h"
 #include "parameters.h"
 #include "load_params.h"
 
@@ -16,7 +16,7 @@ TEST(CompareMatlab, testCompareMatlab1){
     struct parameters params;
     params = load_params("Testing/src/compareMatlab/C01.in");
     double errTw, errTp, errEw, errEp;
-    double delta = 0.01;
+    double delta = 0.00001;
     errTw = PCM_ErrorM("Testing/src/compareMatlab/M01.out", "Testing/src/compareMatlab/C01.out", "TWat", params);
     errTp = PCM_ErrorM("Testing/src/compareMatlab/M01.out", "Testing/src/compareMatlab/C01.out", "TPCM", params);
     errEw = PCM_ErrorM("Testing/src/compareMatlab/M01.out", "Testing/src/compareMatlab/C01.out", "EWat", params);
@@ -31,7 +31,7 @@ TEST(CompareMatlab, testCompareMatlab2){
     struct parameters params;
     params = load_params("Testing/src/compareMatlab/C02.in");
     double errTw, errTp, errEw, errEp;
-    double delta = 0.01;
+    double delta = 0.00001;
     errTw = PCM_ErrorM("Testing/src/compareMatlab/M02.out", "Testing/src/compareMatlab/C02.out", "TWat", params);
     errTp = PCM_ErrorM("Testing/src/compareMatlab/M02.out", "Testing/src/compareMatlab/C02.out", "TPCM", params);
     errEw = PCM_ErrorM("Testing/src/compareMatlab/M02.out", "Testing/src/compareMatlab/C02.out", "EWat", params);
@@ -46,7 +46,7 @@ TEST(CompareMatlab, testCompareMatlab3){
     struct parameters params;
     params = load_params("Testing/src/compareMatlab/C03.in");
     double errTw, errTp, errEw, errEp;
-    double delta = 0.01;
+    double delta = 0.00001;
     errTw = PCM_ErrorM("Testing/src/compareMatlab/M03.out", "Testing/src/compareMatlab/C03.out", "TWat", params);
     errTp = PCM_ErrorM("Testing/src/compareMatlab/M03.out", "Testing/src/compareMatlab/C03.out", "TPCM", params);
     errEw = PCM_ErrorM("Testing/src/compareMatlab/M03.out", "Testing/src/compareMatlab/C03.out", "EWat", params);
@@ -61,7 +61,7 @@ TEST(CompareMatlab, testCompareMatlab4){
     struct parameters params;
     params = load_params("Testing/src/compareMatlab/C04.in");
     double errTw, errTp, errEw, errEp;
-    double delta = 0.01;
+    double delta = 0.00001;
     errTw = PCM_ErrorM("Testing/src/compareMatlab/M04.out", "Testing/src/compareMatlab/C04.out", "TWat", params);
     errTp = PCM_ErrorM("Testing/src/compareMatlab/M04.out", "Testing/src/compareMatlab/C04.out", "TPCM", params);
     errEw = PCM_ErrorM("Testing/src/compareMatlab/M04.out", "Testing/src/compareMatlab/C04.out", "EWat", params);

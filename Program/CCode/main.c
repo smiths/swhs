@@ -11,11 +11,9 @@ Date Last Revised: June 22, 2016
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 #include "parameters.h"
 #include "load_params.h"
 #include "verify_params.h"
-#include "event.h"
 #include "energy1.h"
 #include "energy2.h"
 #include "energy3.h"
@@ -56,9 +54,6 @@ int Jac2(long int N, realtype t,
 int Jac3(long int N, realtype t,
                N_Vector yPhase3, N_Vector fy, DlsMat J, void *user_data,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3);
-
-int check_flag(void *flagvalue, char *funcname, int opt);
-
 
 struct parameters params;
 
@@ -135,7 +130,6 @@ int main(int argc, char *argv[])
       time[counter] = t;
       tempW[counter] = Ith1(yPhase1,1);
       tempP[counter] = Ith1(yPhase1,2);
-
       if(flag == CV_ROOT_RETURN){
         meltTime = t;
         printf("PCM has started melting at time %f\n", meltTime);
@@ -268,6 +262,7 @@ int main(int argc, char *argv[])
       counter++;
       counter3++;
     }
+
     double eW3[counter3], eP3[counter3], eTot3[counter3];
     int j3;
     for(j3 = 0; j3 <= counter3; j3++){
@@ -307,12 +302,20 @@ int main(int argc, char *argv[])
         }
     }
 
+    double timeData[num1], tempWData[num1], tempPData[num1];
+    int trueSize;
+    for(trueSize = 0; trueSize <= num1; trueSize++){
+        timeData[trueSize] = time[trueSize];
+        tempWData[trueSize] = tempW[trueSize];
+        tempPData[trueSize] = tempP[trueSize];
+    }
+
     // Output Results and plots
 
-    int sizeOfResults = sizeof(time) / sizeof(time[0]);
-    verify_output(tempW, tempP, eW, eP, params, sizeOfResults);
-    plot(time, tempW, tempP, eW, eP, params, sizeOfResults, outputFilename);
-    output(outputFilename, time, tempW, tempP, eW, eP, eTot, params, sizeOfResults);
+    int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
+    verify_output(tempWData, tempPData, eW, eP, params, sizeOfResults);
+    plot(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults, outputFilename);
+    output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 
     return 0;
 }
@@ -496,31 +499,3 @@ int temperature3(realtype t, N_Vector yPhase3, N_Vector yPhase3dot, void *user_d
 
     return(0);
 }
-
-int check_flag(void *flagvalue, char *funcname, int opt)
-{
-  int *errflag;
-
-  /* Check if SUNDIALS function returned NULL pointer - no memory allocated */
-  if (opt == 0 && flagvalue == NULL) {
-    fprintf(stderr, "\nSUNDIALS_ERROR: %s() failed - returned NULL pointer\n\n",
-	    funcname);
-    return(1); }
-
-  /* Check if flag < 0 */
-  else if (opt == 1) {
-    errflag = (int *) flagvalue;
-    if (*errflag < 0) {
-      fprintf(stderr, "\nSUNDIALS_ERROR: %s() failed with flag = %d\n\n",
-	      funcname, *errflag);
-      return(1); }}
-
-  /* Check if function returned NULL pointer - no memory allocated */
-  else if (opt == 2 && flagvalue == NULL) {
-    fprintf(stderr, "\nMEMORY_ERROR: %s() failed - returned NULL pointer\n\n",
-	    funcname);
-    return(1); }
-
-  return(0);
-}
-

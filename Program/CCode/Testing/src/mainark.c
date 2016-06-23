@@ -4,7 +4,6 @@
 #include "parameters.h"
 #include "load_params.h"
 #include "verify_params.h"
-#include "event.h"
 #include "energy1.h"
 #include "energy2.h"
 #include "energy3.h"
@@ -26,7 +25,11 @@
 
 int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_data);
 
+int meltPoint(realtype t, N_Vector yPhase1, realtype *gout, void *user_data);
+
 int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_data);
+
+int meltEndPoint(realtype t, N_Vector yPhase2, realtype *gout, void *user_data);
 
 int temperature3(realtype t, N_Vector yPhase3, N_Vector yPhase3dot, void *user_data);
 
@@ -41,7 +44,6 @@ int Jac2(long int N, realtype t,
 int Jac3(long int N, realtype t,
                N_Vector yPhase3, N_Vector fy, DlsMat J, void *user_data,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3);
-
 
 struct parameters params;
 
@@ -72,7 +74,7 @@ int main(int argc, char *argv[])
     realtype reltol, t, tout, nout, abstol;
     N_Vector yPhase1;
     void *arkode_mem;
-    int counter, N1, N2;
+    int counter, N1, N2, flag;
     realtype tinit = RCONST(0.0);
 
     N1 = 2;
@@ -96,6 +98,8 @@ int main(int argc, char *argv[])
 
     ARKodeSStolerances(arkode_mem, reltol, abstol);
 
+    ARKodeRootInit(arkode_mem, 1, meltPoint);
+
     ARKDense(arkode_mem, N1);
 
     ARKDlsSetDenseJacFn(arkode_mem, Jac1);
@@ -103,25 +107,28 @@ int main(int argc, char *argv[])
     counter = 1;  tout = RCONST(params.tstep); nout = RCONST(params.tfinal / tout);
     int num1 = nout;
     int counter1 = 0;
-    double time[num1]; double tempW[num1]; double tempP[num1];
+    double time[num1+2]; double tempW[num1+2]; double tempP[num1+2];
     time[0] = 0.0;
     tempW[0] = params.Tinit;
     tempP[0] = params.Tinit;
     double tstep = params.tstep;
-    double endval1;
+    double meltTime;
+    realtype tOutHold;
     while(counter <= num1) {
-      ARKode(arkode_mem, tout, yPhase1, &t, ARK_NORMAL);
+      flag = ARKode(arkode_mem, tout, yPhase1, &t, ARK_NORMAL);
       time[counter] = t;
       tempW[counter] = Ith1(yPhase1,1);
       tempP[counter] = Ith1(yPhase1,2);
-      tout += tstep;
-      endval1 = event1(tempP[counter], params);
-      if(endval1 >= 0){
+      if(flag == ARK_ROOT_RETURN){
+        meltTime = t;
+        printf("PCM has started melting at time %f\n", meltTime);
+        tOutHold = RCONST(meltTime);
         counter++;
         counter1++;
-        printf("PCM has started melting at time %f\n", tout - tstep);
+        num1++;
         break;
       }
+      tout += tstep;
       counter++;
       counter1++;
       if(counter == num1){
@@ -156,9 +163,11 @@ int main(int argc, char *argv[])
 
     arkode_mem = ARKodeCreate();
 
-    ARKodeInit(arkode_mem, NULL, temperature2, tout-tstep, yPhase2);
+    ARKodeInit(arkode_mem, NULL, temperature2, tOutHold, yPhase2);
 
     ARKodeSStolerances(arkode_mem, reltol, abstol);
+
+    ARKodeRootInit(arkode_mem, 1, meltEndPoint);
 
     ARKDense(arkode_mem, N2);
 
@@ -166,22 +175,24 @@ int main(int argc, char *argv[])
 
     double latentHeat[num1]; double phi;
     int counter2 = 0;
-    double endval2;
+    double meltEnd;
     while(counter <= num1) {
-      ARKode(arkode_mem, tout, yPhase2, &t, ARK_NORMAL);
+      flag = ARKode(arkode_mem, tout, yPhase2, &t, ARK_NORMAL);
       time[counter] = t;
       tempW[counter] = Ith2(yPhase2,1);
       tempP[counter] = Ith2(yPhase2,2);
-      tout += tstep;
       latentHeat[counter] = Ith2(yPhase2,3);
-      phi = latentHeat[counter] / (params.Hf * params.Mp);
-      endval2 = event2(latentHeat[counter], params);
-      if(endval2 >= 0){
+      if(flag == ARK_ROOT_RETURN){
+        meltEnd = t;
+        printf("PCM has finished melting at time %f\n", meltEnd);
+        tOutHold = RCONST(meltEnd);
         counter++;
         counter2++;
-        printf("PCM has finished melting at time %f\n", tout - tstep);
+        num1++;
         break;
       }
+      tout += tstep;
+      phi = latentHeat[counter] / (params.Hf * params.Mp);
       counter++;
       counter2++;
       if(counter == num1){
@@ -214,7 +225,7 @@ int main(int argc, char *argv[])
 
     arkode_mem = ARKodeCreate();
 
-    ARKodeInit(arkode_mem, NULL, temperature3, tout-tstep, yPhase3);
+    ARKodeInit(arkode_mem, NULL, temperature3, tOutHold, yPhase3);
 
     ARKodeSStolerances(arkode_mem, reltol, abstol);
 
@@ -269,12 +280,20 @@ int main(int argc, char *argv[])
         }
     }
 
+    double timeData[num1], tempWData[num1], tempPData[num1];
+    int trueSize;
+    for(trueSize = 0; trueSize <= num1; trueSize++){
+        timeData[trueSize] = time[trueSize];
+        tempWData[trueSize] = tempW[trueSize];
+        tempPData[trueSize] = tempP[trueSize];
+    }
+
     // Output Results and plots
 
-    int sizeOfResults = sizeof(time) / sizeof(time[0]);
-    verify_output(tempW, tempP, eW, eP, params, sizeOfResults);
-    plot(time, tempW, tempP, eW, eP, params, sizeOfResults, outputFilename);
-    output(outputFilename, time, tempW, tempP, eW, eP, eTot, params, sizeOfResults);
+    int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
+    verify_output(tempWData, tempPData, eW, eP, params, sizeOfResults);
+    plot(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults, outputFilename);
+    output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 
     return 0;
 }
@@ -372,6 +391,17 @@ int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_d
     return(0);
 }
 
+int meltPoint(realtype t, N_Vector yPhase1, realtype *gout, void *user_data){
+
+    realtype y2;
+
+    y2 = Ith1(yPhase1,2);
+
+    gout[0] = y2 - RCONST(params.Tmelt);
+
+    return(0);
+}
+
 /* Temperature ODEs Module, when Tp = Tmelt
 
 This module uses the input parameters in params to specify the ODEs
@@ -403,6 +433,17 @@ int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_d
     yd2 = Ith2(yPhase2dot,2) = RCONST(0.0);
     yd3 = Ith2(yPhase2dot,3) = RCONST(params.hp * params.Ap) * y1 - RCONST(params.hp * params.Ap * params.Tmelt);
 
+
+    return(0);
+}
+
+int meltEndPoint(realtype t, N_Vector yPhase2, realtype *gout, void *user_data){
+
+    realtype y3;
+
+    y3 = Ith2(yPhase2,3);
+
+    gout[0] = (y3 / (params.Hf * params.Mp)) - RCONST(1);
 
     return(0);
 }
