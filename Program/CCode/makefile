@@ -34,7 +34,7 @@ TST_CFLAGS += -Wmissing-prototypes
 TST_CFLAGS += -Wmissing-declarations
 TST_CFLAGS += -DUNITY_FIXTURES
 
-SRC_FILES=main.c load_params.c verify_params.c event.c energy1.c energy2.c energy3.c verify_output.c output.c plot.c
+SRC_FILES=main.c load_params.c verify_params.c energy1.c energy2.c energy3.c verify_output.c output.c plot.c
 PROGNAME=swhs
 TARGET=$(PROGNAME).$(TARGET_EXTENSION)
 INC_DIR= -I /usr/local/include -I /opt/local/include -I include
@@ -49,28 +49,26 @@ TST_SRC_FILES =\
   $(TST_DIR)/src/unrecommendedInputTest.c \
   $(TST_DIR)/src/invalidInputTest.c \
   $(TST_DIR)/src/loadParamsTest.c \
-  $(TST_DIR)/src/eventTest.c \
   $(TST_DIR)/src/energyTest.c \
   $(TST_DIR)/src/verifyOutputTest.c \
   $(TST_DIR)/src/compareFortranTest.c \
   $(TST_DIR)/src/compareMatlabTest.c \
+  $(TST_DIR)/src/compareSolversTest.c \
   $(TST_DIR)/src/test_runners/unrecommendedInputTestRunner.c \
   $(TST_DIR)/src/test_runners/invalidInputTestRunner.c \
   $(TST_DIR)/src/test_runners/loadParamsTestRunner.c \
-  $(TST_DIR)/src/test_runners/eventTestRunner.c \
   $(TST_DIR)/src/test_runners/energyTestRunner.c \
   $(TST_DIR)/src/test_runners/verifyOutputTestRunner.c \
   $(TST_DIR)/src/test_runners/compareFortranTestRunner.c \
   $(TST_DIR)/src/test_runners/compareMatlabTestRunner.c \
+  $(TST_DIR)/src/test_runners/compareSolversTestRunner.c \
   verify_params.c \
   load_params.c \
-  event.c \
   energy1.c \
   energy2.c \
   energy3.c \
   verify_output.c \
   $(TST_DIR)/src/PCM_Error.c \
-  $(TST_DIR)/src/PCM_ErrorM.c \
   $(TST_DIR)/src/linterp.c
 
 TST_INC_DIR = -I $(TST_DIR)/include
@@ -84,8 +82,10 @@ GRAPH_FILES = $(patsubst %.in, %.png, $(INPUT_FILES))
 .PHONY : results
 results : $(OUTPUT_FILES) $(GRAPH_FILES)
 
-%.png %.out : %.in $(SRC_FILES)
+$(TARGET) : $(SRC_FILES)
 	$(C_COMPILER) $(CFLAGS) $(SRC_FILES) $(INC_DIR) $(LIB_DIRS) $(LIB_LINKS) -o $(TARGET)
+
+%.png %.out : %.in $(TARGET)
 	./$(TARGET) $*.in
 
 .PHONY : tests
