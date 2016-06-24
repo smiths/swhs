@@ -57,7 +57,7 @@ void output(char filename[], double time[], double tempWat[], double tempPCM[], 
     fprintf(fPointer, "\ttau_w_noPCM\t%f\n", params.tau_w_noPCM);
     fprintf(fPointer, "\nTime\t\tTwater\t\tTPCM\t\tEwater\t\tEPCM\t\tEtotal\n");
     int i;
-    for(i = 0; i <= sizeOfResults; i++){
+    for(i = 0; i < sizeOfResults; i++){
         fprintf(fPointer,"%f\t%f\t%f\t%f\t%f\t%f\n", time[i], tempWat[i], tempPCM[i], eWat[i], ePCM[i], eTot[i]);
     }
     fclose(fPointer);

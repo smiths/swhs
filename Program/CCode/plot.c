@@ -1,7 +1,7 @@
 /* Plot Module
 
-This module takes the output values produced and plots them using
-GNUplot, and outputs the plots to a png file.
+This module takes the output values for temperature and energy of water
+and PCM and plots them using gnuplot, and outputs the plots to a png file.
 
 Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialkov, and Brooks
 MacLachlan
