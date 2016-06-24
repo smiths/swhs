@@ -52,11 +52,9 @@ end
 
 
 
-water_E = coil_E - pcm_E;
+water_E = coil_E - pcm_E
 
-
-
-tot_water_E = sum(water_E);
+tot_water_E = sum(water_E)
 
 
 
@@ -64,12 +62,20 @@ water_error = abs(tot_water_E - Ew(end))/Ew(end)*100;
 
 
 
-tot_pcm_E = sum(pcm_E);
+tot_pcm_E = sum(pcm_E)
 
 
 
 pcm_error = abs(tot_pcm_E - Ep(end))/Ep(end)*100;
 
+
+pcm_error
+
+water_error
+
+Ew(end)
+
+Ep(end)
 
 
 if(water_error > params.ConsTol)

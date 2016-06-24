@@ -302,7 +302,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    double timeData[num1], tempWData[num1], tempPData[num1];
+    double timeData[num1+1], tempWData[num1+1], tempPData[num1+1];
     int trueSize;
     for(trueSize = 0; trueSize <= num1; trueSize++){
         timeData[trueSize] = time[trueSize];
@@ -313,7 +313,7 @@ int main(int argc, char *argv[])
     // Output Results and plots
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
-    verify_output(tempWData, tempPData, eW, eP, params, sizeOfResults);
+    verify_output(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults);
     plot(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults, outputFilename);
     output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 

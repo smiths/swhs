@@ -64,7 +64,6 @@ TST_SRC_FILES =\
   $(TST_DIR)/src/test_runners/compareSolversTestRunner.c \
   verify_params.c \
   load_params.c \
-  event.c \
   energy1.c \
   energy2.c \
   energy3.c \

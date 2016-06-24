@@ -17,21 +17,21 @@ Date Last Revised: June 10, 2016
 #include "parameters.h"
 #include "verify_output.h"
 
-int verify_output(double tempW[], double tempP[], double eW[], double eP[], struct parameters params, int sizeOfResults){
+int verify_output(double time[], double tempW[], double tempP[], double eW[], double eP[], struct parameters params, int sizeOfResults){
 
-    int deltaTime = params.tstep;
-
-    /* Using malloc() here to increase max array size. Should work as long as tstep is 1.0 or greater.
-        If these arrays are initialized simply by "float eCoil[sizeOfResults-1]", for example, the program will
+     /* Using malloc() here to increase max array size. Should work as long as tstep is 1.0 or greater.
+        If these arrays are initialized simply by "double eCoil[sizeOfResults-1]", for example, the program will
         require that tstep be at least 1.3 */
-    double *eCoil, *ePCM, *eWater;
-    eCoil = (double *) malloc((sizeOfResults - 1) * sizeof(double));
-    ePCM = (double *) malloc((sizeOfResults - 1) * sizeof(double));
-    eWater = (double *) malloc((sizeOfResults - 1) * sizeof(double));
+    double *deltaTime, *eCoil, *ePCM, *eWater;
+    deltaTime = (double *) malloc((sizeOfResults-1) * sizeof(double));
+    eCoil = (double *) malloc((sizeOfResults-1) * sizeof(double));
+    ePCM = (double *) malloc((sizeOfResults-1) * sizeof(double));
+    eWater = (double *) malloc((sizeOfResults-1) * sizeof(double));
     int i;
     for(i = 0; i < sizeOfResults-1; i++){
-        eCoil[i] = params.hc * params.Ac * deltaTime * (params.Tc - tempW[i+1] + params.Tc - tempW[i]) / 2;
-        ePCM[i] = params.hp * params.Ap * deltaTime * (tempW[i+1] - tempP[i+1] + tempW[i] - tempP[i]) / 2;
+        deltaTime[i] = time[i+1] - time[i];
+        eCoil[i] = params.hc * params.Ac * deltaTime[i] * (params.Tc - tempW[i+1] + params.Tc - tempW[i]) / 2;
+        ePCM[i] = params.hp * params.Ap * deltaTime[i] * (tempW[i+1] - tempP[i+1] + tempW[i] - tempP[i]) / 2;
         eWater[i] = eCoil[i] - ePCM[i];
     }
 
@@ -48,8 +48,6 @@ int verify_output(double tempW[], double tempP[], double eW[], double eP[], stru
     errorWater = fabs(eWaterTotal - eW[sizeOfResults-1]) / eW[sizeOfResults-1] * 100;
 
     errorPCM = fabs(ePCMTotal - eP[sizeOfResults-1]) / eP[sizeOfResults-1] * 100;
-
-    printf("%f, %f\n", errorPCM, errorWater);
 
     int warnings = 0;
 

@@ -154,7 +154,6 @@ double PCM_ErrorM(const char Mfile[], const char Cfile[], const char comparator[
     else if(strcmp("EPCM", comparator) == 0){
         error = errorCalcInterp(time1, time2, eP1, eP2, sizeOfResultsM, sizeOfResults2);
     }
-    printf("%f\n", error);
     return error;
 }
 
@@ -230,7 +229,6 @@ double PCM_ErrorC(const char Cfile1[], const char Cfile2[], const char comparato
     else if(strcmp("EPCM", comparator) == 0){
         error = errorCalcInterp(time1, time2, eP1, eP2, sizeOfResults1, sizeOfResults2);
     }
-    printf("%f\n", error);
     return error;
 }
 
