@@ -6,7 +6,7 @@ writes them to a file.
 Authors: Thulasi Jegatheesan, Spencer Smith, Ned Nedialov, and Brooks
 MacLachlan
 
-Date Last Revised: June 10, 2016
+Date Last Revised: June 24, 2016
 
 State Variables: none
 

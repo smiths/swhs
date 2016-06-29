@@ -72,7 +72,7 @@ TST_SRC_FILES =\
   $(TST_DIR)/src/linterp.c
 
 TST_INC_DIR = -I $(TST_DIR)/include
-TST_TARGET = tests.$(TARGET_EXTENSION)
+TST_TARGET = test.$(TARGET_EXTENSION)
   
 
 INPUT_FILES = $(wildcard *.in)
@@ -88,8 +88,8 @@ $(TARGET) : $(SRC_FILES)
 %.png %.out : %.in $(TARGET)
 	./$(TARGET) $*.in
 
-.PHONY : tests
-tests : 
+.PHONY : test
+test : 
 
 	$(C_COMPILER) $(CFLAGS) $(TST_CFLAGS) $(INC_DIR) $(TST_INC_DIR) $(TST_SRC_FILES) -o $(TST_TARGET)
 	./$(TST_TARGET)

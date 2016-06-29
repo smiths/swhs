@@ -39,14 +39,26 @@ NOTE: The header files in the CVODE package are separated into three folders ("c
 
 Regardless of which of the above options you choose, you must also add the paths to the CVODE and gnuplot libraries to your system's PATH variable.
 
-Once all of this has been successfully completed, the program can be run from this directory using the following command:
+Once all of this has been successfully completed, the program can be run from this directory using the following command on Windows:
 
 - make -f Makefile.txt
 
-The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute the following command from this directory:
+Or on Mac OS X:
 
-- make -f Makefile.txt tests
+- make
 
-To remove all of the generated files from your directory after running the software, use the following command:
+The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute the following command from this directory on Windows:
+
+- make -f Makefile.txt test
+
+Or on Mac OS X:
+
+-make test
+
+To remove all of the generated files from your directory after running the software, use the following command on Windows:
 
 - make -f Makefile.txt clean
+
+Or on MacOS X:
+
+- make clean
