@@ -29,11 +29,12 @@ void plot(double time[], double tempW[], double tempP[], double eW[], double eP[
             break;
         }
     }
+
     strcat(filenamePrefix, "png");
 
     FILE *gnuplot = popen("gnuplot", "w");
     fprintf(gnuplot, "set terminal png enhanced font 'Verdana,8'\n");
-    fprintf(gnuplot, "set output '%s'\n", filenamePrefix);
+    fprintf(gnuplot, "set output \"%s\"\n", filenamePrefix);
     fprintf(gnuplot, "set style data lines\n");
     fprintf(gnuplot, "set key left box\n");
     fprintf(gnuplot, "set xtics 0,10000,50000\n");
