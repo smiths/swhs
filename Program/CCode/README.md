@@ -53,7 +53,7 @@ The software testing for SWHS uses the Unity C testing framework. To run the tes
 
 Or on Mac OS X:
 
--make test
+- make test
 
 To remove all of the generated files from your directory after running the software, use the following command on Windows:
 
