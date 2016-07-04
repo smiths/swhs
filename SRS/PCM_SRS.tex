@@ -1854,7 +1854,7 @@ future work.
 \iref{ewat}      & & & & & X& X& X& & & & X& & \\ \hline
 \iref{epcm}      & & & & & X& & X& & X& X& & & X \\ \hline
 \iref{I_HWAT}    & & X& & & & & & & & & & & \\ \hline
-\iref{I_HPCM}    & & X& X& & & & X& X& X& & & & X \\
+\iref{I_HPCM}    & & X& X& & & & X& X& X& & X& & \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
@@ -1863,18 +1863,28 @@ future work.
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-	& \rref{R_RawInputs}& \rref{R_MassInputs}& \rref{R_CheckInputs}& \rref{R_OutputInputs}& \rref{R_TempWater}& \rref{R_TempPCM}& \rref{R_EnergyWater}& \rref{R_EnergyPCM}& \rref{R_VerifyOutput}& \rref{R_timeMeltBegin}& \rref{R_timeMeltEnd} \\
+	& \iref{ewat}& \iref{epcm}& \iref{I_HWAT}& \iref{I_HPCM}& \ref{sec_DataConstraints}& \rref{R_RawInputs}& \rref{R_MassInputs} \\
 \hline
-\iref{ewat}      & & X& & X& X& & & & & & \\ \hline
-\iref{epcm}      & & X& & X& & X& & & & X& X \\ \hline
-\iref{I_HWAT}    & & X& & X& & & X& & & & \\ \hline
-\iref{I_HPCM}    & & X& & X& & & & X& & & \\ \hline
-\rref{R_OutputInputs} & X& X& & & & & & & & & \\
+\iref{ewat}            & & X& & & & X& X \\ \hline
+\iref{epcm}            & X& & & X& & X& X \\ \hline
+\iref{I_HWAT}          & & & & & & X& X \\ \hline
+\iref{I_HPCM}          & & X& & & & X& X \\ \hline
+\rref{R_RawInputs}     & & & & & & & \\ \hline
+\rref{R_MassInputs}    & & & & & & & X \\ \hline
+\rref{R_CheckInputs}   & & & & & X& & \\ \hline
+\rref{R_OutputInputs}  & X& X& & & & X& X \\ \hline
+\rref{R_TempWater}     & X& & & & & & \\ \hline 
+\rref{R_TempPCM}       & & X& & & & & \\ \hline
+\rref{R_EnergyWater}   & & & X& & & & \\ \hline
+\rref{R_EnergyPCM}     & & & & X& & & \\ \hline
+\rref{R_VerifyOutput}  & & & X& X& & & \\ \hline
+\rref{R_timeMeltBegin} & & X& & & & & \\ \hline
+\rref{R_timeMeltEnd}   & & X& & & & & \\ 
 \hline
 \end{tabular}
-\caption{Traceability Matrix Showing the Connections Between Requirements and Other Items}
+\caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
 \label{Table:R_trace}
 \end{table}
 
