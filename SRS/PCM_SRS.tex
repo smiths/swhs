@@ -180,9 +180,7 @@ systems.  The symbols are listed in alphabetical order.
   $E$ & \si[per-mode=symbol] {\joule} & sensible heat energy
   \\
   $E_{P\text{melt}}^\text{init}$ & \si[per-mode=symbol] {\joule} & heat energy
-  in the PCM at
-  the instant
-  when melting begins
+  in the PCM at the instant when melting begins
   \\ 
   $E_P$ & \si[per-mode=symbol] {\joule} & heat energy in the PCM
   \\ 
@@ -272,6 +270,8 @@ systems.  The symbols are listed in alphabetical order.
   \\
   $\Delta T$ & \si[per-mode=symbol] {\celsius} & temperature difference
   \\
+  $\eta$ & \si[per-mode=symbol] {unitless} & ODE parameter
+  \\
   $\rho$ & \si[per-mode=symbol] {\kilogram\per\cubic\metre} & density, mass per
   unit volume
   \\
@@ -280,6 +280,12 @@ systems.  The symbols are listed in alphabetical order.
   $\rho_W$ & \si[per-mode=symbol] {\kilogram\per\cubic\metre} & density of water
   \\
   $\tau$ & \si[per-mode=symbol] {\second} & dummy variable for integration over time
+  \\
+  $\tau_P^L$ & \si[per-mode=symbol] {\second} & ODE parameter for liquid PCM
+  \\
+  $\tau_P^S$ & \si[per-mode=symbol] {\second} & ODE parameter for solid PCM
+  \\
+  $\tau_W$ & \si[per-mode=symbol] {\second} & ODE parameter for water
   \\
   $\phi$ & \si[per-mode=symbol] {unitless} & melt fraction
   \\
@@ -489,17 +495,16 @@ the water and the PCM, and material properties, the goal statements are:
 
 \begin{itemize}
 
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_wtemp}:] predict the water 
-temperature over time;
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_wtemp}:] Predict the water 
+temperature over time.
 
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_ptemp}:] predict the PCM 
-temperature over time;
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_ptemp}:] Predict the PCM 
+temperature over time.
 	
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_wenergy}:] predict the 
-change in the energy of the
-  water over time;
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_wenergy}:] Predict the 
+change in the energy of the water over time.
 
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_penergy}:] predict the 
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_penergy}:] Predict the 
 change in the energy of the PCM over time.
 
 \end{itemize}
@@ -1582,10 +1587,10 @@ E_{P} = \int_{0}^{t} h_{P} A_{P} (T_{W}(t) - T_{P}(t)) dt. \label{eq:PCMBal}
 \end{equation}
 
 \noindent
-Equations (\ref{eq:WaterBal}) and (\ref{eq:PCMBal}) can be used as "sanity" checks
+Equations (\ref{eq:WaterBal}) and (\ref{eq:PCMBal}) can be used as ``sanity" checks
 to gain confindence in any solution computed by \progname{}. The relative error 
 between the results computed by \progname{} and the results calculated from the
-right side of these equations should be less than 0.001\% (\rref{R_VerifyOutput}).
+right sides of these equations should be less than 0.001\% (\rref{R_VerifyOutput}).
 
 %A correct solution must exhibit the law of conservation of energy.
 %This law is represented by \dref{ROCT}. Since there is no internal 
@@ -1888,8 +1893,8 @@ maintainability.
 %\label{Table:R_trace}
 %\end{table}
 
-\section{Traceability Charts}
-The purpose of these charts is to provide easy references on what has to be 
+\section{Traceability Graphs}
+The purpose of these graphs is to provide easy references on what has to be 
 additionally modified if a certain component is changed.  Every time a 
 component is changed, the items to which an arrow connects from the component 
 should be modified as well. Figure~\ref{Fig_ATrace} shows
