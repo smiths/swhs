@@ -1,15 +1,15 @@
 ifeq ($(OSTYPE),cygwin)
 	RM=rm
 	MKDIR=mkdir
-	TARGET_EXTENSION=out
+	TARGET_EXTENSION=
 else ifeq ($(OS),Windows_NT)
 	RM=del
 	MKDIR=mkdir
-	TARGET_EXTENSION=exe
+	TARGET_EXTENSION=.exe
 else
 	RM=rm
 	MKDIR=mkdir
-	TARGET_EXTENSION=out
+	TARGET_EXTENSION=
 endif
 
 C_COMPILER=gcc
@@ -36,7 +36,7 @@ TST_CFLAGS += -DUNITY_FIXTURES
 
 SRC_FILES=main.c load_params.c verify_params.c energy1.c energy2.c energy3.c verify_output.c output.c plot.c
 PROGNAME=swhs
-TARGET=$(PROGNAME).$(TARGET_EXTENSION)
+TARGET=$(PROGNAME)$(TARGET_EXTENSION)
 INC_DIR= -I /usr/local/include -I /opt/local/include -I include
 LIB_DIRS= -L /usr/local/lib -L /opt/local/lib
 LIB_LINKS= -lsundials_cvode -lsundials_nvecserial
@@ -72,7 +72,7 @@ TST_SRC_FILES =\
   $(TST_DIR)/src/linterp.c
 
 TST_INC_DIR = -I $(TST_DIR)/include
-TST_TARGET = test.$(TARGET_EXTENSION)
+TST_TARGET = test$(TARGET_EXTENSION)
   
 
 INPUT_FILES = $(wildcard *.in)
