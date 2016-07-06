@@ -1,14 +1,17 @@
+UNAME := $(shell uname)
+
 ifeq ($(OSTYPE),cygwin)
-	RM=rm
-	MKDIR=mkdir
+	RM=rm -f
 	TARGET_EXTENSION=
 else ifeq ($(OS),Windows_NT)
-	RM=del
-	MKDIR=mkdir
+	ifeq ($(UNAME),MINGW64_NT-10.0)
+		RM=rm -f
+	else
+		RM=del
+	endif
 	TARGET_EXTENSION=.exe
 else
-	RM=rm
-	MKDIR=mkdir
+	RM=rm -f
 	TARGET_EXTENSION=
 endif
 
@@ -37,8 +40,8 @@ TST_CFLAGS += -DUNITY_FIXTURES
 SRC_FILES=main.c load_params.c verify_params.c energy1.c energy2.c energy3.c verify_output.c output.c plot.c
 PROGNAME=swhs
 TARGET=$(PROGNAME)$(TARGET_EXTENSION)
-INC_DIR= -I include
-LIB_DIRS= -L lib
+INC_DIR= -I /usr/local/include -I /opt/local/include -I include
+LIB_DIRS= -L /usr/local/lib -L /opt/local/lib
 LIB_LINKS= -lsundials_cvode -lsundials_nvecserial
 
 TST_DIR = Testing
@@ -76,6 +79,7 @@ TST_TARGET = test$(TARGET_EXTENSION)
   
 
 INPUT_FILES = $(wildcard *.in)
+TST_INPUT_FILES = $(wildcard C*.in)
 OUTPUT_FILES = $(patsubst %.in, %.out, $(INPUT_FILES))
 GRAPH_FILES = $(patsubst %.in, %.png, $(INPUT_FILES))
 
@@ -89,14 +93,18 @@ $(TARGET) : $(SRC_FILES)
 	./$(TARGET) $*.in
 
 .PHONY : test
-test :
+test : 
 
 	$(C_COMPILER) $(CFLAGS) $(TST_CFLAGS) $(INC_DIR) $(TST_INC_DIR) $(TST_SRC_FILES) -o $(TST_TARGET)
 	./$(TST_TARGET)
 	
 .PHONY : clean
 clean :
-	rm -f $(OUTPUT_FILES)
-	rm -f $(GRAPH_FILES)
-	rm -f $(TARGET)
-	rm -f $(TST_TARGET)
+	$(RM) $(OUTPUT_FILES)
+	$(RM) $(GRAPH_FILES)
+	$(RM) $(TARGET)
+	$(RM) $(TST_TARGET)
+	
+.PHONY : inputClean
+inputClean :
+	$(RM) $(TST_INPUT_FILES)

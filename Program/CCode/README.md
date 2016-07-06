@@ -21,7 +21,7 @@ To install gnuplot:
 
 - If building from source files, follow the instructions in the INSTALL file included in the download
 
-The SWHS software is run using make. In order to ensure that the makefile will work, one of the following must be done:
+The SWHS software is run using make. The "Makefiles" directory contains the makefile that was edited to work with Mac OS X, which can be used by swapping it with the makefile in this directory. The makefile in this directory is better suited for a Windows environement, but may still need some modification to work properly. In order to ensure that the makefile will work, one of the following must be done:
 
 Option 1:
 
@@ -41,24 +41,12 @@ Regardless of which of the above options you choose, you must also add the paths
 
 Once all of this has been successfully completed, the program can be run from this directory using the following command on Windows:
 
-- make -f Makefile.txt
-
-Or on Mac OS X:
-
 - make
 
 The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute the following command from this directory on Windows:
 
-- make -f Makefile.txt test
-
-Or on Mac OS X:
-
 - make test
 
 To remove all of the generated files from your directory after running the software, use the following command on Windows:
-
-- make -f Makefile.txt clean
-
-Or on MacOS X:
 
 - make clean

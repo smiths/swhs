@@ -2,11 +2,13 @@ This directory contains all of the source files for testing of SWHS. The testing
 
 FaultyInput is a directory containing input files used by invalidInputTest.c.
 
-compareFortran is a directory containing output files used by compareFortranTest.c, and their corresponding input files.
+compareFortran is a directory containing output files, from the Fortran implementation, used by compareFortranTest.c, and their corresponding input files.
 
-compareMatlab is a directory containing output files used by compareMatlabTest.c, and their corresponding input files.
+compareMatlab is a directory containing output files, from the Matlab implementation, used by compareMatlabTest.c, and their corresponding input files.
 
-compareSolvers is a directory containing output files used by compareSolversTest.c, and their corresponding input files.
+compareSolvers is a directory containing output files, from the ARKode implementation, used by compareSolversTest.c, and their corresponding input files.
+
+inputFiles is a directory containing the input files for the C implementation which are used to generate output files for compareFortranTest.c, compareMatlabTest.c, and compareSolverTest.c.
 
 test_runners is a directory containing the source files that will run all of the tests contained in this directory.
 
