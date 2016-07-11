@@ -9,13 +9,13 @@ Before running the program, the CVODE and gnuplot libraries must be installed.
 
 To install CVODE:
 
-- Download the CVODE software at http://computation.llnl.gov/projects/sundials-suite-nonlinear-differential-algebraic-equation-solvers/sundials-software
+- The CVODE 2.8.2 package can be found in the CVODE folder, or it can be downloaded at http://computation.llnl.gov/projects/sundials-suite-nonlinear-differential-algebraic-equation-solvers/sundials-software
 
-- The downloaded package contains an installation guide with specific instructions depending on your system's environment
+- The package contains an installation guide with specific instructions depending on your system's environment
 
 To install gnuplot:
 
-- Download either a self-installer or the source files from https://sourceforge.net/projects/gnuplot/files/
+- The source files and MinGW self-installers can be found in the gnuplot folder, or downloaded at https://sourceforge.net/projects/gnuplot/files/
 
 - If using a self-installer, simply follow the on screen prompts to install
 
