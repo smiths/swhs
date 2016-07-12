@@ -17,7 +17,7 @@ endif
 
 C_COMPILER=gcc
 
-CFLAGS = -std=c99
+CFLAGS = -std=gnu99
 
 TST_CFLAGS = -Wall
 TST_CFLAGS += -Wextra
@@ -42,7 +42,7 @@ PROGNAME=swhs
 TARGET=$(PROGNAME)$(TARGET_EXTENSION)
 INC_DIR= -I include
 LIB_DIRS= -L lib
-LIB_LINKS= -lsundials_cvode -lsundials_nvecserial
+LIB_LINKS= -lsundials_cvode -lsundials_nvecserial -lm
 
 TST_DIR = Testing
 TST_SRC_FILES =\
@@ -95,7 +95,7 @@ $(TARGET) : $(SRC_FILES)
 .PHONY : test
 test :
 
-	$(C_COMPILER) $(CFLAGS) $(TST_CFLAGS) $(INC_DIR) $(TST_INC_DIR) $(TST_SRC_FILES) -o $(TST_TARGET)
+	$(C_COMPILER) $(CFLAGS) $(TST_CFLAGS) $(INC_DIR) $(TST_INC_DIR) $(TST_SRC_FILES) $(LIB_DIRS) $(LIB_LINKS) -o $(TST_TARGET)
 	./$(TST_TARGET)
 	
 .PHONY : clean
