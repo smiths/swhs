@@ -166,13 +166,13 @@ end
 	  
 if params.hc <= 10 || params.hc >= 10000
 
-      warning('inputwarn:hc', 'It is recommended that 10 <= hc <= 10000');
+      warning('inputwarn:hc', 'It is recommended that 10 < hc < 10000');
 
 end
 	  
 if params.hp <= 10 || params.hp >= 10000
 
-      warning('inputwarn:hp', 'It is recommended that 10 <= hp <= 10000');
+      warning('inputwarn:hp', 'It is recommended that 10 < hp < 10000');
 
 end
 

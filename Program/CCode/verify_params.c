@@ -102,7 +102,7 @@ int verify_valid(struct parameters params){
         err = 19;
     }
     else if(params.Tinit > params.Tmelt){
-        printf("Tinit must be < Tmelt\n");
+        printf("Error: Tinit must be < Tmelt\n");
         err = 20;
     }
     return err;
@@ -158,11 +158,11 @@ const char * verify_recommended(struct parameters params){
         printf("%s\n", msg);
     }
     if(params.hc <= 10 || params.hc >= 10000){
-        msg = "Warning: It is recommended that 10 <= hc <= 10000";
+        msg = "Warning: It is recommended that 10 < hc < 10000";
         printf("%s\n", msg);
     }
     if(params.hp <= 10 || params.hp >= 10000){
-        msg = "Warning: It is recommended that 10 <= hp <= 10000";
+        msg = "Warning: It is recommended that 10 < hp < 10000";
         printf("%s\n", msg);
     }
     if(params.tfinal <= 0 || params.tfinal >= 86400){

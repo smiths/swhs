@@ -163,7 +163,7 @@ TEST(UnrecommendedInput, testUI21){
     params = load_params("Testing/src/unrecommendedInput/UI21.txt");
     const char * msg;
     msg = verify_recommended(params);
-    TEST_ASSERT_EQUAL_STRING("Warning: It is recommended that 10 <= hc <= 10000", msg);
+    TEST_ASSERT_EQUAL_STRING("Warning: It is recommended that 10 < hc < 10000", msg);
 }
 
 TEST(UnrecommendedInput, testUI22){
@@ -171,7 +171,7 @@ TEST(UnrecommendedInput, testUI22){
     params = load_params("Testing/src/unrecommendedInput/UI22.txt");
     const char * msg;
     msg = verify_recommended(params);
-    TEST_ASSERT_EQUAL_STRING("Warning: It is recommended that 10 <= hc <= 10000", msg);
+    TEST_ASSERT_EQUAL_STRING("Warning: It is recommended that 10 < hc < 10000", msg);
 }
 
 
@@ -180,7 +180,7 @@ TEST(UnrecommendedInput, testUI23){
     params = load_params("Testing/src/unrecommendedInput/UI23.txt");
     const char * msg;
     msg = verify_recommended(params);
-    TEST_ASSERT_EQUAL_STRING("Warning: It is recommended that 10 <= hp <= 10000", msg);
+    TEST_ASSERT_EQUAL_STRING("Warning: It is recommended that 10 < hp < 10000", msg);
 }
 
 TEST(UnrecommendedInput, testUI24){
@@ -188,7 +188,7 @@ TEST(UnrecommendedInput, testUI24){
     params = load_params("Testing/src/unrecommendedInput/UI24.txt");
     const char * msg;
     msg = verify_recommended(params);
-    TEST_ASSERT_EQUAL_STRING("Warning: It is recommended that 10 <= hp <= 10000", msg);
+    TEST_ASSERT_EQUAL_STRING("Warning: It is recommended that 10 < hp < 10000", msg);
 }
 
 TEST(UnrecommendedInput, testUI25){
