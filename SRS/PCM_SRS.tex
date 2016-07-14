@@ -1793,15 +1793,12 @@ maintainability.
 \end{itemize}
 
 \section{Traceability Matrices and Graphs}
-The purpose of the traceability matrices is to provide easy references on what has to be 
-additionally modified if a certain component is changed.  Every time a 
+The purpose of the traceability matrices is to provide easy references on what has to be additionally modified if a certain component is changed.  Every time a 
 component is changed, the items in the column of that component that are 
-marked with an ``X'' should be modified as well. Table~\ref{Table:A_trace} shows
-the dependencies of theoretical models, general definitions, data definitions, 
-instance models, and likely changes on the assumptions. Table~\ref{Table:trace}
+marked with an ``X'' should be modified as well.  Table~\ref{Table:trace}
 shows the dependencies of theoretical models, general definitions, data
 definitions, and instance models with each other. Table~\ref{Table:R_trace} shows
-the dependencies of instance models and requirements on requirements.\par
+the dependencies of instance models, requirements, and data constraints on each other. Table~\ref{Table:A_trace} shows the dependencies of theoretical models, general definitions, data definitions,  instance models, and likely changes on the assumptions.
 
 \afterpage{
 \begin{landscape}
@@ -1890,14 +1887,8 @@ the dependencies of instance models and requirements on requirements.\par
 \label{Table:R_trace}
 \end{table}
 
-The purpose of the traceability graphs is also to provide easy references on what has to be 
-additionally modified if a certain component is changed.  The arrows in the graphs
-represent dependencies. The component at the tail of an arrow is depended on by the
-component at the head of that arrow. Therefore, if a component is changed, the 
-components that it points to should also be changed. Figure~\ref{Fig_ATrace} shows
-the dependencies of theoretical models, general definitions, data definitions, 
-instance models, likely changes, and assumptions on each other. Figure~\ref{Fig_RTrace} shows
-the dependencies of instance models, requirements, and data constraints on each other.\par
+The purpose of the traceability graphs is also to provide easy references on what has to be additionally modified if a certain component is changed.  The arrows in the graphs represent dependencies. The component at the tail of an arrow is depended on by the component at the head of that arrow. Therefore, if a component is changed, the components that it points to should also be changed. Figure~\ref{Fig_ATrace} shows the dependencies of theoretical models, general definitions, data definitions, 
+instance models, likely changes, and assumptions on each other. Figure~\ref{Fig_RTrace} shows the dependencies of instance models, requirements, and data constraints on each other.\par
 NOTE: Building a tool to automatically generate the graphical 
 representation of the matrix by scanning the labels and reference can be 
 future work.
