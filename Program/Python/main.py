@@ -129,5 +129,3 @@ eTot = [sum(energies) for energies in zip(eWat, ePCM)]
 verify_output.verify_output(time, tempWat, tempPCM, eWat, ePCM, params)
 plot.plot(time, tempWat, tempPCM, eWat, ePCM, filenamePrefix)
 output.output(params, time, tempWat, tempPCM, eWat, ePCM, eTot, filenamePrefix)
-
-#To dos: testing, readme

@@ -171,7 +171,7 @@ function testFI16(testCase)
 
 f = @()main('FI16.txt');
 
-verifyError(testCase, f, 'input:C_ps');
+verifyError(testCase, f, 'input:Tmelt');
 
 end
 
@@ -191,7 +191,7 @@ function testFI18(testCase)
 
 f = @()main('FI18.txt');
 
-verifyError(testCase, f, 'input:C_pl');
+verifyError(testCase, f, 'input:C_ps');
 
 end
 
@@ -211,7 +211,7 @@ function testFI20(testCase)
 
 f = @()main('FI20.txt');
 
-verifyError(testCase, f, 'input:Hf');
+verifyError(testCase, f, 'input:C_pl');
 
 end
 
@@ -231,7 +231,7 @@ function testFI22(testCase)
 
 f = @()main('FI22.txt');
 
-verifyError(testCase, f, 'input:Ac');
+verifyError(testCase, f, 'input:Hf');
 
 end
 
@@ -251,7 +251,7 @@ function testFI24(testCase)
 
 f = @()main('FI24.txt');
 
-verifyError(testCase, f, 'input:Tmelt');
+verifyError(testCase, f, 'input:Ac');
 
 end
 
@@ -271,7 +271,7 @@ function testFI26(testCase)
 
 f = @()main('FI26.txt');
 
-verifyError(testCase, f, 'input:Tc');
+verifyError(testCase, f, 'input:Tmelt');
 
 end
 
@@ -291,7 +291,7 @@ function testFI28(testCase)
 
 f = @()main('FI28.txt');
 
-verifyError(testCase, f, 'input:rho_w');
+verifyError(testCase, f, 'input:Tc');
 
 end
 
@@ -311,7 +311,7 @@ function testFI30(testCase)
 
 f = @()main('FI30.txt');
 
-verifyError(testCase, f, 'input:C_w');
+verifyError(testCase, f, 'input:rho_w');
 
 end
 
@@ -331,7 +331,7 @@ function testFI32(testCase)
 
 f = @()main('FI32.txt');
 
-verifyError(testCase, f, 'input:hc');
+verifyError(testCase, f, 'input:C_w');
 
 end
 
@@ -351,7 +351,7 @@ function testFI34(testCase)
 
 f = @()main('FI34.txt');
 
-verifyError(testCase, f, 'input:hp');
+verifyError(testCase, f, 'input:hc');
 
 end
 
@@ -371,7 +371,7 @@ function testFI36(testCase)
 
 f = @()main('FI36.txt');
 
-verifyError(testCase, f, 'input:Tinit');
+verifyError(testCase, f, 'input:hp');
 
 end
 
@@ -390,7 +390,8 @@ end
 function testFI38(testCase)
 
 f = @()main('FI38.txt');
-verifyError(testCase, f, 'input:TcTinit');
+
+verifyError(testCase, f, 'input:Tinit');
 
 end
 
@@ -399,7 +400,6 @@ end
 function testFI39(testCase)
 
 f = @()main('FI39.txt');
-
 verifyError(testCase, f, 'input:TcTinit');
 
 end
@@ -410,7 +410,7 @@ function testFI40(testCase)
 
 f = @()main('FI40.txt');
 
-verifyError(testCase, f, 'input:TinitTmelt');
+verifyError(testCase, f, 'input:TcTinit');
 
 end
 
@@ -420,7 +420,7 @@ function testFI41(testCase)
 
 f = @()main('FI41.txt');
 
-verifyError(testCase, f, 'input:TcTinit');
+verifyError(testCase, f, 'input:TinitTmelt');
 
 end
 
@@ -430,17 +430,46 @@ function testFI42(testCase)
 
 f = @()main('FI42.txt');
 
+verifyError(testCase, f, 'input:TinitTmelt');
+
+end
+
+
+
+function testFI43(testCase)
+
+f = @()main('FI43.txt');
+
 verifyError(testCase, f, 'input:TcTinit');
 
 end
 
 
-function testFI43(testCase)
-f = @()main('FI43.txt');
-verifyError(testCase, f, 'input:tfinal');
-end
 
 function testFI44(testCase)
+
 f = @()main('FI44.txt');
+
+verifyError(testCase, f, 'input:TcTinit');
+
+end
+
+
+
+function testFI45(testCase)
+
+f = @()main('FI45.txt');
+
 verifyError(testCase, f, 'input:tfinal');
+
+end
+
+
+
+function testFI46(testCase)
+
+f = @()main('FI46.txt');
+
+verifyError(testCase, f, 'input:tfinal');
+
 end

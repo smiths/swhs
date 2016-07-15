@@ -46,4 +46,6 @@ TEST_GROUP_RUNNER(InvalidInput){
     RUN_TEST_CASE(InvalidInput, testFI42);
     RUN_TEST_CASE(InvalidInput, testFI43);
     RUN_TEST_CASE(InvalidInput, testFI44);
+    RUN_TEST_CASE(InvalidInput, testFI45);
+    RUN_TEST_CASE(InvalidInput, testFI46);
 }

@@ -22,7 +22,7 @@ verify_output.py holds the Output Verification Module.
 
 verify_params.py holds the Input Verification Module.
 
-This implementation uses PyDSTool software by Rob Clewley, which requires numpy and scipy. This implementation also uses matplotlib to generate graphs of the results.
+This implementation uses PyDSTool software by Rob Clewley, which requires NumPy and SciPy. This implementation also uses matplotlib to generate graphs of the results.
 
 The PyDSTool software is available from its GitHub page: https://github.com/robclewley/pydstool
 

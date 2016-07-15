@@ -137,7 +137,7 @@ TEST(InvalidInput, testFI16){
     params = load_params("Testing/src/FaultyInput/FI16.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(10, err);
+    TEST_ASSERT_EQUAL_INT(7, err);
 }
 
 TEST(InvalidInput, testFI17){
@@ -153,7 +153,7 @@ TEST(InvalidInput, testFI18){
     params = load_params("Testing/src/FaultyInput/FI18.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(11, err);
+    TEST_ASSERT_EQUAL_INT(10, err);
 }
 
 TEST(InvalidInput, testFI19){
@@ -169,7 +169,7 @@ TEST(InvalidInput, testFI20){
     params = load_params("Testing/src/FaultyInput/FI20.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(12, err);
+    TEST_ASSERT_EQUAL_INT(11, err);
 }
 
 TEST(InvalidInput, testFI21){
@@ -185,7 +185,7 @@ TEST(InvalidInput, testFI22){
     params = load_params("Testing/src/FaultyInput/FI22.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(13, err);
+    TEST_ASSERT_EQUAL_INT(12, err);
 }
 
 TEST(InvalidInput, testFI23){
@@ -201,7 +201,7 @@ TEST(InvalidInput, testFI24){
     params = load_params("Testing/src/FaultyInput/FI24.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(7, err);
+    TEST_ASSERT_EQUAL_INT(13, err);
 }
 
 TEST(InvalidInput, testFI25){
@@ -217,7 +217,7 @@ TEST(InvalidInput, testFI26){
     params = load_params("Testing/src/FaultyInput/FI26.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(9, err);
+    TEST_ASSERT_EQUAL_INT(7, err);
 }
 
 TEST(InvalidInput, testFI27){
@@ -233,7 +233,7 @@ TEST(InvalidInput, testFI28){
     params = load_params("Testing/src/FaultyInput/FI28.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(14, err);
+    TEST_ASSERT_EQUAL_INT(9, err);
 }
 
 TEST(InvalidInput, testFI29){
@@ -249,7 +249,7 @@ TEST(InvalidInput, testFI30){
     params = load_params("Testing/src/FaultyInput/FI30.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(15, err);
+    TEST_ASSERT_EQUAL_INT(14, err);
 }
 
 TEST(InvalidInput, testFI31){
@@ -265,7 +265,7 @@ TEST(InvalidInput, testFI32){
     params = load_params("Testing/src/FaultyInput/FI32.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(16, err);
+    TEST_ASSERT_EQUAL_INT(15, err);
 }
 
 TEST(InvalidInput, testFI33){
@@ -281,7 +281,7 @@ TEST(InvalidInput, testFI34){
     params = load_params("Testing/src/FaultyInput/FI34.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(17, err);
+    TEST_ASSERT_EQUAL_INT(16, err);
 }
 
 TEST(InvalidInput, testFI35){
@@ -297,7 +297,7 @@ TEST(InvalidInput, testFI36){
     params = load_params("Testing/src/FaultyInput/FI36.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(18, err);
+    TEST_ASSERT_EQUAL_INT(17, err);
 }
 
 TEST(InvalidInput, testFI37){
@@ -313,7 +313,7 @@ TEST(InvalidInput, testFI38){
     params = load_params("Testing/src/FaultyInput/FI38.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(8, err);
+    TEST_ASSERT_EQUAL_INT(18, err);
 }
 
 TEST(InvalidInput, testFI39){
@@ -329,7 +329,7 @@ TEST(InvalidInput, testFI40){
     params = load_params("Testing/src/FaultyInput/FI40.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(20, err);
+    TEST_ASSERT_EQUAL_INT(8, err);
 }
 
 TEST(InvalidInput, testFI41){
@@ -337,7 +337,7 @@ TEST(InvalidInput, testFI41){
     params = load_params("Testing/src/FaultyInput/FI41.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(8, err);
+    TEST_ASSERT_EQUAL_INT(20, err);
 }
 
 TEST(InvalidInput, testFI42){
@@ -345,7 +345,7 @@ TEST(InvalidInput, testFI42){
     params = load_params("Testing/src/FaultyInput/FI42.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(8, err);
+    TEST_ASSERT_EQUAL_INT(20, err);
 }
 
 TEST(InvalidInput, testFI43){
@@ -353,12 +353,28 @@ TEST(InvalidInput, testFI43){
     params = load_params("Testing/src/FaultyInput/FI43.txt");
     int err;
     err = verify_valid(params);
-    TEST_ASSERT_EQUAL_INT(19, err);
+    TEST_ASSERT_EQUAL_INT(8, err);
 }
 
 TEST(InvalidInput, testFI44){
     struct parameters params;
     params = load_params("Testing/src/FaultyInput/FI44.txt");
+    int err;
+    err = verify_valid(params);
+    TEST_ASSERT_EQUAL_INT(8, err);
+}
+
+TEST(InvalidInput, testFI45){
+    struct parameters params;
+    params = load_params("Testing/src/FaultyInput/FI45.txt");
+    int err;
+    err = verify_valid(params);
+    TEST_ASSERT_EQUAL_INT(19, err);
+}
+
+TEST(InvalidInput, testFI46){
+    struct parameters params;
+    params = load_params("Testing/src/FaultyInput/FI46.txt");
     int err;
     err = verify_valid(params);
     TEST_ASSERT_EQUAL_INT(19, err);

@@ -91,7 +91,7 @@ elseif params.Tinit <= 0 || params.Tinit >= 100
 elseif params.tfinal <= 0
     error('input:tfinal', 'tfinal must be > 0');
 
-elseif params.Tinit > params.Tmelt
+elseif params.Tinit >= params.Tmelt
     error('input:TinitTmelt', 'Tinit must be < Tmelt');
 
 end

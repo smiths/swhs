@@ -355,37 +355,39 @@ the physical constraints column, altering a specific input variable to a non-per
 	\multirow{2}{*}{15} & $T^P_{\text{melt}} = 45$ & \multirow{2}{*}{\parbox{4cm}{error: 
 	Tmelt must be $> 0$ and $<$ Tc}} & input:Tmelt \\
 	& $T_C = 40$ & & \\ \hline
-	16 & $C^S_P = -1000$ & error: C\_ps must be $> 0$ &input:C\_{ps} \\ \hline
-	17 & $C^S_P = 0$ & error: C\_ps must be $> 0$ &input:C\_{ps} \\ \hline
-	18 & $C^L_P = -1000$ & error: C\_pl must be $> 0$ &input:C\_{pl} \\ \hline
-	19 & $C^L_P = 0$ & error: C\_pl must be $> 0$ &input:C\_{pl} \\ \hline
-	20 & $H_f = -200000$& error: Hf must be $> 0$ & input:Hf \\ \hline
-	21 & $H_f = 0$ & error: Hf must be $> 0$ & input:Hf \\ \hline
-	22 & $A_C = -0.12$ & error: Ac must be $> 0$ &input:Ac \\ \hline
-	23 & $A_C = 0$ & error: Ac must be $> 0$ &input:Ac \\ \hline
-	24 & $T_C = -50$ & error: Tmelt must
+	16 & $T_C = 44.2$ & error: Tmelt must be $> 0$ and $<$ Tc & input:Tmelt \\ \hline
+	17 & $C^S_P = -1000$ & error: C\_ps must be $> 0$ &input:C\_{ps} \\ \hline
+	18 & $C^S_P = 0$ & error: C\_ps must be $> 0$ &input:C\_{ps} \\ \hline
+	19 & $C^L_P = -1000$ & error: C\_pl must be $> 0$ &input:C\_{pl} \\ \hline
+	20 & $C^L_P = 0$ & error: C\_pl must be $> 0$ &input:C\_{pl} \\ \hline
+	21 & $H_f = -200000$& error: Hf must be $> 0$ & input:Hf \\ \hline
+	22 & $H_f = 0$ & error: Hf must be $> 0$ & input:Hf \\ \hline
+	23 & $A_C = -0.12$ & error: Ac must be $> 0$ &input:Ac \\ \hline
+	24 & $A_C = 0$ & error: Ac must be $> 0$ &input:Ac \\ \hline
+	25 & $T_C = -50$ & error: Tmelt must
 	 be $> 0$ and $<$ Tc &input:Tmelt \\ \hline
-	25 & $T_C = 0$ & error: Tmelt must
+	26 & $T_C = 0$ & error: Tmelt must
 	 be $> 0$ and $<$ Tc &input:Tmelt \\ \hline
-	26 & $T_C = 100$ & error: Tc must be $> 0 \text{ and } < 100$ &input:Tc \\ \hline
-	27 & $T_C = 110$ & error: Tc must be $> 0 \text{ and } < 100$ &input:Tc \\ \hline
-	28 & $\rho_W = -1000$ & error: rho\_w must be $> 0$ &input:rho\_{w} \\ \hline
-	29 & $\rho_W = 0$ & error: rho\_w must be $> 0$ &input:rho\_{w} \\ \hline
-	30 & $C_W = -4000$ & error: C\_w must be $> 0$ &input:C\_{w} \\ \hline
-	31 & $C_W = 0$ & error: C\_w must be $> 0$ &input:C\_{w} \\ \hline
-	32 & $h_C = -1000$ & error: hc must be $> 0$ &input:hc \\ \hline
-	33 & $h_C = 0$ & error: hc must be $> 0$ &input:hc \\ \hline
-	34 & $h_P = -1000$ & error: hp must be $> 0$ &input:hp \\ \hline
-	35 & $h_P = 0$ & error: hp must be $> 0$ &input:hp \\ \hline
-	36 & $T_{\text{init}} = -5$ & error: Tinit must be $> 0$ and $< 100$ &input:Tinit \\ \hline
-	37 & $T_{\text{init}} = 0$ & error: Tinit must be $> 0$ and $< 100$ &input:Tinit \\ \hline
-	38 & $T_{\text{init}} = 100$ & error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
-	39 & $T_{\text{init}} = 110$ & error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
-	40 & $T_{\text{init}} = 45$ &error: Tinit must be $<$ Tmelt & input:TinitTmelt \\ \hline
-	41 & $T_{\text{init}} = 50$ &error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
-	42 & $T_{\text{init}} = 60$ &error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
-	43 & $t_{\text{final}} = 0$ &error: tfinal must be $> 0$ &input:tfinal \\ \hline
-	44 & $t_{\text{final}} = -50000$ &error: tfinal must be $> 0$ &input:tfinal \\ \hline
+	27 & $T_C = 100$ & error: Tc must be $> 0 \text{ and } < 100$ &input:Tc \\ \hline
+	28 & $T_C = 110$ & error: Tc must be $> 0 \text{ and } < 100$ &input:Tc \\ \hline
+	29 & $\rho_W = -1000$ & error: rho\_w must be $> 0$ &input:rho\_{w} \\ \hline
+	30 & $\rho_W = 0$ & error: rho\_w must be $> 0$ &input:rho\_{w} \\ \hline
+	31 & $C_W = -4000$ & error: C\_w must be $> 0$ &input:C\_{w} \\ \hline
+	32 & $C_W = 0$ & error: C\_w must be $> 0$ &input:C\_{w} \\ \hline
+	33 & $h_C = -1000$ & error: hc must be $> 0$ &input:hc \\ \hline
+	34 & $h_C = 0$ & error: hc must be $> 0$ &input:hc \\ \hline
+	35 & $h_P = -1000$ & error: hp must be $> 0$ &input:hp \\ \hline
+	36 & $h_P = 0$ & error: hp must be $> 0$ &input:hp \\ \hline
+	37 & $T_{\text{init}} = -5$ & error: Tinit must be $> 0$ and $< 100$ &input:Tinit \\ \hline
+	38 & $T_{\text{init}} = 0$ & error: Tinit must be $> 0$ and $< 100$ &input:Tinit \\ \hline
+	39 & $T_{\text{init}} = 100$ & error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
+	40 & $T_{\text{init}} = 110$ & error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
+	41 & $T_{\text{init}} = 45$ & error: Tinit must be $<$ Tmelt & input:TinitTmelt \\ \hline
+	42 & $T_{\text{init}} = 44.2$ & error: Tinit must be $<$ Tmelt & input:TinitTmelt \\ \hline
+	43 & $T_{\text{init}} = 50$ &error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
+	44 & $T_{\text{init}} = 60$ &error: Tc must be $>$ Tinit & input:TcTinit \\ \hline
+	45 & $t_{\text{final}} = 0$ &error: tfinal must be $> 0$ &input:tfinal \\ \hline
+	46 & $t_{\text{final}} = -50000$ &error: tfinal must be $> 0$ &input:tfinal \\ \hline
 	\end{longtable}
 \end{center}
 

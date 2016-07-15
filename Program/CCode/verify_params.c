@@ -101,7 +101,7 @@ int verify_valid(struct parameters params){
         printf("Error: tfinal must be > 0\n");
         err = 19;
     }
-    else if(params.Tinit > params.Tmelt){
+    else if(params.Tinit >= params.Tmelt){
         printf("Error: Tinit must be < Tmelt\n");
         err = 20;
     }

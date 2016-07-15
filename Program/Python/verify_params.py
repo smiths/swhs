@@ -43,7 +43,7 @@ def verify_valid(params):
         raise ValueError('Tinit must be > 0 and < 100\n')
     elif params.tfinal <= 0:
         raise ValueError('tfinal must be > 0\n')
-    elif params.Tinit > params.Tmelt:
+    elif params.Tinit >= params.Tmelt:
         raise ValueError('Tinit must be < Tmelt\n')
 
 
