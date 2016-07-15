@@ -1,6 +1,7 @@
 from matplotlib import pyplot
 
 def plot(time, tempW, tempP, eW, eP, filename):
+    plotFilename = filename + 'png'
     pyplot.subplot(121)
     pyplot.plot(time, tempW, label='Water')
     pyplot.plot(time, tempP, label='PCM')
@@ -16,4 +17,4 @@ def plot(time, tempW, tempP, eW, eP, filename):
     pyplot.title('Energy Profiles')
     pyplot.legend(bbox_to_anchor=(0.95, 0.25))
     pyplot.tight_layout()
-    pyplot.savefig('test.png')
+    pyplot.savefig(plotFilename)

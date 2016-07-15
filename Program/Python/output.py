@@ -1,5 +1,6 @@
 def output(params, time, tempW, tempP, eW, eP, eTot, filename):
-    f = open('test.out', 'w')
+    outputFilename = filename + 'out'
+    f = open(outputFilename, 'w')
     f.write('\tL\t\t\t\t' + str(params.L) + '\n')
     f.write('\tdiam\t\t\t' + str(params.diam) + '\n')
     f.write('\tVp\t\t\t\t' + str(params.Vp) + '\n')
@@ -40,5 +41,3 @@ def output(params, time, tempW, tempP, eW, eP, eTot, filename):
         f.write(str(t).ljust(max_width+1) + str(Tw).ljust(max_width+1) + str(Tp).ljust(max_width+1) +
                 str(Ew).ljust(max_width+1) + str(Ep).ljust(max_width+1) + str(Et).ljust(max_width+1) + '\n')
     f.close()
-
-
