@@ -34,7 +34,9 @@ Instructions for obtaining NumPy and SciPy can be found here: http://scipy.org/s
 - You can find NumPy wheel files here (if you are installing SciPy with wheels, you will need to install NumPy with wheels too): http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy
 - You can find SciPy wheel files here: http://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy
 - Once the wheels are downloaded, open a command prompt, navigate to the directory containing the wheels, and execute the following commands:
+
 `pip install name-of-numpy-wheel.whl`
+
 `pip install name-of-scipy-wheel.whl`
 
 Instructions for installing matplotlib can be found here: http://matplotlib.org/users/installing.html
