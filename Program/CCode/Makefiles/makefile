@@ -17,7 +17,7 @@ endif
 
 C_COMPILER=gcc
 
-CFLAGS = -std=c99
+CFLAGS = -std=gnu99
 
 TST_CFLAGS = -Wall
 TST_CFLAGS += -Wextra
@@ -72,7 +72,8 @@ TST_SRC_FILES =\
   energy3.c \
   verify_output.c \
   $(TST_DIR)/src/PCM_Error.c \
-  $(TST_DIR)/src/linterp.c
+  $(TST_DIR)/src/linterp.c \
+  $(TST_DIR)/src/copy_file.c
 
 TST_INC_DIR = -I $(TST_DIR)/include
 TST_TARGET = test$(TARGET_EXTENSION)
@@ -95,7 +96,7 @@ $(TARGET) : $(SRC_FILES)
 .PHONY : test
 test : 
 
-	$(C_COMPILER) $(CFLAGS) $(TST_CFLAGS) $(INC_DIR) $(TST_INC_DIR) $(TST_SRC_FILES) -o $(TST_TARGET)
+	$(C_COMPILER) $(CFLAGS) $(TST_CFLAGS) $(INC_DIR) $(TST_INC_DIR) $(TST_SRC_FILES) $(LIB_DIRS) $(LIB_LINKS) -o $(TST_TARGET)
 	./$(TST_TARGET)
 	
 .PHONY : clean
