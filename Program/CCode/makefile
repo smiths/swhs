@@ -72,7 +72,8 @@ TST_SRC_FILES =\
   energy3.c \
   verify_output.c \
   $(TST_DIR)/src/PCM_Error.c \
-  $(TST_DIR)/src/linterp.c
+  $(TST_DIR)/src/linterp.c \
+  $(TST_DIR)/src/copy_file.c
 
 TST_INC_DIR = -I $(TST_DIR)/include
 TST_TARGET = test$(TARGET_EXTENSION)

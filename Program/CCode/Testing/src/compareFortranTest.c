@@ -4,6 +4,7 @@
 #include "PCM_Error.h"
 #include "parameters.h"
 #include "load_params.h"
+#include "copy_file.h"
 
 TEST_GROUP(CompareFortran);
 
@@ -16,7 +17,7 @@ TEST_TEAR_DOWN(CompareFortran){
 TEST(CompareFortran, testCompareFortran1){
     struct parameters params;
     params = load_params("Testing/src/inputFiles/C01.in");
-    system("cp Testing/src/inputFiles/C01.in .");
+    copy_file("Testing/src/inputFiles/C01.in", "C01.in");
     system("make");
     double errTw, errTp, errEw, errEp;
     double delta =  0.002;
@@ -33,7 +34,7 @@ TEST(CompareFortran, testCompareFortran1){
 TEST(CompareFortran, testCompareFortran2){
     struct parameters params;
     params = load_params("Testing/src/inputFiles/C02.in");
-    system("cp Testing/src/inputFiles/C02.in .");
+    copy_file("Testing/src/inputFiles/C02.in", "C02.in");
     system("make");
     double errTw, errTp, errEw, errEp;
     double delta =  0.002;
@@ -50,7 +51,7 @@ TEST(CompareFortran, testCompareFortran2){
 TEST(CompareFortran, testCompareFortran3){
     struct parameters params;
     params = load_params("Testing/src/inputFiles/C03.in");
-    system("cp Testing/src/inputFiles/C03.in .");
+    copy_file("Testing/src/inputFiles/C03.in", "C03.in");
     system("make");
     double errTw, errTp, errEw, errEp;
     double delta =  0.002;
@@ -67,7 +68,7 @@ TEST(CompareFortran, testCompareFortran3){
 TEST(CompareFortran, testCompareFortran4){
     struct parameters params;
     params = load_params("Testing/src/inputFiles/C04.in");
-    system("cp Testing/src/inputFiles/C04.in .");
+    copy_file("Testing/src/inputFiles/C04.in", "C04.in");
     system("make");
     double errTw, errTp, errEw, errEp;
     double delta =  0.002;
@@ -84,7 +85,7 @@ TEST(CompareFortran, testCompareFortran4){
 TEST(CompareFortran, testCompareFortran5){
     struct parameters params;
     params = load_params("Testing/src/inputFiles/C05.in");
-    system("cp Testing/src/inputFiles/C05.in .");
+    copy_file("Testing/src/inputFiles/C05.in", "C05.in");
     system("make");
     double errTw, errEw;
     double delta =  0.002;
