@@ -64,6 +64,4 @@ TEST(CompareSolvers, testCompareSolvers4){
     TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errTp, "PCM temperature");
     TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEw, "Water energy");
     TEST_ASSERT_FLOAT_WITHIN_MESSAGE(delta, 0, errEp, "PCM energy");
-    system("make clean");
-    system("make inputClean");
 }

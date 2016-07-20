@@ -3,16 +3,24 @@ UNAME := $(shell uname)
 ifeq ($(OSTYPE),cygwin)
 	RM=rm -f
 	TARGET_EXTENSION=
+	CP=cp
+	SEP=/
 else ifeq ($(OS),Windows_NT)
 	ifeq ($(UNAME),MINGW64_NT-10.0)
 		RM=rm -f
+		CP=cp
+		SEP=/
 	else
 		RM=del
+		CP=copy
+		SEP=\\
 	endif
 	TARGET_EXTENSION=.exe
 else
 	RM=rm -f
 	TARGET_EXTENSION=
+	CP=cp
+	SEP=/
 endif
 
 C_COMPILER=gcc
@@ -42,7 +50,7 @@ PROGNAME=swhs
 TARGET=$(PROGNAME)$(TARGET_EXTENSION)
 INC_DIR= -I /usr/local/include -I /opt/local/include -I include
 LIB_DIRS= -L /usr/local/lib -L /opt/local/lib
-LIB_LINKS= -lsundials_cvode -lsundials_nvecserial
+LIB_LINKS= -lsundials_cvode -lsundials_nvecserial -lm
 
 TST_DIR = Testing
 TST_SRC_FILES =\
@@ -96,8 +104,16 @@ $(TARGET) : $(SRC_FILES)
 .PHONY : test
 test : 
 
+	$(CP) $(TST_DIR)$(SEP)src$(SEP)inputFiles$(SEP)C01.in C01.in
+	$(CP) $(TST_DIR)$(SEP)src$(SEP)inputFiles$(SEP)C02.in C02.in
+	$(CP) $(TST_DIR)$(SEP)src$(SEP)inputFiles$(SEP)C03.in C03.in
+	$(CP) $(TST_DIR)$(SEP)src$(SEP)inputFiles$(SEP)C04.in C04.in
+	$(CP) $(TST_DIR)$(SEP)src$(SEP)inputFiles$(SEP)C05.in C05.in
+	"$(MAKE)"
 	$(C_COMPILER) $(CFLAGS) $(TST_CFLAGS) $(INC_DIR) $(TST_INC_DIR) $(TST_SRC_FILES) $(LIB_DIRS) $(LIB_LINKS) -o $(TST_TARGET)
 	./$(TST_TARGET)
+	"$(MAKE)" clean
+	"$(MAKE)" inputClean
 	
 .PHONY : clean
 clean :

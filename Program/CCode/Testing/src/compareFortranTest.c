@@ -4,7 +4,6 @@
 #include "PCM_Error.h"
 #include "parameters.h"
 #include "load_params.h"
-#include "copy_file.h"
 
 TEST_GROUP(CompareFortran);
 
@@ -16,9 +15,7 @@ TEST_TEAR_DOWN(CompareFortran){
 
 TEST(CompareFortran, testCompareFortran1){
     struct parameters params;
-    params = load_params("Testing/src/inputFiles/C01.in");
-    copy_file("Testing/src/inputFiles/C01.in", "C01.in");
-    system("make");
+    params = load_params("C01.in");
     double errTw, errTp, errEw, errEp;
     double delta =  0.002;
     errTw = PCM_ErrorF("Testing/src/compareFortran/F01.out", "C01.out", "TWat", params);
@@ -33,9 +30,7 @@ TEST(CompareFortran, testCompareFortran1){
 
 TEST(CompareFortran, testCompareFortran2){
     struct parameters params;
-    params = load_params("Testing/src/inputFiles/C02.in");
-    copy_file("Testing/src/inputFiles/C02.in", "C02.in");
-    system("make");
+    params = load_params("C02.in");
     double errTw, errTp, errEw, errEp;
     double delta =  0.002;
     errTw = PCM_ErrorF("Testing/src/compareFortran/F02.out", "C02.out", "TWat", params);
@@ -50,9 +45,7 @@ TEST(CompareFortran, testCompareFortran2){
 
 TEST(CompareFortran, testCompareFortran3){
     struct parameters params;
-    params = load_params("Testing/src/inputFiles/C03.in");
-    copy_file("Testing/src/inputFiles/C03.in", "C03.in");
-    system("make");
+    params = load_params("C03.in");
     double errTw, errTp, errEw, errEp;
     double delta =  0.002;
     errTw = PCM_ErrorF("Testing/src/compareFortran/F03.out", "C03.out", "TWat", params);
@@ -67,9 +60,7 @@ TEST(CompareFortran, testCompareFortran3){
 
 TEST(CompareFortran, testCompareFortran4){
     struct parameters params;
-    params = load_params("Testing/src/inputFiles/C04.in");
-    copy_file("Testing/src/inputFiles/C04.in", "C04.in");
-    system("make");
+    params = load_params("C04.in");
     double errTw, errTp, errEw, errEp;
     double delta =  0.002;
     errTw = PCM_ErrorF("Testing/src/compareFortran/F04.out", "C04.out", "TWat", params);
@@ -84,9 +75,7 @@ TEST(CompareFortran, testCompareFortran4){
 
 TEST(CompareFortran, testCompareFortran5){
     struct parameters params;
-    params = load_params("Testing/src/inputFiles/C05.in");
-    copy_file("Testing/src/inputFiles/C05.in", "C05.in");
-    system("make");
+    params = load_params("C05.in");
     double errTw, errEw;
     double delta =  0.002;
     errTw = PCM_ErrorF("Testing/src/compareFortran/F01.out", "C05.out", "TWatNoP", params);

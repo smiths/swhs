@@ -1,4 +1,5 @@
 #include "unity_fixture.h"
+#include "copy_file.h"
 
 static void RunAllTests(void){
     RUN_TEST_GROUP(UnrecommendedInput);
