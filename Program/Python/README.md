@@ -50,3 +50,17 @@ All generated files can be removed using:
 `make clean`
 
 Software testing will be added in the future.
+
+__Troubleshooting__
+
+Mac OS X users may encounter a bug that results in this error when they run `make`:
+
+`ValueError: unknown locale: UTF-8`
+
+To fix this, you can add the following lines to your "~/.bash_profile" file:
+
+`export LC_ALL=en_US.UTF-8`
+
+`export LANG=en_US.UTF-8`
+
+Then open a new shell window, navigate to this directory, and try `make` again.

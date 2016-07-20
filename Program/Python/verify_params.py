@@ -1,7 +1,6 @@
 import math
 import warnings
 
-
 def verify_valid(params):
     # Check that inputs are valid
 
@@ -51,30 +50,30 @@ def verify_recommended(params):
     # Software Constraints
 
     if params.L < 0.1 or params.L > 50:
-        warnings.warn('It is recommended that 0.1 <= L <= 50\n')
+        warnings.warn('It is recommended that 0.1 <= L <= 50\n', UserWarning)
     if params.diam / params.L < 0.002 or params.diam / params.L > 200:
-        warnings.warn('It is recommended that 0.002 <= D/L <= 200\n')
+        warnings.warn('It is recommended that 0.002 <= D/L <= 200\n', UserWarning)
     if params.Vp < 1e-6 * params.Vt:
-        warnings.warn('It is recommended that Vp be >= 0.0001% of Vt\n')
+        warnings.warn('It is recommended that Vp be >= 0.0001% of Vt\n', UserWarning)
     if params.Vp > params.Ap or params.Ap > (2 / 0.001) * params.Vp:
-        warnings.warn('It is recommended that Vp <= Ap <= (2/0.001) * Vp\n')
+        warnings.warn('It is recommended that Vp <= Ap <= (2/0.001) * Vp\n', UserWarning)
     if params.rho_p <= 500 or params.rho_p >= 20000:
-        warnings.warn('It is recommended that 500 < rho_p < 20000\n')
+        warnings.warn('It is recommended that 500 < rho_p < 20000\n', UserWarning)
     if params.C_ps <= 100 or params.C_ps >= 4000:
-        warnings.warn('It is recommended that 100 < C_ps < 4000\n')
+        warnings.warn('It is recommended that 100 < C_ps < 4000\n', UserWarning)
     if params.C_pl <= 100 or params.C_pl >= 5000:
-        warnings.warn('It is recommended that 100 < C_pl < 5000\n')
+        warnings.warn('It is recommended that 100 < C_pl < 5000\n', UserWarning)
     # if params.Hf <= ADD WHEN DECIDED:
         # warning.warn()
     if params.Ac > math.pi * (params.diam / 2) ** 2:
-        warnings.warn('It is recommended that Ac <= pi * (D/2) ^ 2\n')
+        warnings.warn('It is recommended that Ac <= pi * (D/2) ^ 2\n', UserWarning)
     if params.rho_w <= 950 or params.rho_w > 1000:
-        warnings.warn('It is recommended that 950 < rho_w <= 1000\n')
+        warnings.warn('It is recommended that 950 < rho_w <= 1000\n', UserWarning)
     if params.C_w <= 4170 or params.C_w >= 4210:
-        warnings.warn('It is recommended that 4170 < C_w < 4210\n')
+        warnings.warn('It is recommended that 4170 < C_w < 4210\n', UserWarning)
     if params.hc <= 10 or params.hc >= 10000:
-        warnings.warn('It is recommended that 10 < hc < 10000\n')
+        warnings.warn('It is recommended that 10 < hc < 10000\n', UserWarning)
     if params.hp <= 10 or params.hp >= 10000:
-        warnings.warn('It is recommended that 10 < hp < 10000\n')
+        warnings.warn('It is recommended that 10 < hp < 10000\n', UserWarning)
     if params.tfinal <= 0 or params.tfinal >= 86400:
-        warnings.warn('It is recommended that 0 < tfinal < 86400\n')
+        warnings.warn('It is recommended that 0 < tfinal < 86400\n', UserWarning)

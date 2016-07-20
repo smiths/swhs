@@ -23,3 +23,11 @@ parameters must appear in the correct order, and comments must be denoted with a
 - A file containing the output data, as well as files containing graphs of the
 water and PCM temperature and energy over the simulation time will be written to
 the current directory.
+
+__Note for users without Matlab installed__
+
+You may be able to SSH to a computer with MatLab, and then run Matlab from the command line.
+
+MatLab can be run from the command line of a computer with Matlab installed simply by running the command `matlab`.
+
+Users from McMaster University with CAS login credentials can SSH to mills.cas.mcmaster.ca using their CAS login credentials. Matlab can then be run from the command line.
