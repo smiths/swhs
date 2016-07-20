@@ -27,7 +27,7 @@ To install gnuplot:
 
 - If building from source files, follow the instructions in the INSTALL file included in the download
 
-The SWHS software is run using make. The "Makefiles" directory contains the makefile that was edited to work with Mac OS X, which can be used by swapping it with the makefile in this directory. The makefile in this directory is better suited for a Windows environement, but may still need some modification to work properly. In order to ensure that the makefile will work, one of the following must be done:
+The SWHS software is run using make. The makefile in this directory may need some modification to work properly. In order to ensure that the makefile will work, one of the following must be done:
 
 Option 1:
 
