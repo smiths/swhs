@@ -332,9 +332,6 @@ int Jac1(long int N, realtype t,
 {
     realtype y1, y2;
 
-    struct parameters params;
-    params = load_params("test.in");
-
     y1 = Ith1(yPhase1,1); y2 = Ith1(yPhase1,2);
 
     IJth1(J,1,1) = -RCONST((1 + params.eta) / params.tau_w);
@@ -351,9 +348,6 @@ int Jac2(long int N, realtype t,
 
 {
     realtype y1, y2, y3;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith2(yPhase2,1); y2 = Ith2(yPhase2,2); y3 = Ith2(yPhase2,3);
 
@@ -375,9 +369,6 @@ int Jac3(long int N, realtype t,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3)
 {
     realtype y1, y2;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith3(yPhase3,1); y2 = Ith3(yPhase3,2);
 

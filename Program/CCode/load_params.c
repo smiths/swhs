@@ -26,12 +26,15 @@ life of the program.
 
 struct parameters load_params(const char inputFile[]){
     //Extract data from input parameters file
+    printf("Entered load_params...\n");
     FILE * fPointer;
     fPointer = fopen(inputFile, "r");
+    printf("File opened...\n");
     double param[21];
     int counter = 0;
     char *endptr;
     char currentLine[25];
+    printf("Variables initialized...\n");
     while(!feof(fPointer)){
         fgets(currentLine, 25, fPointer);
         if(currentLine[0] != '#'){
@@ -41,9 +44,12 @@ struct parameters load_params(const char inputFile[]){
         else continue;
         counter += 1;
     }
+    printf("Loop complete...\n");
     fclose(fPointer);
+    printf("File closed...\n");
 
     struct parameters params;
+    printf("Structure initialized...\n");
     //parameters from input
 
     params.L       = param[0];
@@ -67,7 +73,7 @@ struct parameters load_params(const char inputFile[]){
     params.AbsTol  = param[18];
     params.RelTol  = param[19];
     params.ConsTol = param[20];
-
+    printf(".\n");
     //calculated parameters
 
     params.Vt          = pi  * pow(params.diam / 2, 2) * params.L;
@@ -81,6 +87,7 @@ struct parameters load_params(const char inputFile[]){
     params.Ep_melt3    = params.Hf * params.Mp;
     params.Mw_noPCM    = params.rho_w * params.Vt;
     params.tau_w_noPCM = (params.Mw_noPCM * params.C_w) / (params.hc * params.Ac);
+    printf("Parameters loaded...\n");
 
 
     return params;
