@@ -35,7 +35,7 @@ struct parameters load_params(const char inputFile[]){
     char *endptr;
     char currentLine[25];
     printf("Variables initialized...\n");
-    while(!feof(fPointer)){
+    while(1){
         fgets(currentLine, 25, fPointer);
         if(currentLine[0] != '#'){
             double thisLine = strtod(currentLine, &endptr);
@@ -43,6 +43,9 @@ struct parameters load_params(const char inputFile[]){
         }
         else continue;
         counter += 1;
+        if(counter == 21){
+            break;
+        }
     }
     printf("Loop complete...\n");
     fclose(fPointer);
@@ -87,7 +90,7 @@ struct parameters load_params(const char inputFile[]){
     params.Ep_melt3    = params.Hf * params.Mp;
     params.Mw_noPCM    = params.rho_w * params.Vt;
     params.tau_w_noPCM = (params.Mw_noPCM * params.C_w) / (params.hc * params.Ac);
-    printf("Parameters loaded...\n");
+    printf("%f\t%f\n", params.AbsTol, params.Mw);
 
 
     return params;

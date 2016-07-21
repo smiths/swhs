@@ -55,12 +55,11 @@ int Jac3(long int N, realtype t,
                N_Vector yPhase3, N_Vector fy, DlsMat J, void *user_data,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3);
 
-
+struct parameters params;
 
 int main(int argc, char *argv[])
 {
     printf("Starting simulation...\n");
-    struct parameters params;
     params = load_params(argv[1]);
     printf("Parameters loaded...\n");
     int dotFinder;
@@ -333,9 +332,6 @@ int Jac1(long int N, realtype t,
 {
     realtype y1, y2;
 
-    struct parameters params;
-    params = load_params("test.in");
-
     y1 = Ith1(yPhase1,1); y2 = Ith1(yPhase1,2);
 
     IJth1(J,1,1) = -RCONST((1 + params.eta) / params.tau_w);
@@ -352,9 +348,6 @@ int Jac2(long int N, realtype t,
 
 {
     realtype y1, y2, y3;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith2(yPhase2,1); y2 = Ith2(yPhase2,2); y3 = Ith2(yPhase2,3);
 
@@ -376,9 +369,6 @@ int Jac3(long int N, realtype t,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3)
 {
     realtype y1, y2;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith3(yPhase3,1); y2 = Ith3(yPhase3,2);
 
@@ -412,9 +402,6 @@ int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_d
 
     realtype y1, y2, yd1, yd2;
 
-    struct parameters params;
-    params = load_params("test.in");
-
     y1 = Ith1(yPhase1,1); y2 = Ith1(yPhase1,2);
 
     yd1 = Ith1(yPhase1dot,1) = RCONST(params.Tc / params.tau_w) - RCONST((1 + params.eta) / params.tau_w) * y1 + RCONST(params.eta / params.tau_w) * y2;
@@ -426,9 +413,6 @@ int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_d
 int meltPoint(realtype t, N_Vector yPhase1, realtype *gout, void *user_data){
 
     realtype y2;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y2 = Ith1(yPhase1,2);
 
@@ -462,9 +446,6 @@ int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_d
 
     realtype y1, y2, y3, yd1, yd2, yd3;
 
-    struct parameters params;
-    params = load_params("test.in");
-
     y1 = Ith2(yPhase2,1); y2 = Ith2(yPhase2,2); y3 = Ith2(yPhase2,3);
 
     yd1 = Ith2(yPhase2dot,1) = RCONST(params.Tc / params.tau_w) - RCONST((1 + params.eta) / params.tau_w) * y1 + RCONST(params.eta / params.tau_w) * y2;
@@ -478,9 +459,6 @@ int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_d
 int meltEndPoint(realtype t, N_Vector yPhase2, realtype *gout, void *user_data){
 
     realtype y3;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y3 = Ith2(yPhase2,3);
 
@@ -510,9 +488,6 @@ dTp/dt = (1 / tau_pl) * (Tw(t) - Tp(t))
 int temperature3(realtype t, N_Vector yPhase3, N_Vector yPhase3dot, void *user_data){
 
     realtype y1, y2, yd1, yd2;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith3(yPhase3,1); y2 = Ith3(yPhase3,2);
 
