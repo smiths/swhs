@@ -59,8 +59,9 @@ struct parameters params;
 
 int main(int argc, char *argv[])
 {
+    printf("Starting simulation...\n");
     params = load_params(argv[1]);
-
+    printf("Parameters loaded...\n")
     int dotFinder;
     char outputFilename[strlen(argv[1])+2];
     for(dotFinder = 0; dotFinder < strlen(argv[1]); dotFinder++){
@@ -71,14 +72,15 @@ int main(int argc, char *argv[])
     }
 
     strcat(outputFilename, "out");
+    printf("Filename saved...\n")
 
     int err = verify_valid(params);
     if(err >= 1){
         exit(EXIT_FAILURE);
     }
-
+    printf("Parameters valid...\n")
     verify_recommended(params);
-
+    printf("Parameters verified...\n")
     // When Tp < Tmelt
 
     realtype reltol, t, tout, nout;
@@ -115,6 +117,8 @@ int main(int argc, char *argv[])
 
     CVDlsSetDenseJacFn(cvode_mem, Jac1);
 
+    printf("ODE solver initialized...\n")
+
     counter = 1;  tout = RCONST(params.tstep); nout = RCONST(params.tfinal / tout);
     int num1 = nout;
     int counter1 = 0;
@@ -146,7 +150,7 @@ int main(int argc, char *argv[])
         printf("PCM has not started melting\n");
       }
     }
-
+    printf("ODEs solved...\n")
     double eW1[counter1], eP1[counter1], eTot1[counter1];
     int j;
     for(j = 0; j <= counter1; j++){
@@ -154,10 +158,10 @@ int main(int argc, char *argv[])
         eP1[j] = energy1PCM(tempP[j], params);
         eTot1[j] = eW1[j] + eP1[j];
     }
-
+    printf("Energy solved...\n")
     /* Free integrator memory */
     CVodeFree(&cvode_mem);
-
+    printf("Memory freed...\n")
     // When Tp = Tmelt
 
     N_Vector yPhase2, abstol2;
@@ -187,6 +191,8 @@ int main(int argc, char *argv[])
     CVDense(cvode_mem, N2);
 
     CVDlsSetDenseJacFn(cvode_mem, Jac2);
+
+    printf("ODE solver initialized...\n")
 
     double latentHeat[num1]; double phi;
     int counter2 = 0;
@@ -314,7 +320,7 @@ int main(int argc, char *argv[])
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
     verify_output(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults);
-    //plot(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults, outputFilename);
+    plot(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults, outputFilename);
     output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 
     return 0;
