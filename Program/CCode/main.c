@@ -61,7 +61,8 @@ int main(int argc, char *argv[])
 {
     params = load_params(argv[1]);
     int dotFinder;
-    char outputFilename[strlen(argv[1])+2];
+    char *outputFilename;
+    outputFilename = (char *) malloc((strlen(argv[1])+1)*sizeof(char));
     for(dotFinder = 0; dotFinder < strlen(argv[1]); dotFinder++){
         outputFilename[dotFinder] = argv[1][dotFinder];
         if(argv[1][dotFinder] == '.'){
@@ -309,6 +310,7 @@ int main(int argc, char *argv[])
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
     verify_output(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults);
+    printf("Output Filename post: %s\n", outputFilename);
     plot(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults, outputFilename);
     output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 
