@@ -115,9 +115,8 @@ int main(int argc, char *argv[])
 
     counter = 1;  tout = RCONST(params.tstep); nout = RCONST(params.tfinal / tout);
     int num1 = nout;
-    printf("%d\n", num1);
     int counter1 = 0;
-    double time[num1+2]; double tempW[num1+2]; double tempP[num1+2];
+    double time[num1+3]; double tempW[num1+3]; double tempP[num1+3];
     time[0] = 0.0;
     tempW[0] = params.Tinit;
     tempP[0] = params.Tinit;
@@ -299,7 +298,7 @@ int main(int argc, char *argv[])
     }
 
     double timeData[num1+1], tempWData[num1+1], tempPData[num1+1];
-    printf("%d\n", num1);
+    printf("%f\n", time[num1]);
     int trueSize;
     for(trueSize = 0; trueSize <= num1; trueSize++){
         timeData[trueSize] = time[trueSize];
