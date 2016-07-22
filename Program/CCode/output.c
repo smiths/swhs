@@ -20,7 +20,7 @@ Environment Variables: the file associated with the filename
 #include "output.h"
 
 void output(char* filename, double time[], double tempWat[], double tempPCM[], double eWat[], double ePCM[], double eTot[], struct parameters params, int sizeOfResults){
-    printf("%f\n", time[0])
+    printf("%f\n", time[0]);
     FILE * fPointer;
     fPointer = fopen(filename, "w");
     fprintf(fPointer, "\tL\t\t%f\n", params.L);

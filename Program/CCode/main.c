@@ -307,7 +307,7 @@ int main(int argc, char *argv[])
         tempPData[trueSize] = tempP[trueSize];
     }
     printf("%f\n", timeData[5002]);
-    printf("%f\n", timeData[0])
+    printf("%f\n", timeData[0]);
     // Output Results and plots
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
