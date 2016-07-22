@@ -71,7 +71,6 @@ int main(int argc, char *argv[])
     }
 
     strcat(outputFilename, "out");
-    printf("Filename: %s\n", outputFilename);
 
     int err = verify_valid(params);
     if(err >= 1){
@@ -116,6 +115,7 @@ int main(int argc, char *argv[])
 
     counter = 1;  tout = RCONST(params.tstep); nout = RCONST(params.tfinal / tout);
     int num1 = nout;
+    printf("%d\n", num1);
     int counter1 = 0;
     double time[num1+2]; double tempW[num1+2]; double tempP[num1+2];
     time[0] = 0.0;
@@ -278,7 +278,7 @@ int main(int argc, char *argv[])
     /* Free integrator memory */
     CVodeFree(&cvode_mem);
 
-    double eW[num1], eP[num1], eTot[num1];
+    double eW[num1+1], eP[num1+1], eTot[num1+1];
     int k;
     for(k = 0; k <= num1; k++){
         if(k <= counter1){
@@ -299,18 +299,19 @@ int main(int argc, char *argv[])
     }
 
     double timeData[num1+1], tempWData[num1+1], tempPData[num1+1];
+    printf("%d\n", num1);
     int trueSize;
     for(trueSize = 0; trueSize <= num1; trueSize++){
         timeData[trueSize] = time[trueSize];
         tempWData[trueSize] = tempW[trueSize];
         tempPData[trueSize] = tempP[trueSize];
     }
-
+    printf("%f\n", timeData[5002]);
+    printf("%f\n", timeData[0])
     // Output Results and plots
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
     verify_output(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults);
-    printf("Output Filename post: %s\n", outputFilename);
     plot(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults, outputFilename);
     output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 

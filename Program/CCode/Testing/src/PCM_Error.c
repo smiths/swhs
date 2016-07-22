@@ -78,6 +78,9 @@ double PCM_ErrorF(const char Ffile[], const char Cfile[], const char comparator[
     else if(strcmp("EWatNoP", comparator) == 0){
         error = errorCalcInterp(time1, time2, eNoPCM, eW2, sizeOfResults, sizeOfResults2);
     }
+    else{
+        error = 1;
+    }
 
     return error;
 }
@@ -154,6 +157,9 @@ double PCM_ErrorM(const char Mfile[], const char Cfile[], const char comparator[
     else if(strcmp("EPCM", comparator) == 0){
         error = errorCalcInterp(time1, time2, eP1, eP2, sizeOfResultsM, sizeOfResults2);
     }
+    else{
+        error = 1;
+    }
     return error;
 }
 
@@ -228,6 +234,9 @@ double PCM_ErrorC(const char Cfile1[], const char Cfile2[], const char comparato
     }
     else if(strcmp("EPCM", comparator) == 0){
         error = errorCalcInterp(time1, time2, eP1, eP2, sizeOfResults1, sizeOfResults2);
+    }
+    else{
+        error = 1;
     }
     return error;
 }
