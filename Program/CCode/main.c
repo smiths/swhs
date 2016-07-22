@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
     }
 
     strcat(outputFilename, "out");
+    printf("Filename: %s\n", outputFilename);
 
     int err = verify_valid(params);
     if(err >= 1){
