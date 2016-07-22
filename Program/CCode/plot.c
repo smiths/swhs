@@ -30,6 +30,7 @@ void plot(double time[], double tempW[], double tempP[], double eW[], double eP[
             break;
         }
     }
+    printf("filenamePrefix: %s\n", filenamePrefix);
     printf("Output Filename: %s\n", outputFilename);
     FILE *gnuplot = popen("gnuplot", "w");
     fprintf(gnuplot, "set terminal png enhanced font 'Verdana,8'\n");
