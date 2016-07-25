@@ -49,8 +49,6 @@ int verify_output(double time[], double tempW[], double tempP[], double eW[], do
 
     errorPCM = fabs(ePCMTotal - eP[sizeOfResults-1]) / eP[sizeOfResults-1] * 100;
 
-    printf("%f, %f\n", errorWater, errorPCM);
-
     int warnings = 0;
 
     if(errorWater > params.ConsTol){
