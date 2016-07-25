@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 
     counter = 1;  tout = RCONST(params.tstep); nout = RCONST(params.tfinal / tout);
     int num1 = nout;
-    int counter1 = 0;
+    int counter1 = 1;
     double time[num1+3]; double tempW[num1+3]; double tempP[num1+3];
     time[0] = 0.0;
     tempW[0] = params.Tinit;
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
     }
     double eW1[counter1], eP1[counter1], eTot1[counter1];
     int j;
-    for(j = 0; j <= counter1; j++){
+    for(j = 0; j < counter1; j++){
         eW1[j] = energy1Wat(tempW[j], params);
         eP1[j] = energy1PCM(tempP[j], params);
         eTot1[j] = eW1[j] + eP1[j];
@@ -184,7 +184,7 @@ int main(int argc, char *argv[])
     CVDlsSetDenseJacFn(cvode_mem, Jac2);
 
     double latentHeat[num1]; double phi;
-    int counter2 = 0;
+    int counter2 = 1;
     double meltEnd;
     while(counter <= num1) {
       flag = CVode(cvode_mem, tout, yPhase2, &t, CV_NORMAL);
@@ -212,7 +212,7 @@ int main(int argc, char *argv[])
 
     double eW2[counter2], eP2[counter2], eTot2[counter2];
     int j2;
-    for(j2 = 0; j2 <= counter2; j2++){
+    for(j2 = 0; j2 < counter2; j2++){
         eW2[j2] = energy2Wat(tempW[j2+counter1], params);
         eP2[j2] = energy2PCM(latentHeat[j2+counter1], params);
         eTot2[j2] = eW2[j2] + eP2[j2];
@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
 
     CVDlsSetDenseJacFn(cvode_mem, Jac3);
 
-    int counter3 = 0;
+    int counter3 = 1;
     while(counter <= num1) {
       CVode(cvode_mem, tout, yPhase3, &t, CV_NORMAL);
       time[counter] = t;
@@ -260,7 +260,7 @@ int main(int argc, char *argv[])
 
     double eW3[counter3], eP3[counter3], eTot3[counter3];
     int j3;
-    for(j3 = 0; j3 <= counter3; j3++){
+    for(j3 = 0; j3 < counter3; j3++){
         eW3[j3] = energy3Wat(tempW[j3+counter1+counter2], params);
         eP3[j3] = energy3PCM(tempP[j3+counter1+counter2], params);
         eTot3[j3] = eW3[j3] + eP3[j3];
@@ -280,12 +280,12 @@ int main(int argc, char *argv[])
     double eW[num1+1], eP[num1+1], eTot[num1+1];
     int k;
     for(k = 0; k <= num1; k++){
-        if(k <= counter1){
+        if(k < counter1){
             eW[k] = eW1[k];
             eP[k] = eP1[k];
             eTot[k] = eTot1[k];
         }
-        else if(k <= counter1+counter2){
+        else if(k < counter1+counter2){
             eW[k] = eW2[k-counter1];
             eP[k] = eP2[k-counter1];
             eTot[k] = eTot2[k-counter1];
@@ -298,15 +298,13 @@ int main(int argc, char *argv[])
     }
 
     double timeData[num1+1], tempWData[num1+1], tempPData[num1+1];
-    printf("%f\n", time[num1]);
     int trueSize;
     for(trueSize = 0; trueSize <= num1; trueSize++){
         timeData[trueSize] = time[trueSize];
         tempWData[trueSize] = tempW[trueSize];
         tempPData[trueSize] = tempP[trueSize];
     }
-    printf("%f\n", timeData[5002]);
-    printf("%f\n", timeData[0]);
+
     // Output Results and plots
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
