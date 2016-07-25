@@ -49,6 +49,7 @@ SRC_FILES=main.c load_params.c verify_params.c energy1.c energy2.c energy3.c ver
 PROGNAME=swhs
 TARGET=$(PROGNAME)$(TARGET_EXTENSION)
 INC_DIR= -I include
+#INC_DIR= -I include -I /usr/local/include #when CVODE in usr folder
 LIB_DIRS= -L lib
 LIB_LINKS= -lsundials_cvode -lsundials_nvecserial -lm
 
