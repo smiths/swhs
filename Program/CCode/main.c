@@ -60,6 +60,7 @@ struct parameters params;
 int main(int argc, char *argv[])
 {
     params = load_params(argv[1]);
+
     int dotFinder;
     char *outputFilename;
     outputFilename = (char *) malloc((strlen(argv[1])+1)*sizeof(char));
@@ -76,7 +77,9 @@ int main(int argc, char *argv[])
     if(err >= 1){
         exit(EXIT_FAILURE);
     }
+
     verify_recommended(params);
+
     // When Tp < Tmelt
 
     realtype reltol, t, tout, nout;
@@ -140,10 +143,11 @@ int main(int argc, char *argv[])
       tout += tstep;
       counter++;
       counter1++;
-      if(counter == num1){
+      if(counter == num1+1){
         printf("PCM has not started melting\n");
       }
     }
+
     double eW1[counter1], eP1[counter1], eTot1[counter1];
     int j;
     for(j = 0; j < counter1; j++){
@@ -151,8 +155,10 @@ int main(int argc, char *argv[])
         eP1[j] = energy1PCM(tempP[j], params);
         eTot1[j] = eW1[j] + eP1[j];
     }
+
     /* Free integrator memory */
     CVodeFree(&cvode_mem);
+
     // When Tp = Tmelt
 
     N_Vector yPhase2, abstol2;
@@ -183,7 +189,7 @@ int main(int argc, char *argv[])
 
     CVDlsSetDenseJacFn(cvode_mem, Jac2);
 
-    double latentHeat[num1]; double phi;
+    double latentHeat[num1+3]; double phi;
     int counter2 = 1;
     double meltEnd;
     while(counter <= num1) {
@@ -205,18 +211,19 @@ int main(int argc, char *argv[])
       phi = latentHeat[counter] / (params.Hf * params.Mp);
       counter++;
       counter2++;
-      if(counter == num1){
+      if(counter == num1+1){
         printf("%f%% of the PCM has melted at time %f\n", phi*100, params.tfinal);
       }
     }
 
-    double eW2[counter2], eP2[counter2], eTot2[counter2];
+    double eW2[counter2-1], eP2[counter2-1], eTot2[counter2-1];
     int j2;
-    for(j2 = 0; j2 < counter2; j2++){
+    for(j2 = 0; j2 < counter2-1; j2++){
         eW2[j2] = energy2Wat(tempW[j2+counter1], params);
         eP2[j2] = energy2PCM(latentHeat[j2+counter1], params);
         eTot2[j2] = eW2[j2] + eP2[j2];
     }
+
     /* Free integrator memory */
     CVodeFree(&cvode_mem);
 
@@ -258,11 +265,11 @@ int main(int argc, char *argv[])
       counter3++;
     }
 
-    double eW3[counter3], eP3[counter3], eTot3[counter3];
+    double eW3[counter3-1], eP3[counter3-1], eTot3[counter3-1];
     int j3;
-    for(j3 = 0; j3 < counter3; j3++){
-        eW3[j3] = energy3Wat(tempW[j3+counter1+counter2], params);
-        eP3[j3] = energy3PCM(tempP[j3+counter1+counter2], params);
+    for(j3 = 0; j3 < counter3-1; j3++){
+        eW3[j3] = energy3Wat(tempW[j3+counter1+counter2-1], params);
+        eP3[j3] = energy3PCM(tempP[j3+counter1+counter2-1], params);
         eTot3[j3] = eW3[j3] + eP3[j3];
     }
 
@@ -285,15 +292,15 @@ int main(int argc, char *argv[])
             eP[k] = eP1[k];
             eTot[k] = eTot1[k];
         }
-        else if(k < counter1+counter2){
+        else if(k < counter1+counter2-1){
             eW[k] = eW2[k-counter1];
             eP[k] = eP2[k-counter1];
             eTot[k] = eTot2[k-counter1];
         }
         else{
-            eW[k] = eW3[k-counter1-counter2];
-            eP[k] = eP3[k-counter1-counter2];
-            eTot[k] = eTot3[k-counter1-counter2];
+            eW[k] = eW3[k-counter1-counter2+1];
+            eP[k] = eP3[k-counter1-counter2+1];
+            eTot[k] = eTot3[k-counter1-counter2+1];
         }
     }
 

@@ -52,7 +52,8 @@ int main(int argc, char *argv[])
     params = load_params(argv[1]);
 
     int dotFinder;
-    char outputFilename[strlen(argv[1])+2];
+    char *outputFilename;
+    outputFilename = (char *) malloc((strlen(argv[1])+1)*sizeof(char));
     for(dotFinder = 0; dotFinder < strlen(argv[1]); dotFinder++){
         outputFilename[dotFinder] = argv[1][dotFinder];
         if(argv[1][dotFinder] == '.'){
@@ -106,8 +107,8 @@ int main(int argc, char *argv[])
 
     counter = 1;  tout = RCONST(params.tstep); nout = RCONST(params.tfinal / tout);
     int num1 = nout;
-    int counter1 = 0;
-    double time[num1+2]; double tempW[num1+2]; double tempP[num1+2];
+    int counter1 = 1;
+    double time[num1+3]; double tempW[num1+3]; double tempP[num1+3];
     time[0] = 0.0;
     tempW[0] = params.Tinit;
     tempP[0] = params.Tinit;
@@ -131,14 +132,14 @@ int main(int argc, char *argv[])
       tout += tstep;
       counter++;
       counter1++;
-      if(counter == num1){
+      if(counter == num1+1){
         printf("PCM has not started melting\n");
       }
     }
 
     double eW1[counter1], eP1[counter1], eTot1[counter1];
     int j;
-    for(j = 0; j <= counter1; j++){
+    for(j = 0; j < counter1; j++){
         eW1[j] = energy1Wat(tempW[j], params);
         eP1[j] = energy1PCM(tempP[j], params);
         eTot1[j] = eW1[j] + eP1[j];
@@ -173,8 +174,8 @@ int main(int argc, char *argv[])
 
     ARKDlsSetDenseJacFn(arkode_mem, Jac2);
 
-    double latentHeat[num1]; double phi;
-    int counter2 = 0;
+    double latentHeat[num1+3]; double phi;
+    int counter2 = 1;
     double meltEnd;
     while(counter <= num1) {
       flag = ARKode(arkode_mem, tout, yPhase2, &t, ARK_NORMAL);
@@ -195,18 +196,19 @@ int main(int argc, char *argv[])
       phi = latentHeat[counter] / (params.Hf * params.Mp);
       counter++;
       counter2++;
-      if(counter == num1){
+      if(counter == num1+1){
         printf("%f%% of the PCM has melted at time %f\n", phi*100, params.tfinal);
       }
     }
 
-    double eW2[counter2], eP2[counter2], eTot2[counter2];
+    double eW2[counter2-1], eP2[counter2-1], eTot2[counter2-1];
     int j2;
-    for(j2 = 0; j2 <= counter2; j2++){
+    for(j2 = 0; j2 < counter2-1; j2++){
         eW2[j2] = energy2Wat(tempW[j2+counter1], params);
         eP2[j2] = energy2PCM(latentHeat[j2+counter1], params);
         eTot2[j2] = eW2[j2] + eP2[j2];
     }
+
     /* Free integrator memory */
     ARKodeFree(&arkode_mem);
 
@@ -233,7 +235,7 @@ int main(int argc, char *argv[])
 
     ARKDlsSetDenseJacFn(arkode_mem, Jac3);
 
-    int counter3 = 0;
+    int counter3 = 1;
     while(counter <= num1) {
       ARKode(arkode_mem, tout, yPhase3, &t, ARK_NORMAL);
       time[counter] = t;
@@ -244,11 +246,11 @@ int main(int argc, char *argv[])
       counter3++;
     }
 
-    double eW3[counter3], eP3[counter3], eTot3[counter3];
+    double eW3[counter3-1], eP3[counter3-1], eTot3[counter3-1];
     int j3;
-    for(j3 = 0; j3 <= counter3; j3++){
-        eW3[j3] = energy3Wat(tempW[j3+counter1+counter2], params);
-        eP3[j3] = energy3PCM(tempP[j3+counter1+counter2], params);
+    for(j3 = 0; j3 < counter3-1; j3++){
+        eW3[j3] = energy3Wat(tempW[j3+counter1+counter2-1], params);
+        eP3[j3] = energy3PCM(tempP[j3+counter1+counter2-1], params);
         eTot3[j3] = eW3[j3] + eP3[j3];
     }
 
@@ -260,27 +262,27 @@ int main(int argc, char *argv[])
     /* Free integrator memory */
     ARKodeFree(&arkode_mem);
 
-    double eW[num1], eP[num1], eTot[num1];
+    double eW[num1+1], eP[num1+1], eTot[num1+1];
     int k;
     for(k = 0; k <= num1; k++){
-        if(k <= counter1){
+        if(k < counter1){
             eW[k] = eW1[k];
             eP[k] = eP1[k];
             eTot[k] = eTot1[k];
         }
-        else if(k <= counter1+counter2){
+        else if(k < counter1+counter2-1){
             eW[k] = eW2[k-counter1];
             eP[k] = eP2[k-counter1];
             eTot[k] = eTot2[k-counter1];
         }
         else{
-            eW[k] = eW3[k-counter1-counter2];
-            eP[k] = eP3[k-counter1-counter2];
-            eTot[k] = eTot3[k-counter1-counter2];
+            eW[k] = eW3[k-counter1-counter2+1];
+            eP[k] = eP3[k-counter1-counter2+1];
+            eTot[k] = eTot3[k-counter1-counter2+1];
         }
     }
 
-    double timeData[num1], tempWData[num1], tempPData[num1];
+    double timeData[num1+1], tempWData[num1+1], tempPData[num1+1];
     int trueSize;
     for(trueSize = 0; trueSize <= num1; trueSize++){
         timeData[trueSize] = time[trueSize];
@@ -291,7 +293,7 @@ int main(int argc, char *argv[])
     // Output Results and plots
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
-    verify_output(tempWData, tempPData, eW, eP, params, sizeOfResults);
+    verify_output(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults);
     plot(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults, outputFilename);
     output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 
@@ -303,9 +305,6 @@ int Jac1(long int N, realtype t,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3)
 {
     realtype y1, y2;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith1(yPhase1,1); y2 = Ith1(yPhase1,2);
 
@@ -323,9 +322,6 @@ int Jac2(long int N, realtype t,
 
 {
     realtype y1, y2, y3;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith2(yPhase2,1); y2 = Ith2(yPhase2,2); y3 = Ith2(yPhase2,3);
 
@@ -347,9 +343,6 @@ int Jac3(long int N, realtype t,
                N_Vector tmp1, N_Vector tmp2, N_Vector tmp3)
 {
     realtype y1, y2;
-
-    struct parameters params;
-    params = load_params("test.in");
 
     y1 = Ith3(yPhase3,1); y2 = Ith3(yPhase3,2);
 
