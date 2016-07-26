@@ -40,4 +40,4 @@ verifyOutputTest.c contains unit tests for the Output Verification Module, which
 
 These tests can be run by returning to the CCode directory and running the following command:
 
-make -f Makefile.txt tests
+`make test`
