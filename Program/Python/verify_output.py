@@ -22,7 +22,7 @@ def verify_output(time, tempW, tempP, eW, eP, params):
         prevPCMTemp = pcmTemp
 
     eWaterTotal = sum(eWater)
-    ePCMTotal = sum (ePCM)
+    ePCMTotal = sum(ePCM)
 
     errorWater = abs(eWaterTotal - eW[-1]) / eW[-1] * 100
     errorPCM = abs(ePCMTotal - eP[-1]) / eP[-1] * 100
