@@ -45,11 +45,13 @@ Once everything is installed, move the input parameters files to this directory.
 
 `make`
 
+The software tests can be run using:
+
+`make test`
+
 All generated files can be removed using:
 
 `make clean`
-
-Software testing will be added in the future.
 
 __Troubleshooting__
 
