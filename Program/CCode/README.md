@@ -86,14 +86,18 @@ Regardless of which of the above options you choose, you must also add the path 
 
 __Running the Program__
 
-Once preparations have been successfully completed, the program can be run from this directory using the following command on Windows:
+Once preparations have been successfully completed, the program can be run from this directory using the following command:
 
 - `make`
 
-The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute the following command from this directory on Windows:
+The software testing for SWHS uses the Unity C testing framework. To run the tests on the software, execute the following command from this directory:
 
 - `make test`
 
-To remove all of the generated files from your directory after running the software, use the following command on Windows:
+To remove all of the generated files from your directory after running the software, use the following command:
 
 - `make clean`
+
+If there are any failures when the tests are run, the input files used for testing will not be removed. If you would like to remove those files quickly, use the following command:
+
+- `make inputClean`
