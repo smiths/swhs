@@ -319,6 +319,7 @@ systems.  The symbols are listed in alphabetical order.
   PCM & Phase Change Material\\
   PS & Physical System Description\\
   R & Requirement\\
+  RHS & Right Hand Side\\
   SRS & Software Requirements Specification\\
   \progname{} & Solar Water Heating System\\
   T & Theoretical Model\\
@@ -447,7 +448,7 @@ easier to correctly understand the requirements:
 
 \item Heat Flux: The rate of heat energy transfer per unit area.
 
-\item Phase Change Material (PCM): A substance that uses phase changes (melting)
+\item Phase Change Material (PCM): A substance that uses phase changes (such as melting)
   to absorb or release large amounts of heat at a constant temperature.
 
 \item Specific Heat: heat capacity per unit mass.
@@ -455,8 +456,6 @@ easier to correctly understand the requirements:
 \item Thermal Conduction: the transfer of heat energy through a substance.
 
 \item Transient: Changing with time.
-
-\bmac{The definition for PCM makes it seem like melting is the only phase change that can occur.}
 
 \end{itemize}
 
@@ -593,6 +592,8 @@ likely change [LC], in which the respective assumption is used.
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_PCM_state}:] The PCM is
   either in a liquid or solid state, but not a gas [\iref{epcm}, \iref{I_HPCM}].
+  
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_Pressure}:] The pressure in the tank is atmospheric, so the melting and boiling points of water are $0^o\text{C}$ and $100^o\text{C}$, respectively [\iref{ewat}, \iref{I_HWAT}].
 	
 \end{itemize}
 
@@ -630,8 +631,6 @@ on.
   \hline
 \end{tabular}
 \end{minipage}\\
-
-%\wss{Please add units for the variables in T1 ($\rho$, $C$ etc.)}
 
 ~\newline
 
@@ -1117,7 +1116,7 @@ of the PCM depend on the phase change.
   &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
   & The above equation applies as long as the water is in liquid form,
   $0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the melting
-  and boiling points of water, respectively (\aref{A_OpRange}).
+  and boiling points of water, respectively (\aref{A_OpRange}, \aref{A_Pressure}).
   \\
   \hline
   Sources&~\cite{Lightstone2012} \ \\
@@ -1126,8 +1125,6 @@ of the PCM depend on the phase change.
   \hline
 \end{tabular}
 \end{minipage}\\
-
-\bmac{The description specifies that the water temperature must be between 0 and 100 degrees Celsius. For this to be true, there should be an assumption that the pressure is atmospheric.}
 
 %~\newline
 
@@ -1325,7 +1322,7 @@ to either be in a solid or liquid state (\aref{A_PCM_state}).
   \hline
   Description & The above equation is derived using \tref{T_SHE}.  $E_W$ is the 
   change in thermal energy of the liquid water relative to the energy at the initial 
-  temperature ($T_\text{init}$) (\si{\joule}).  $C_W$ is the specific heat capacity of liquid water (\si{\joule\per\kilogram\per\celsius}) and $m_W$ is the mass of the water (\si{\kilogram}).  The change in temperature is the difference between the temperature at time $t$ (\si{\second}), $T_W$, and the initial temperature, $T_\text{init}$ (\si{\celsius}). This equation applies as long as $0 < T_W < 100^o\text{C}$ (\aref{A_OpRange}).\\
+  temperature ($T_\text{init}$) (\si{\joule}).  $C_W$ is the specific heat capacity of liquid water (\si{\joule\per\kilogram\per\celsius}) and $m_W$ is the mass of the water (\si{\kilogram}).  The change in temperature is the difference between the temperature at time $t$ (\si{\second}), $T_W$, and the initial temperature, $T_\text{init}$ (\si{\celsius}). This equation applies as long as $0 < T_W < 100^o\text{C}$ (\aref{A_OpRange}, \aref{A_Pressure}).\\
   \hline
   Sources&~\cite{Lightstone2012}\ \\
   \hline
@@ -1439,7 +1436,7 @@ Table~\ref{TblSpecParams}.
   $\rho_P$ & $\rho_P > 0$ & $\rho_P^{\text{min}} < \rho_P < \rho_P^{\text{max}}$ & 1007 \si[per-mode=symbol]
                             {\kilogram\per\cubic\metre} & 10\%
   \\
-  $T_\text{melt}^{P}$ 	& $0 < T_\text{melt}^{P} < T_C$ & &  44.2 
+  $T_\text{melt}^{P}$ 	& $0 < T_\text{melt}^{P} < T_C$ (+) & &  44.2 
 	\si[per-mode=symbol] {\celsius} & 10\%
   \\
   $C_P^S$ & $C_P^S > 0$ & $C_{P\text{min}}^S < C_P^S < C_{P\text{max}}^S$ & 1760 
@@ -1491,8 +1488,6 @@ Table~\ref{TblSpecParams}.
 	the total number of seconds in one day.
 
 \end{description}
-
-\bmac{Should the physical constraints column for PCM melting temperature be labelled with a (+)?}
 
 \begin{table}[!h]
 \caption{Specification Parameter Values} \label{TblSpecParams}
@@ -1548,23 +1543,6 @@ Table~\ref{TblSpecParams}.
 \end{table}
 
 \subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
-
-\wss{What we want in this section is something that will lead to test cases.  We
-  want something like the energy into the water - energy out of the water equals
-  the energy gain in the water.  We also want the energy into the PCM through
-  heat transfer to equal the energy gain in the PCM.  We discussed the equations
-  on May 26, 2016.  We looked at a spreadsheet using the rectangular rule for
-  integration.  After the meeting I tried the trapezoidal rule for the
-  integration and the agreement was dramatically improved.  The spreadsheet
-  looks at each time step, but the results are misleading while the PCM is
-  melting.  A better summary is to look at the energy added for the total
-  experiment.  The total energy added through the coil should equal the total
-  energy in the system.  The total energy added through the coil minus the total
-  energy output to the pcm should equal the total energy in the water and the
-  total energy input to the PCM should equal the energy in the PCM.  We should
-  turn this into a requirement.  As an example, for the calculations that I did,
-the total energy in the water, calculated using energy input from the coil and
-output to the coil had a relative error of 0.0005\%.  This seems reasonable.}
 
 \noindent
 A correct solution must exhibit the law of conservation of energy.
@@ -1804,29 +1782,29 @@ the dependencies of instance models, requirements, and data constraints on each 
 \begin{landscape}
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-	& \aref{A_OnlyThermalEnergy}& \aref{A_hcoeff}& \aref{A_mixed}& \aref{A_tpcm}& \aref{A_const_density}& \aref{A_const_C}& \aref{A_Newt_coil}& \aref{A_tcoil}& \aref{A_tlcoil}& \aref{A_Newt_pcm}& \aref{A_charge}& \aref{A_InitTemp}& \aref{A_OpRangePCM}& \aref{A_OpRange}& \aref{A_htank}& \aref{A_int_heat}& \aref{A_vpcm}& \aref{A_PCM_state} \\
+	& \aref{A_OnlyThermalEnergy}& \aref{A_hcoeff}& \aref{A_mixed}& \aref{A_tpcm}& \aref{A_const_density}& \aref{A_const_C}& \aref{A_Newt_coil}& \aref{A_tcoil}& \aref{A_tlcoil}& \aref{A_Newt_pcm}& \aref{A_charge}& \aref{A_InitTemp}& \aref{A_OpRangePCM}& \aref{A_OpRange}& \aref{A_htank}& \aref{A_int_heat}& \aref{A_vpcm}& \aref{A_PCM_state}& \aref{A_Pressure} \\
 \hline
-\tref{T_COE}        & X& & & & & & & & & & & & & & & & & \\ \hline
-\tref{T_SHE}        & & & & & & & & & & & & & & & & & & \\ \hline
-\tref{T_LHE}        & & & & & & & & & & & & & & & & & & \\ \hline
-\dref{NL}           & & X& & & & & & & & & & & & & & & & \\ \hline
-\dref{ROCT}         & & & X& X& X& X& & & & & & & & & & & & \\ \hline
-\ddref{FluxCoil}    & & & & & & & X& X& X& & & & & & & & & \\ \hline
-\ddref{FluxPCM}     & & & X& X& & & & & & X& & & & & & & & \\ \hline
-\ddref{D_HOF}       & & & & & & & & & & & & & & & & & & \\ \hline
-\ddref{D_MF}        & & & & & & & & & & & & & & & & & & \\ \hline
-\iref{ewat}         & & & & & & & & & & & X& X& & X& X& X& & \\ \hline
-\iref{epcm}         & & & & & & & & & & & & X& X& & & X& X& X \\ \hline
-\iref{I_HWAT}       & & & & & & & & & & & & & & X& & & & \\ \hline
-\iref{I_HPCM}       & & & & & & & & & & & & & X& & & & & X \\ \hline
-\lcref{LC_tpcm}     & & & & X& & & & & & & & & & & & & & \\ \hline
-\lcref{LC_tcoil}    & & & & & & & & X& & & & & & & & & & \\ \hline
-\lcref{LC_tlcoil}   & & & & & & & & & X& & & & & & & & & \\ \hline
-\lcref{LC_charge}   & & & & & & & & & & & X& & & & & & & \\ \hline
-\lcref{LC_InitTemp} & & & & & & & & & & & & X& & & & & & \\ \hline
-\lcref{LC_htank}    & & & & & & & & & & & & & & & X& & & \\
+\tref{T_COE}        & X& & & & & & & & & & & & & & & & & & \\ \hline
+\tref{T_SHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
+\tref{T_LHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
+\dref{NL}           & & X& & & & & & & & & & & & & & & & & \\ \hline
+\dref{ROCT}         & & & X& X& X& X& & & & & & & & & & & & & \\ \hline
+\ddref{FluxCoil}    & & & & & & & X& X& X& & & & & & & & & & \\ \hline
+\ddref{FluxPCM}     & & & X& X& & & & & & X& & & & & & & & & \\ \hline
+\ddref{D_HOF}       & & & & & & & & & & & & & & & & & & & \\ \hline
+\ddref{D_MF}        & & & & & & & & & & & & & & & & & & & \\ \hline
+\iref{ewat}         & & & & & & & & & & & X& X& & X& X& X& & & X \\ \hline
+\iref{epcm}         & & & & & & & & & & & & X& X& & & X& X& X& \\ \hline
+\iref{I_HWAT}       & & & & & & & & & & & & & & X& & & & & X \\ \hline
+\iref{I_HPCM}       & & & & & & & & & & & & & X& & & & & X & \\ \hline
+\lcref{LC_tpcm}     & & & & X& & & & & & & & & & & & & & & \\ \hline
+\lcref{LC_tcoil}    & & & & & & & & X& & & & & & & & & & & \\ \hline
+\lcref{LC_tlcoil}   & & & & & & & & & X& & & & & & & & & & \\ \hline
+\lcref{LC_charge}   & & & & & & & & & & & X& & & & & & & & \\ \hline
+\lcref{LC_InitTemp} & & & & & & & & & & & & X& & & & & & & \\ \hline
+\lcref{LC_htank}    & & & & & & & & & & & & & & & X& & & & \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
