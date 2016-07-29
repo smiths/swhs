@@ -1,0 +1,499 @@
+\documentclass[12pt]{article}
+
+\usepackage{bm}
+\usepackage{amsmath, mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{xr}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{xfrac}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[section]{placeins}
+\usepackage{caption}
+\usepackage{fullpage}
+
+\hypersetup{
+	bookmarks=true,         % show bookmarks bar?
+	colorlinks=true,       % false: boxed links; true: colored links
+	linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+	citecolor=green,        % color of links to bibliography
+	filecolor=magenta,      % color of file links
+	urlcolor=cyan           % color of external links
+}
+
+%% Comments
+\newif\ifcomments\commentstrue
+
+\ifcomments
+\newcommand{\authornote}[3]{\textcolor{#1}{[#3 ---#2]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+\newcommand{\authornote}[3]{}
+\newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\wss}[1]{\authornote{blue}{SS}{#1}}
+\newcommand{\bmac}[1]{\authornote{red}{BM}{#1}}
+
+\newcommand{\progname}{SWHS}
+
+\begin{document}
+\title{Module Interface Specification for Solar Water Heating Systems Incorporating Phase Change Material}
+\author{Brooks MacLachlan}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+The following document details the Module Interface Specifications for the implemented 
+modules in a program simulation Solar Water Heating System with Phase Change Material.
+It is intended to ease navigation through the program for design and maintenance purposes.\\
+Complementary documents include the System Requirement Specifications and Module Guide. 
+
+\section{Notation}
+
+The following table summarizes the primitive data types used by \progname. \progname also uses some derived data types: arrays ,strings, and structures. Arrays are lists filled with elements of the same data type. Strings are arrays of characters. Structures contain pairs of keys and values, where keys are unique variable names used to identify their corresponding value, and values can be any data type.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\noindent 
+\begin{tabular}{c c c} 
+\toprule 
+\textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
+\midrule
+character & char & a single symbol or digit\\
+real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
+\bottomrule
+\end{tabular} 
+\end{center}
+
+\section{Module Decomposition}
+The following table is taken directly from the Module Guide document for this project.
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+		\toprule
+		\textbf{Level 1} & \textbf{Level 2}\\
+		\midrule
+		
+		{Hardware-Hiding Module} & ~ \\
+		\midrule
+		
+		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
+		& Input Parameters Module\\
+		& Input Verification Module\\
+		& Output Format Module\\
+		& Output Verification Module\\
+		& Temperature ODEs Module\\
+		& Energy Equations Module\\ 
+		& Control Module\\
+		\midrule
+		
+		\multirow{3}{0.3\textwidth}{Software Decision Module} & {Sequence Data Structure Module}\\
+		& ODE Solver Module\\
+		& Plotting Module\\
+		\bottomrule
+		
+	\end{tabular}
+	\caption{Module Hierarchy}
+	\label{TblMH}
+\end{table}
+
+\section{MIS of Control Module} \label{Main}
+\subsection{Module}
+main
+\subsection{Uses}
+parameters (\ref{Parameters}), load\_params (\ref{Load}), verify\_params (\ref{VerifyInput}), temperature (\ref{Temperature}), energy (\ref{Energy}), verify\_output (\ref{VerifyOutput}), plot (\ref{Plot}), output (\ref{Output})
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{c c c c}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+main & string & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$filename$: string \\
+$time$: array of reals \\
+$tempW$: array of reals \\
+$tempP$: array of reals \\
+$eW$: array of reals \\
+$eP$: array of reals \\ 
+$eTot$: array of reals
+\subsubsection{Environment Variables}
+$win$: 2D array of pixels displayed on the screen
+\subsubsection{Access Routine Semantics}
+\begin{tabular}{l l p{12cm}}
+main($s$): & transition: & Fills the $time$, $tempW$, $tempP$, $eW$, $eP$, and $eTot$ lists with the simulation results. Modifies the screen environment. \\
+& exception: & none \\
+\end{tabular}
+
+\section{MIS of Input Parameters Module} \label{Parameters}
+\subsection{Module}
+parameters
+\subsection{Uses}
+N/A
+\subsection{Syntax}
+\subsubsection{Exported Data Types}
+parameters := structure
+\subsubsection{Exported Access Programs}
+N/A
+\subsection{Semantics}
+\subsubsection{State Variables}
+$L$: real \\
+$diam$: real \\
+$Vp$: real \\
+$Ap$: real \\
+$rho\_p$: real \\
+$Tmelt$: real \\
+$C\_ps$: real \\
+$C\_pl$: real \\
+$Hf$: real \\
+$Ac$: real \\
+$Tc$: real \\
+$rho_w$: real \\
+$C\_w$: real \\
+$hc$: real \\
+$hp$: real \\
+$Tinit$: real \\
+$tstep$: real \\
+$tfinal$: real \\
+$AbsTol$: real \\
+$RelTol$: real \\
+$ConsTol$: real \\
+$Vt$: real \\
+$Mw$: real \\
+$tau\_w$: real \\
+$eta$: real \\
+$Mp$: real \\
+$tau\_ps$: real \\
+$tau\_pl$: real \\
+$Epmelt\_init$: real \\
+$Ep\_melt3$: real \\ 
+$Mw\_noPCM$: real \\
+$tau\_w\_no\_PCM$: real
+\subsubsection{Access Routine Semantics}
+N/A
+
+\section{MIS of Input Format Module} \label{Load}
+\subsection{Module}
+load\_params
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{c c c c}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+load\_params & string & parameters &  - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$filename$: string \\
+$params$: parameters
+\subsubsection{Assumptions}
+The input string corresponds to an existing filename in the current directory. The input file is formatted correctly.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{12cm}}
+load\_params($s$): & transition: & Fills the parameters structure with the input parameters specified in the input file, and with other parameters calculated from the input parameters. \\
+& exception: & none \\
+\end{tabular}
+\end{center}
+
+\section{MIS of Input Verification Module} \label{VerifyInput}
+\subsection{Module}
+verify\_params
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{4cm} p{2cm} p{2cm} p{6cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+verify\_valid & parameters & - & badLength, badDiam, badPCMVolume, badPCMAndTankVol, badPCMArea, badPCMDensity, badMeltTemp, badCoilAndInitTemp, badCoilTemp, badPCMHeatCapSolid, badPCMHeatCapLiquid, badHeatFusion, badCoilArea, badWaterDensity, badWaterHeatCap, badCoilCoeff, badPCMCoeff, badInitTemp, badFinalTime, badInitAndMeltTemp \\
+\hline
+verify\_recommended & parameters & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{Environment Variables}
+$win$: 2D array of pixels displayed on the screen.
+\subsubsection{Assumptions}
+The load\_params function has been called on $params$, so the variables have all been assigned a value.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{8cm}}
+verify\_valid($params$): & transition: & Modifies $win$ by displaying an error message when appropriate. \\
+& exceptions: & Exceptions occur if any of the input parameters lie outside of boundaries determined by physical law. Error messages corresponding to each exception are shown in the Appendix (\ref{Appendix}). \\ \\
+verify\_recommended($params$): & transition: & Modifies $win$ by displaying warning messages. \\
+& exception: & none
+\end{tabular}
+\end{center}
+
+\section{MIS of Temperature ODEs Module} \label{Temperature}
+\subsection{Module}
+temperature
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{7cm} p{2cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+temperature1 & array of reals, array of reals, array of reals, parameters & real, real & - \\
+\hline
+temperature2 & array of reals, array of reals, array of reals, parameters & real, real, real & - \\
+\hline
+temperature3 & array of reals, array of reals, array of reals, parameters & real, real & - \\
+\hline
+event1 & array of reals, array of reals, array of reals, parameters & real & - \\
+\hline
+event2 & array of reals, array of reals, array of reals, parameters & real & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$time$: array of reals \\
+$tempW$: array of reals \\
+$tempP$: array of reals \\
+$latHeat$: array of reals \\
+$params$: parameters
+\subsubsection{Assumptions}
+The load\_params function has been called on $params$, so the variables have all been assigned a value. The verify\_valid function has been called on $params$, so no exceptions occur due to physically impossible values. 
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{8cm}}
+temperature1($t$, $Tw$, $Tp$, $params$): & output: & Returns values for water and PCM temperature for the case where PCM has not started melting. \\
+& exception: & none \\ \\
+temperature2($t$, $Tw$, $Tp$, $params$): & output: & Returns values for water and PCM temperature and latent heat for the case where PCM is in the process of melting. \\
+& exception: & none \\ \\
+temperature3($t$, $Tw$, $Tp$, $params$): & output: & Returns values for water and PCM temperature for the case where PCM has finished melting. \\ 
+& exception: & none \\ \\
+event1($t$, $Tw$, $Tp$, $params$): & output: & Returns a value that signals the ODE solver to either continue generating the solution for the next time point, or stop solving the ODE system at the current time point. \\ 
+& exception: & none \\ \\
+event2($t$, $Tw$, $Tp$, $params$): & output: & Returns a value that signals the ODE solver to either continue generating the solution for the next time point, or stop solving the ODE system at the current time point. \\
+& exception: & none \\
+\end{tabular}
+\end{center}
+
+\section{MIS of Energy Module} \label{Energy}
+\subsection{Module}
+energy
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{External Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{6cm} p{3cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+energy1Wat & array of reals, parameters & array of reals & - \\
+\hline
+energy1PCM & array of reals, parameters & array of reals & - \\
+\hline
+energy2Wat & array of reals, parameters & array of reals & - \\
+\hline
+energy2PCM & array of reals, parameters & array of reals & - \\
+\hline
+energy3Wat & array of reals, parameters & array of reals & - \\
+\hline
+energy3PCM & array of reals, parameters & array of reals & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$tempW$: array of reals \\
+$tempP$: array of reals \\
+$latHeat$: array of reals \\
+$eW$: array of reals \\
+$eP$: array of reals \\
+$params$: parameters 
+\subsubsection{Assumptions}
+The load\_params function has been called on $params$, so all variables have been assigned a value. The verify\_params function has been called on $params$, so there are no exceptions due to physically impossible values.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{10cm}}
+energy1Wat($Tw$, $params$): & output: & energy1Wat outputs an array of reals representing the energy profile of the water while the PCM has not started melting. \\ 
+& exception: & none \\ \\
+energy1PCM($Tp$, $params$): & output: & energy1PCM outputs an array of reals representing the energy profile of the PCM while the PCM has not started melting. \\ 
+& exception: & none \\ \\
+energy2Wat($Tw$, $params$): & output: & energy2Wat outputs an array of reals representing the energy profile of the water while the PCM is melting. \\ 
+& exception: & none \\ \\
+energy2PCM($Qp$, $params$): & output: & energy2PCM outputs an array of reals representing the energy profile of the PCM while the PCM is melting. \\ 
+& exception: & none \\ \\
+energy3Wat($Tw$, $params$): & output: & energy3Wat outputs an array of reals representing the energy profile of the water after the PCM has finished melting. \\ 
+& exception: & none \\ \\
+energy3PCM($Tp$, $params$): & output: & energy3PCM outputs an array of reals representing the energy profile of the PCM after the PCM has finished melting. \\
+& exception: & none \\
+\end{tabular}
+\end{center}
+
+\section{MIS of Output Verification Module} \label{VerifyOutput}
+\subsection{Module}
+verify\_output
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{7cm} p{2cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+verify\_output & array of reals, array of reals, array of reals, array of reals, array of reals, parameters & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$time$: array of reals \\
+$tempW$: array of reals \\
+$tempP$: array of reals \\
+$eW$: array of reals \\
+$eP$: array of reals \\
+$params$: parameters
+\subsubsection{Environment Variables}
+$win$: 2D array of pixels displayed on the screen
+\subsubsection{Local Variables}
+$errorWater$: real \\
+$errorPCM$: real
+\subsubsection{Assumptions}
+The load\_params function has been called on $params$, so every variable in the structure has a value. The verify\_valid function has been called on $params$, so there are no exceptions due to physically impossible values. The temperature and energy arrays have been filled by the ODE solver and energy functions, so there is no divide by zero exception.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{6cm}}
+verify\_output($t$, $Tw$, $Tp$, $Ew$, $Ep$, $params$): & transition: & Modifies $win$ with a warning if $errorWater$ or $errorPCM$ is greater than $ConsTol$. \\
+& exception: & none \\
+\end{tabular}
+\end{center}
+
+\section{MIS of Plotting Module} \label{Plot}
+\subsection{Module}
+plot
+\subsection{Uses}
+N/A
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{8cm} p{2cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+plot & array of reals, array of reals, array of reals, array of reals, array of reals, parameters, string & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$time$: array of reals \\
+$tempW$: array of reals \\
+$tempP$: array of reals \\
+$eW$: array of reals \\
+$eP$: array of reals \\
+$params$: parameters \\
+$filename$: string
+\subsubsection{Environment Variables}
+$directory$: The current directory of files from which the program is run.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{6cm}}
+plot($t$, $Tw$, $Tp$, $Ew$, $Ep$, $params$, $filename$): & transition: & Modifies $directory$ by writing to it a .png file containing the graphs of the simulation results. \\
+& exception: & none \\
+\end{tabular}
+\end{center}
+
+\section{MIS of Output Module} \label{Output}
+\subsection{Module}
+output
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{Exported Access Program}
+\begin{center}
+\begin{tabular}{p{3cm} p{7cm} p{2cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+output & string, array of reals, array of reals, array of reals, array of reals, array of reals, array of reals, parameters & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$params$: parameters \\
+$time$: array of reals \\
+$tempW$: array of reals \\
+$tempP$: array of reals \\
+$eW$: array of reals \\
+$eP$: array of reals \\
+$eTot$: array of reals \\
+$filename$: string
+\subsubsection{Environment Variables}
+$directory$: The current directory of files from which the program is run.
+\subsubsection{Assumptions}
+The load\_params function was called on $params$, so all the variables have been assigned a value. The ODE solver and energy functions have filled $time$, $tempW$, $tempP$, $eW$, and $eP$ with results.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{6cm}}
+output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & Modifies $directory$ by writing to it a .txt file containing the input parameters, calculated parameters, and results of the simulation. \\
+& exception: & none \\
+\end{tabular}
+\end{center}
+
+\section{Appendix} \label{Appendix}
+\begin{center}
+\begin{tabular}{l l}
+\hline
+\textbf{Message ID} & \textbf{Error Message} \\
+\hline
+badLength & Error: Tank length must be $> 0$ \\
+badDiam & Error: Tank diameter must be $> 0$ \\
+badPCMVolume & Error: PCM volume must be $> 0$ \\
+badPCMAndTankVol & Error: PCM volume must be $<$ tank volume \\
+badPCMArea & Error: PCM area must be $> 0$ \\
+badPCMDensity & Error: rho\_p must be $> 0$ \\
+badMeltTemp & Error: Tmelt must be $> 0$ and $< Tc$ \\
+badCoilAndInitTemp & Error: Tc must be $>$ Tinit \\
+badCoilTemp & Error: Tc must be $> 0$ and $< 100$ \\
+badPCMHeatCapSolid & Error: C\_ps must be $> 0$ \\
+badPCMHeatCapLiquid & Error: C\_pl must be $> 0$ \\
+badHeatFusion & Error: Hf must be $> 0$ \\
+badCoilArea & Error: Ac must be $> 0$ \\
+badWaterDensity & Error: rho\_w must be $> 0$ \\
+badWaterHeatCap & Error: C\_w must be $> 0$ \\
+badCoilCoeff & Error: hc must be $> 0$ \\
+badPCMCoeff & Error: hp must be $> 0$ \\
+badInitTemp & Error: Tinit must be $> 0$ and $< 100$ \\
+badFinalTime & Error: tfinal must be $> 0$ \\
+badInitAndMeltTemp & Error: Tinit must be $<$ Tmelt \\
+\hline
+\end{tabular}
+\end{center}
+\end{document}
