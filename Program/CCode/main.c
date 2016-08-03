@@ -35,11 +35,11 @@ Date Last Revised: June 24, 2016
 
 int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_data);
 
-int meltPoint(realtype t, N_Vector yPhase1, realtype *gout, void *user_data);
+int event1(realtype t, N_Vector yPhase1, realtype *gout, void *user_data);
 
 int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_data);
 
-int meltEndPoint(realtype t, N_Vector yPhase2, realtype *gout, void *user_data);
+int event2(realtype t, N_Vector yPhase2, realtype *gout, void *user_data);
 
 int temperature3(realtype t, N_Vector yPhase3, N_Vector yPhase3dot, void *user_data);
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
     CVodeSVtolerances(cvode_mem, reltol, abstol1);
 
-    CVodeRootInit(cvode_mem, 1, meltPoint);
+    CVodeRootInit(cvode_mem, 1, event1);
 
     CVDense(cvode_mem, N1);
 
@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 
     CVodeSVtolerances(cvode_mem, reltol, abstol2);
 
-    CVodeRootInit(cvode_mem, 1, meltEndPoint);
+    CVodeRootInit(cvode_mem, 1, event2);
 
     CVDense(cvode_mem, N2);
 
@@ -316,7 +316,7 @@ int main(int argc, char *argv[])
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
     verify_output(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults);
-    plot(timeData, tempWData, tempPData, eW, eP, outputFilename);
+    plot(outputFilename);
     output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 
     return 0;
@@ -406,7 +406,7 @@ int temperature1(realtype t, N_Vector yPhase1, N_Vector yPhase1dot, void *user_d
     return(0);
 }
 
-int meltPoint(realtype t, N_Vector yPhase1, realtype *gout, void *user_data){
+int event1(realtype t, N_Vector yPhase1, realtype *gout, void *user_data){
 
     realtype y2;
 
@@ -452,7 +452,7 @@ int temperature2(realtype t, N_Vector yPhase2, N_Vector yPhase2dot, void *user_d
     return(0);
 }
 
-int meltEndPoint(realtype t, N_Vector yPhase2, realtype *gout, void *user_data){
+int event2(realtype t, N_Vector yPhase2, realtype *gout, void *user_data){
 
     realtype y3;
 
