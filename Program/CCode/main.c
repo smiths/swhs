@@ -316,7 +316,7 @@ int main(int argc, char *argv[])
 
     int sizeOfResults = sizeof(timeData) / sizeof(timeData[0]);
     verify_output(timeData, tempWData, tempPData, eW, eP, params, sizeOfResults);
-    plot(timeData, tempWData, tempPData, eW, eP, params, outputFilename);
+    plot(timeData, tempWData, tempPData, eW, eP, outputFilename);
     output(outputFilename, timeData, tempWData, tempPData, eW, eP, eTot, params, sizeOfResults);
 
     return 0;

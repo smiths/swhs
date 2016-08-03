@@ -19,7 +19,7 @@ Environment Variables: the file associated with the filename
 #include <string.h>
 #include "plot.h"
 
-void plot(double time[], double tempW[], double tempP[], double eW[], double eP[], struct parameters params, char* outputFilename){
+void plot(double time[], double tempW[], double tempP[], double eW[], double eP[], char* outputFilename){
 
     int i;
     char *filenamePrefix;
