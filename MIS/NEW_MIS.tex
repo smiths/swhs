@@ -62,7 +62,7 @@ Complementary documents include the System Requirement Specifications and Module
 
 \section{Notation}
 
-The following table summarizes the primitive data types used by \progname. \progname also uses some derived data types: arrays ,strings, and structures. Arrays are lists filled with elements of the same data type. Strings are arrays of characters. Structures contain pairs of keys and values, where keys are unique variable names used to identify their corresponding value, and values can be any data type.
+The following table summarizes the primitive data types used by \progname. \progname also uses some derived data types: arrays ,strings, and structures. Arrays are lists filled with elements of the same data type. Strings are arrays of characters. Structures contain pairs of keys and values, where keys are unique variable names used to identify their corresponding value, and values can be any data type. \progname also uses functions, which are defined by the data types of their inputs and outputs
 
 \begin{center}
 \renewcommand{\arraystretch}{1.2}
@@ -72,6 +72,7 @@ The following table summarizes the primitive data types used by \progname. \prog
 \textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
 \midrule
 character & char & a single symbol or digit\\
+integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
 \bottomrule
 \end{tabular} 
@@ -113,7 +114,7 @@ The following table is taken directly from the Module Guide document for this pr
 \subsection{Module}
 main
 \subsection{Uses}
-parameters (\ref{Parameters}), load\_params (\ref{Load}), verify\_params (\ref{VerifyInput}), temperature (\ref{Temperature}), energy (\ref{Energy}), verify\_output (\ref{VerifyOutput}), plot (\ref{Plot}), output (\ref{Output})
+parameters (\ref{Parameters}), load\_params (\ref{Load}), verify\_params (\ref{VerifyInput}), temperature (\ref{Temperature}), ODE Solvers module (\ref{ODE}), energy (\ref{Energy}), verify\_output (\ref{VerifyOutput}), plot (\ref{Plot}), output (\ref{Output})
 \subsection{Syntax}
 \subsubsection{Exported Access Programs}
 \begin{center}
@@ -127,10 +128,10 @@ main & string & - & - \\
 \end{center}
 \subsection{Semantics}
 \subsubsection{State Variables}
-$filename$: string \\
 $time$: array of reals \\
 $tempW$: array of reals \\
 $tempP$: array of reals \\
+$latHeat$: array of reals \\
 $eW$: array of reals \\
 $eP$: array of reals \\ 
 $eTot$: array of reals
@@ -138,7 +139,7 @@ $eTot$: array of reals
 $win$: 2D array of pixels displayed on the screen
 \subsubsection{Access Routine Semantics}
 \begin{tabular}{l l p{12cm}}
-main($s$): & transition: & Fills the $time$, $tempW$, $tempP$, $eW$, $eP$, and $eTot$ lists with the simulation results. Modifies the screen environment. \\
+main($s$): & transition: & $time$, $tempW$, $tempP$, $latHeat$ $eW$, $eP$, $eTot$, $win :=$ $results$[0], $results$[1], $results$[2], $results$[3], $eW1 \| eW2 \| eW3$, $eP1 \| eP2 \| eP3$, $post$($eW$[$i$]) $+$ $post$($eP$[$i$]) where $i \in$ [0..$|post$($eW$)$| - 1$], Prints information about the melting of PCM. \\
 & exception: & none \\
 \end{tabular}
 
@@ -154,38 +155,38 @@ parameters := structure
 N/A
 \subsection{Semantics}
 \subsubsection{State Variables}
-$L$: real \\
-$diam$: real \\
-$Vp$: real \\
-$Ap$: real \\
-$rho\_p$: real \\
-$Tmelt$: real \\
-$C\_ps$: real \\
-$C\_pl$: real \\
-$Hf$: real \\
-$Ac$: real \\
-$Tc$: real \\
-$rho_w$: real \\
-$C\_w$: real \\
-$hc$: real \\
-$hp$: real \\
-$Tinit$: real \\
-$tstep$: real \\
-$tfinal$: real \\
-$AbsTol$: real \\
-$RelTol$: real \\
-$ConsTol$: real \\
-$Vt$: real \\
-$Mw$: real \\
-$tau\_w$: real \\
-$eta$: real \\
-$Mp$: real \\
-$tau\_ps$: real \\
-$tau\_pl$: real \\
-$Epmelt\_init$: real \\
-$Ep\_melt3$: real \\ 
-$Mw\_noPCM$: real \\
-$tau\_w\_no\_PCM$: real
+$params$.$L$: real \\
+$params$.$diam$: real \\
+$params$.$Vp$: real \\
+$params$.$Ap$: real \\
+$params$.$rho\_p$: real \\
+$params$.$Tmelt$: real \\
+$params$.$C\_ps$: real \\
+$params$.$C\_pl$: real \\
+$params$.$Hf$: real \\
+$params$.$Ac$: real \\
+$params$.$Tc$: real \\
+$params$.$rho\_w$: real \\
+$params$.$C\_w$: real \\
+$params$.$hc$: real \\
+$params$.$hp$: real \\
+$params$.$Tinit$: real \\
+$params$.$tstep$: real \\
+$params$.$tfinal$: real \\
+$params$.$AbsTol$: real \\
+$params$.$RelTol$: real \\
+$params$.$ConsTol$: real \\
+$params$.$Vt$: real \\
+$params$.$Mw$: real \\
+$params$.$tau\_w$: real \\
+$params$.$eta$: real \\
+$params$.$Mp$: real \\
+$params$.$tau\_ps$: real \\
+$params$.$tau\_pl$: real \\
+$params$.$Epmelt\_init$: real \\
+$params$.$Ep\_melt3$: real \\ 
+$params$.$Mw\_noPCM$: real \\
+$params$.$tau\_w\_no\_PCM$: real
 \subsubsection{Access Routine Semantics}
 N/A
 
@@ -207,14 +208,13 @@ load\_params & string & parameters &  - \\
 \end{center}
 \subsection{Semantics}
 \subsubsection{State Variables}
-$filename$: string \\
 $params$: parameters
 \subsubsection{Assumptions}
 The input string corresponds to an existing filename in the current directory. The input file is formatted correctly.
 \subsubsection{Access Routine Semantics}
 \begin{center}
 \begin{tabular}{l l p{12cm}}
-load\_params($s$): & transition: & Fills the parameters structure with the input parameters specified in the input file, and with other parameters calculated from the input parameters. \\
+load\_params($s$): & transition: & $params$.$L$, $params$.$diam$, $params$.$Vp$, $params$.$Ap$, $params$.$rho\_p$, $params$.$Tmelt$, $params$.$C\_ps$, $params$.$C\_pl$, $params$.$Hf$, $params$.$Ac$, $params$.$Tc$, $params$.$rho\_w$, $params$.$C\_w$, $params$.$hc$, $params$.$hp$, $params$.$Tinit$, $params$.$tstep$, $params$.$tfinal$, $params$.$AbsTol$, $params$.$RelTol$, $params$.$ConsTol$, $params$.$Vt$, $params$.$Mw$, $params$.$tau\_w$, $params$.$eta$, $params$.$Mp$, $params$.$tau\_ps$, $params$.$tau\_pl$, $params$.$Epmelt\_init$, $params$.$Ep\_melt3$ $:=$ $p$[0], $p$[1], $p$[2], $p$[3], $p$[4], $p$[5], $p$[6], $p$[7], $p$[8], $p$[9], $p$[10], $p$[11], $p$[12], $p$[13], $p$[14], $p$[15], $p$[16], $p$[17], $p$[18], $p$[19], $p$[20], $p$[21], $p$[22], $p$[23], $p$[24], $p$[25], $p$[26], $p$[27], $p$[28], $p$[29], $p$[30], $p$[31], where $p$ is the array of parameters obtained from the input file $s$ \\
 & exception: & none \\
 \end{tabular}
 \end{center}
@@ -245,9 +245,9 @@ The load\_params function has been called on $params$, so the variables have all
 \subsubsection{Access Routine Semantics}
 \begin{center}
 \begin{tabular}{l l p{8cm}}
-verify\_valid($params$): & transition: & Modifies $win$ by displaying an error message when appropriate. \\
-& exceptions: & Exceptions occur if any of the input parameters lie outside of boundaries determined by physical law. Error messages corresponding to each exception are shown in the Appendix (\ref{Appendix}). \\ \\
-verify\_recommended($params$): & transition: & Modifies $win$ by displaying warning messages. \\
+verify\_valid($params$): & transition: & $win$: (error is thrown $\Rightarrow$ Prints error message) \\
+& exceptions: & $exc :=$ ($params.L \leq 0 \Rightarrow$ badLength $|$ $params.diam \leq 0 \Rightarrow$ badDiam $|$ $params.Vp \leq 0 \Rightarrow$ badPCMVolume $|$ $params.Vp \geq params.Vt \Rightarrow$ badPCMAndTankVol $|$ $params.Ap \leq 0 \Rightarrow$ badPCMArea $|$ $params.rho\_p \leq 0 \Rightarrow$ badPCMDensity $|$ $params.Tmelt \leq 0 \vee params.Tmelt \geq params.Tc \Rightarrow$ badMeltTemp $|$ $params.Tc \leq params.Tinit \Rightarrow$ badCoilAndInitTemp $|$ $params.Tc \geq 100 \vee params.Tc \leq 0 \Rightarrow$ badCoilTemp $|$ $params.C\_ps \leq 0 \Rightarrow$ badPCMHeatCapSolid $|$ $params.C\_pl \leq 0 \Rightarrow$ badPCMHeatCapLiquid $|$ $params.Hf \leq 0 \Rightarrow$ badHeatFusion $|$ $params.Ac \leq 0 \Rightarrow$ badCoilArea $|$ $params.rho\_w \leq 0 \Rightarrow$ badWaterDensity $|$ $params.C\_w \leq 0 \Rightarrow$ badWaterHeatCap $|$ $params.hc \leq 0 \Rightarrow$ badCoilCoeff $|$ $params.hp \leq 0 \Rightarrow$ badPCMCoeff $|$ $params.Tinit \leq 0 \vee params.Tinit \geq 100 \Rightarrow$ badInitTemp $|$ $params.tfinal \leq 0 \Rightarrow$ badFinalTime $|$ $params.Tinit \geq params.Tmelt \Rightarrow$ badInitAndMeltTemp)  See Appendix (\ref{Appendix}) for the complete list of exceptions and associated error messages. \\ \\
+verify\_recommended($params$): & transition: & $win$: (Warning is thrown $\Rightarrow$ Prints warning message) \\
 & exception: & none
 \end{tabular}
 \end{center}
@@ -260,44 +260,77 @@ parameters (\ref{Parameters})
 \subsection{Syntax}
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{p{3cm} p{7cm} p{2cm} p{2cm}}
+\begin{tabular}{p{3cm} p{5cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-temperature1 & array of reals, array of reals, array of reals, parameters & real, real & - \\
+temperature1 & array of reals, array of reals, array of reals, parameters & array of functions & - \\
 \hline
-temperature2 & array of reals, array of reals, array of reals, parameters & real, real, real & - \\
+temperature2 & array of reals, array of reals, array of reals, array of reals, parameters & array of functions & - \\
 \hline
-temperature3 & array of reals, array of reals, array of reals, parameters & real, real & - \\
+temperature3 & array of reals, array of reals, array of reals, parameters & array of functions & - \\
 \hline
-event1 & array of reals, array of reals, array of reals, parameters & real & - \\
+event1 & array of reals, array of reals, array of reals, parameters & function & - \\
 \hline
-event2 & array of reals, array of reals, array of reals, parameters & real & - \\
+event2 & array of reals, array of reals, array of reals, array of reals, parameters & function & - \\
 \hline
 \end{tabular}
 \end{center}
 \subsection{Semantics}
 \subsubsection{State Variables}
 $time$: array of reals \\
-$tempW$: array of reals \\
-$tempP$: array of reals \\
-$latHeat$: array of reals \\
+$Tw1$: array of reals \\
+$Tw2$: array of reals \\
+$Tw3$: array of reals \\
+$Tp1$: array of reals \\
+$Tp2$: array of reals \\
+$Tp3$: array of reals \\
+$Qp2$: array of reals \\
 $params$: parameters
 \subsubsection{Assumptions}
 The load\_params function has been called on $params$, so the variables have all been assigned a value. The verify\_valid function has been called on $params$, so no exceptions occur due to physically impossible values. 
 \subsubsection{Access Routine Semantics}
 \begin{center}
 \begin{tabular}{l l p{8cm}}
-temperature1($t$, $Tw$, $Tp$, $params$): & output: & Returns values for water and PCM temperature for the case where PCM has not started melting. \\
+temperature1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ \{$dTw: real \times real \rightarrow real$, $dTp: real \times real \rightarrow real$\} \\
 & exception: & none \\ \\
-temperature2($t$, $Tw$, $Tp$, $params$): & output: & Returns values for water and PCM temperature and latent heat for the case where PCM is in the process of melting. \\
+temperature2($t$, $Tw2$, $Tp2$, $Qp2$, $params$): & output: & $out :=$ \{$dTw: real \times real \rightarrow real$, $dTp: real \times real \rightarrow real$, $Qp: real \times real \rightarrow real$\} \\
 & exception: & none \\ \\
-temperature3($t$, $Tw$, $Tp$, $params$): & output: & Returns values for water and PCM temperature for the case where PCM has finished melting. \\ 
+temperature3($t$, $Tw3$, $Tp3$, $params$): & output: & $out :=$ \{$dTw: real \times real \rightarrow real$, $dTp: real \times real \rightarrow real$\} \\
 & exception: & none \\ \\
-event1($t$, $Tw$, $Tp$, $params$): & output: & Returns a value that signals the ODE solver to either continue generating the solution for the next time point, or stop solving the ODE system at the current time point. \\ 
+event1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ $Ev: real \times real \rightarrow real$ \\ 
 & exception: & none \\ \\
-event2($t$, $Tw$, $Tp$, $params$): & output: & Returns a value that signals the ODE solver to either continue generating the solution for the next time point, or stop solving the ODE system at the current time point. \\
+event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: real \times real \rightarrow real$ \\
 & exception: & none \\
+\end{tabular}
+\end{center}
+
+\section{MIS of ODE Solver Module} \label{ODE}
+\subsection{Module}
+ODE Solver Module
+\subsection{Uses}
+N/A
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{5cm} p{5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+solve & function, array of reals, array of reals, function, real, real & array of reals ($NUM\_EQS$ of them) & - \\
+\hline 
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$results$: array of reals ($NUM\_EQS$ of them)
+\subsubsection{Local Constants}
+$NUM\_EQS$: integer
+\subsubsection{Access Program Semantics}
+\begin{center}
+\begin{tabular}{l l p{10cm}}
+solve($f$, $domain$, $ics$, $events$, $abstol$, $reltol$) & output: & $out := results$ \\
+& exceptions: & none \\
 \end{tabular}
 \end{center}
 
@@ -329,28 +362,29 @@ energy3PCM & array of reals, parameters & array of reals & - \\
 \end{center}
 \subsection{Semantics}
 \subsubsection{State Variables}
-$tempW$: array of reals \\
-$tempP$: array of reals \\
-$latHeat$: array of reals \\
-$eW$: array of reals \\
-$eP$: array of reals \\
-$params$: parameters 
+$eW1$: array of reals \\
+$eP1$: array of reals \\
+$eW2$: array of reals \\
+$eP2$: array of reals \\
+$eW3$: array of reals \\
+$eP3$: array of reals \\
+$params$: parameters
 \subsubsection{Assumptions}
 The load\_params function has been called on $params$, so all variables have been assigned a value. The verify\_params function has been called on $params$, so there are no exceptions due to physically impossible values.
 \subsubsection{Access Routine Semantics}
 \begin{center}
 \begin{tabular}{l l p{10cm}}
-energy1Wat($Tw$, $params$): & output: & energy1Wat outputs an array of reals representing the energy profile of the water while the PCM has not started melting. \\ 
+energy1Wat($Tw1$, $params$): & output: & $out := eW1[0..|Tw1|]$ \\ 
 & exception: & none \\ \\
-energy1PCM($Tp$, $params$): & output: & energy1PCM outputs an array of reals representing the energy profile of the PCM while the PCM has not started melting. \\ 
+energy1PCM($Tp1$, $params$): & output: & $out := eP1[0..|Tp1|]$ \\ 
 & exception: & none \\ \\
-energy2Wat($Tw$, $params$): & output: & energy2Wat outputs an array of reals representing the energy profile of the water while the PCM is melting. \\ 
+energy2Wat($Tw2$, $params$): & output: & $out := eW2[0..|Tw2|]$ \\ 
 & exception: & none \\ \\
-energy2PCM($Qp$, $params$): & output: & energy2PCM outputs an array of reals representing the energy profile of the PCM while the PCM is melting. \\ 
+energy2PCM($Qp2$, $params$): & output: & $out := eP2[0..|Qp2|]$ \\ 
 & exception: & none \\ \\
-energy3Wat($Tw$, $params$): & output: & energy3Wat outputs an array of reals representing the energy profile of the water after the PCM has finished melting. \\ 
+energy3Wat($Tw3$, $params$): & output: & $out := eW3[0..|Tw3|]$ \\ 
 & exception: & none \\ \\
-energy3PCM($Tp$, $params$): & output: & energy3PCM outputs an array of reals representing the energy profile of the PCM after the PCM has finished melting. \\
+energy3PCM($Tp3$, $params$): & output: & $out := eP3[0..|Tp3|]$ \\
 & exception: & none \\
 \end{tabular}
 \end{center}
@@ -389,7 +423,7 @@ The load\_params function has been called on $params$, so every variable in the 
 \subsubsection{Access Routine Semantics}
 \begin{center}
 \begin{tabular}{l l p{6cm}}
-verify\_output($t$, $Tw$, $Tp$, $Ew$, $Ep$, $params$): & transition: & Modifies $win$ with a warning if $errorWater$ or $errorPCM$ is greater than $ConsTol$. \\
+verify\_output($t$, $Tw$, $Tp$, $Ew$, $Ep$, $params$): & transition: & $win$: ($errorWater > ConsTol \vee errorPCM > ConsTol \Rightarrow$ Prints warning message(s)) \\
 & exception: & none \\
 \end{tabular}
 \end{center}
@@ -406,7 +440,7 @@ N/A
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-plot & array of reals, array of reals, array of reals, array of reals, array of reals, parameters, string & - & - \\
+plot & array of reals, array of reals, array of reals, array of reals, array of reals, string & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -417,14 +451,13 @@ $tempW$: array of reals \\
 $tempP$: array of reals \\
 $eW$: array of reals \\
 $eP$: array of reals \\
-$params$: parameters \\
 $filename$: string
 \subsubsection{Environment Variables}
 $directory$: The current directory of files from which the program is run.
 \subsubsection{Access Routine Semantics}
 \begin{center}
 \begin{tabular}{l l p{6cm}}
-plot($t$, $Tw$, $Tp$, $Ew$, $Ep$, $params$, $filename$): & transition: & Modifies $directory$ by writing to it a .png file containing the graphs of the simulation results. \\
+plot($t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & $directory$: writes a .png file named $filename$ containing the graphs of the simulation results. \\
 & exception: & none \\
 \end{tabular}
 \end{center}
@@ -462,7 +495,7 @@ The load\_params function was called on $params$, so all the variables have been
 \subsubsection{Access Routine Semantics}
 \begin{center}
 \begin{tabular}{l l p{6cm}}
-output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & Modifies $directory$ by writing to it a .txt file containing the input parameters, calculated parameters, and results of the simulation. \\
+output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & $directory$: writes a .txt file named $filename$ containing the input parameters, calculated parameters, and results of the simulation. \\
 & exception: & none \\
 \end{tabular}
 \end{center}
