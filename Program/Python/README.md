@@ -10,6 +10,8 @@ load_params.py holds the Input Format Module.
 
 main.py holds the Control Module.
 
+MISNotes.txt contains notes about the mapping of the MIS to the Python implementation.
+
 output.py holds the Output Format Module.
 
 parameters.py holds the Input Parameters Module.

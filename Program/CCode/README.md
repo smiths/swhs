@@ -1,5 +1,7 @@
 This folder contains the C language implementation of the SWHS software.
 
+MISNotes.txt contains notes about the mapping of the MIS to the C implementation.
+
 This implementation uses the CVODE 2.8.2 solver by Sundials to solve the ODEs in the problem.
 It uses the gnuplot 5.0.3 software to generate the graphs of the results.
 

@@ -1,5 +1,7 @@
 This folder contains the MatLab implementation of the SWHS software.
 
+MISNotes.txt contains notes about the mapping of the MIS to the Matlab implementation.
+
 The Testing folder contains all of the required files for the testing of this software.
 
 To run the software in MatLab:

@@ -1,0 +1,35 @@
+The Input Parameters Module does not exist in its own file because Matlab does 
+not require structures to be defined before being used.
+
+The Temperature ODEs Module's access programs take T as an input, which holds 
+all of the Tw, Tp, and Qp inputs shown in the MIS.
+
+The Temperature ODEs Module event1 and event2 access programs return the real 
+value solution to the function at each time point rather than the function 
+itself. They also return two other constants, isterminal and direction, 
+required by the ODE solver. This is all required by the event support for the 
+ODE solver.
+
+The abstract functions described in the MIS are realized by the temperature1, 
+temperature2, temperature3, event1, and event2 functions. The actual 
+variable names in this implementation for each function appear in parentheses 
+in the following description. Each function takes the real values of time (t), 
+water temperature, PCM temperature, and latent Heat (all stored in T) and 
+generates a real value output (stored in dTdt array).
+
+The ODE Solver Module access program "solve" described in the MIS is a 
+combination of the following calls in this implementation:
+- options = odeset('Events', @(t,T)event1(t,T,params), 'AbsTol', params.AbsTol, 'RelTol', params.RelTol);
+- [t1,T1] = ode45(@(t,T)temperature1(t,T,params), [0 params.tfinal], [params.Tinit; params.Tinit], options);
+
+Note: These are for the ODE solver for the first phase of the simulation. If 
+the second or third phase occurs, they are called by the same commands with the 
+appropriate changes to the arguments.
+
+The Output Verification Module, Plotting Module, and Output Format Module all 
+take T as an input, which holds the Tw and Tp arguments shown in the MIS.
+
+The Plotting Module does not take the filename as an input argument because the 
+filename is set to NewTemp every time.
+
+The Output Format Module does not use the max_width local constant.
