@@ -1,4 +1,5 @@
-UNAME := $(shell uname)
+SYS := $(shell gcc -dumpmachine)
+#UNAME := $(shell uname)
 
 ifeq ($(OSTYPE),cygwin)
 	RM=rm -f
@@ -6,7 +7,8 @@ ifeq ($(OSTYPE),cygwin)
 	CP=cp
 	SEP=/
 else ifeq ($(OS),Windows_NT)
-	ifeq ($(UNAME),MINGW64_NT-10.0)
+	ifneq (, $(findstring mingw, $(SYS)))
+	#ifeq ($(UNAME), MINGW64_NT-10.0)
 		RM=rm -f
 		CP=cp
 		SEP=/
