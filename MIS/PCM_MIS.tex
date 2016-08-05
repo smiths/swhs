@@ -2,6 +2,7 @@
 
 \usepackage{bm}
 \usepackage{amsmath, mathtools}
+
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -17,17 +18,15 @@
 \usepackage{multirow}
 \usepackage[section]{placeins}
 \usepackage{caption}
-
-
-%\usepackage{refcheck}
+\usepackage{fullpage}
 
 \hypersetup{
-    bookmarks=true,         % show bookmarks bar?
-      colorlinks=true,       % false: boxed links; true: colored links
-    linkcolor=red,          % color of internal links (change box color with linkbordercolor)
-    citecolor=green,        % color of links to bibliography
-    filecolor=magenta,      % color of file links
-    urlcolor=cyan           % color of external links
+	bookmarks=true,         % show bookmarks bar?
+	colorlinks=true,       % false: boxed links; true: colored links
+	linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+	citecolor=green,        % color of links to bibliography
+	filecolor=magenta,      % color of file links
+	urlcolor=cyan           % color of external links
 }
 
 %% Comments
@@ -44,764 +43,520 @@
 \newcommand{\wss}[1]{\authornote{blue}{SS}{#1}}
 \newcommand{\bmac}[1]{\authornote{red}{BM}{#1}}
 
-\newcommand{\colZwidth}{1.0\textwidth}
-\newcommand{\blt}{- } %used for bullets in a list
-\newcommand{\colAwidth}{0.13\textwidth}
-\newcommand{\colBwidth}{0.82\textwidth}
-\newcommand{\colCwidth}{0.1\textwidth}
-\newcommand{\colDwidth}{0.05\textwidth}
-\newcommand{\colEwidth}{0.8\textwidth}
-\newcommand{\colFwidth}{0.17\textwidth}
-\newcommand{\colGwidth}{0.5\textwidth}
-\newcommand{\colHwidth}{0.28\textwidth}
-\newcounter{defnum} %Definition Number
-\newcommand{\dthedefnum}{GD\thedefnum}
-\newcommand{\dref}[1]{GD\ref{#1}}
-\newcounter{datadefnum} %Datadefinition Number
-\newcommand{\ddthedatadefnum}{DD\thedatadefnum}
-\newcommand{\ddref}[1]{DD\ref{#1}}
-\newcounter{theorynum} %Theory Number
-\newcommand{\tthetheorynum}{T\thetheorynum}
-\newcommand{\tref}[1]{T\ref{#1}}
-\newcounter{tablenum} %Table Number
-\newcommand{\tbthetablenum}{T\thetablenum}
-\newcommand{\tbref}[1]{TB\ref{#1}}
-\newcounter{assumpnum} %Assumption Number
-\newcommand{\atheassumpnum}{P\theassumpnum}
-\newcommand{\aref}[1]{A\ref{#1}}
-\newcounter{goalnum} %Goal Number
-\newcommand{\gthegoalnum}{P\thegoalnum}
-\newcommand{\gsref}[1]{GS\ref{#1}}
-\newcounter{instnum} %Instance Number
-\newcommand{\itheinstnum}{IM\theinstnum}
-\newcommand{\iref}[1]{IM\ref{#1}}
-\newcounter{reqnum} %Requirement Number
-\newcommand{\rthereqnum}{P\thereqnum}
-\newcommand{\rref}[1]{R\ref{#1}}
-\newcounter{lcnum} %Likely change number
-\newcommand{\lthelcnum}{LC\thelcnum}
-\newcommand{\lcref}[1]{LC\ref{#1}}
-
-\newcommand{\tclad}{T_\text{CL}}
-\newcommand{\degree}{\ensuremath{^\circ}}
 \newcommand{\progname}{SWHS}
 
-\newcounter{mnum}
-\newcommand{\mthemnum}{M\themnum}
-\newcommand{\mref}[1]{M\ref{#1}}
-
-
-%\oddsidemargin 0mm
-%\evensidemargin 0mm
-%\textwidth 160mm
-%\textheight 200mm
-\usepackage{fullpage}
-
-
 \begin{document}
-
-\title{Module Interface Specification for Solar Water Heating Systems
-  Incorporating Phase Change Material} 
-\author{Maya Grab and Brooks MacLachlan}
+\title{Module Interface Specification for Solar Water Heating Systems Incorporating Phase Change Material}
+\author{Brooks MacLachlan}
 \date{\today}
-	
+
 \maketitle
 
 \tableofcontents
 
 \section{Introduction}
+
 The following document details the Module Interface Specifications for the implemented 
-modules in a program simulation Solar Water Heating System with Phase Change Material.
- It is intended to ease navigation through the program for design and maintenance purposes.\\
-  Complementary documents include the System Requirement Specifications and Module Guide. 
+modules in a program simulating a Solar Water Heating System with Phase Change Material.
+It is intended to ease navigation through the program for design and maintenance purposes.\\
+Complementary documents include the System Requirement Specifications and Module Guide. 
+
+\section{Notation}
+
+The following table summarizes the primitive data types used by \progname. 
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\noindent 
+\begin{tabular}{c c c} 
+\toprule 
+\textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
+\midrule
+character & char & a single symbol or digit\\
+integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
+natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
+real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
+\bottomrule
+\end{tabular} 
+\end{center}
+
+\noindent
+\progname \ also uses some derived data types: arrays, strings, and structures. Arrays are lists filled with elements of the same data type. Strings are arrays of characters. Structures contain pairs of keys and values, where keys are unique variable names used to identify their corresponding value, and values can be of any data type. \progname \ also uses functions, which are defined by the data types of their inputs and outputs. Functions are described by showing their input data types separated by multiplication symbols on the left side of an arrow, and their output data type on the right side.
 
 \section{Module Decomposition}
 The following table is taken directly from the Module Guide document for this project.
 \begin{table}[!h]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Level 1} & \textbf{Level 2}\\
-\midrule
-
-{Hardware-Hiding Module} & ~ \\
-\midrule
-
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
-& Input Parameters Module\\
-& Input Verification Module\\
-& Output Format Module\\
-& Output Verification Module\\
-& Temperature ODEs Module\\
-& Energy Equations Module\\ 
-& Control Module\\
-\midrule
-
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {Sequence Data Structure Module}\\
-& ODE Solver Module\\
-& Plotting Module\\
-\bottomrule
-
-\end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
+	\centering
+	\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+		\toprule
+		\textbf{Level 1} & \textbf{Level 2}\\
+		\midrule
+		
+		{Hardware-Hiding Module} & ~ \\
+		\midrule
+		
+		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
+		& Input Parameters Module\\
+		& Input Verification Module\\
+		& Output Format Module\\
+		& Output Verification Module\\
+		& Temperature ODEs Module\\
+		& Energy Equations Module\\ 
+		& Control Module\\
+		\midrule
+		
+		\multirow{3}{0.3\textwidth}{Software Decision Module} & {Sequence Data Structure Module}\\
+		& ODE Solver Module\\
+		& Plotting Module\\
+		\bottomrule
+		
+	\end{tabular}
+	\caption{Module Hierarchy}
+	\label{TblMH}
 \end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{MIS of Control Module}
-
-\subsection{Module Name: main.m}
-
+\section{MIS of Control Module} \label{Main}
+\subsection{Module}
+main
 \subsection{Uses}
-
-%\subsubsection{Imported Constants}
-
-
-\subsubsection{Imported Data Types}
-\textbf{Uses} Input Parameters Module \textbf{Imports} params := structure 
-
-\subsubsection{Imported Access Programs}
-\textbf{Uses} Input Format Module \textbf{Imports} load\_{params} \\
-\textbf{Uses} Energy Module \textbf{Imports} energy1, energy2, energy3 \\
-\textbf{Uses} Temperature Module \textbf{Imports} 
-temperature1, temperature2, temperature3 \\
-\textbf{Uses} Event Module \textbf{Imports} event1, event2 \\
-\textbf{Uses} Plot Module \textbf{Imports} plots \\
-
-
-\subsection{Interface Syntax}
-
-%\subsubsection{Exported Constants}
-%None
-
-%\subsubsection{Exported Data Types}
-%None
-
+parameters (\ref{Parameters}), load\_params (\ref{Load}), verify\_params (\ref{VerifyInput}), temperature (\ref{Temperature}), ODE Solvers Module (\ref{ODE}), energy (\ref{Energy}), verify\_output (\ref{VerifyOutput}), plot (\ref{Plot}), output (\ref{Output})
+\subsection{Syntax}
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{l c c c}
-\hline \\
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-main & String (file) & \shortstack{\\ Modifies the screen environment\\
-Modifies the output file to contain its state variables}  & Various  \\
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+main & string & - & - \\
 \hline
 \end{tabular}
 \end{center}
-
-\subsection{Interface Semantics}
-
+\subsection{Semantics}
 \subsubsection{State Variables}
-t : column vector\\
-T : column vector\\
-Ew : column vector\\
-Ep : column vector\\
-Etot : column vector
-
-%Temperature isn't a column vector... it has two columns.
-
-\subsubsection{Assumption}
-%Assumptions from SRS?
-
-\bmac{Should this be commented out if there is no content?}
-
-\subsubsection{Invariant}
-None
-
-\subsubsection{Access Program Semantics}
-
-\noindent \textbf{Input:}\\
-Main.m will accept a valid file name string which is accessible to the current Matlab path.
-The data in the provided file must comply with the format specifications required
-by the Input Format Module.\\
-
-\noindent \textbf{Exceptions:}\\
-Potential exceptions are invalid file names or paths. Other exceptions are possible within the Input Format Module and Input Verification Module due to inappropriate input.\\
-
-\noindent \textbf{Output:}\\
-Main.m will print to the screen messages regarding phase changes of the PCM.\\
-Main.m will request the Output Format Module to produce a file with the  same file
-name as the input string, with the extension .out. The file will contain the 
-state variables of main at the end of the simulation.\\
-Main.m will request the Plotting Module to produce energy and temperature graphs
-from its state variables.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Input Parameters Module}
-
-\subsection{Module Name: ParamT} % ??
-
-%\subsection{Uses}
-
-%\subsubsection{Imported Constants}
-
-%\subsubsection{Imported Data Types}
-
-%\subsubsection{Imported Access Programs}
-
-\subsection{Interface Syntax}
-
-%\subsubsection{Exported Constants}
-
-\subsubsection{Exported Data Types}
-
-params := structure
-
-
-%\subsubsection{Exported Access Programs}
-
-\subsection{Interface Semantics}
-
-Params is a data structure designed to store the input information entered by the Input Format module.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Input Format Module}
-
-\subsection{Module Name: load\_{params}}
-
-%\subsection{Uses}
-%None
-
-%\subsubsection{Imported Constants}
-%None
-
-\subsubsection{Imported Data Types}
-\textbf{Uses} Input Parameters Module \textbf{Imports} params := structure 
-
-%\subsubsection{Imported Access Programs}
-%None
-
-\subsection{Interface Syntax}
-
-%\subsubsection{Exported Constants}
-%None
-
-%\subsubsection{Exported Data Types}
-%None
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-\begin{tabular}{l c c c}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-load\_{params} & String (file) & Struct & Inappropriately formatted input file \\
-\hline
+$time$: array of reals \\
+$tempW$: array of reals \\
+$tempP$: array of reals \\
+$latHeat$: array of reals \\
+$eW$: array of reals \\
+$eP$: array of reals \\ 
+$eTot$: array of reals
+\subsubsection{Environment Variables}
+$win$: 2D array of pixels displayed on the screen
+\subsubsection{Access Routine Semantics}
+\begin{tabular}{l l p{12cm}}
+main($s$): & transition: & $time$, $tempW$, $tempP$, $latHeat$ $eW$, $eP$, $eTot$, $win :=$ $results$[0], $results$[1], $results$[2], $results$[3], $eW1 \| eW2 \| eW3$, $eP1 \| eP2 \| eP3$, ($\forall i \in$ [0..$|post$($eW$)$| - 1$]) ($post$($eW$[$i$]) $+$ $post$($eP$[$i$])), Prints information about the melting of PCM. \\
+& exception: & none \\
 \end{tabular}
-\end{center}
 
-
-\subsection{Interface Semantics}
-
-%\subsubsection{State Variables}
-%None
-
-%\subsubsection{Assumption}
-%None
-
-%\subsubsection{Invariant}
-%None
-
-\subsubsection{Access Program Semantics}
-
-\noindent \textbf{Input:}\\
-load\_{params} will accept a valid file name string which is accessible to the current Matlab path.
-The readable data in the given file must be numeric only, with all comments 
-appropriately signaled.\\
-
-\noindent \textbf{Exceptions:}\\
-Potential exceptions may occur when the given file containing input data is inappropriately formatted. \\  
-
-\noindent \textbf{Output:}\\
-When given valid data load\_{params} will return a structure containing all
-inputted data under appropriate field names, in addition to some relevant 
-calculated data fields.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Input Verification Module}
-
-\subsection{Module Name: verify\_params}
-
-\subsubsection{Imported Data Types}
-\textbf{Uses} Input Parameters Module \textbf{Imports} params := structure
-
-\subsection{Interface Syntax}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-	\begin{tabular}{l c c c}
-		\hline
-		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-		verify\_{params} & Struct & none & Various (see appendix) \\
-		\hline
-	\end{tabular}
-\end{center}
-
-\subsection{Interface Semantics}
-
-\subsubsection{Access Program Semantics}
-
-\noindent \textbf{Input:}\\
-verify\_{params} will accept a data structure containing the fields created by the Input Format Module.\\
-
-\noindent \textbf{Exceptions:}\\
-Data which does not comply with the data constraints specifications detailed in
-the SRS document for this project will yield one of the potential exceptions or
-warnings as listed in the appendix of this document.\\  
-
-\noindent \textbf{Output:}\\
-None
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Temperature Modules}
-
-\subsection{Module Name: temperature1, temperature2, temperature3}
-
-%\subsection{Uses}
-%None
-
-%\subsubsection{Imported Constants}
-%None
-
-%\subsubsection{Imported Data Types}
-%None
-
-%\subsubsection{Imported Access Programs}
-%None
-
-\subsection{Interface Syntax}
-
-%\subsubsection{Exported Constants}
-%None
-
-%\subsubsection{Exported Data Types}
-%None
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-\begin{tabular}{l c c c}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-temperature1 & \shortstack{\\ real \\ vector \\ struct} & vector & \shortstack{\\  Vector dimensions \\ Data structure missing fields} \\ \hline
-temperature2 & \shortstack{\\ real \\ vector \\ struct} & vector & \shortstack{\\ Vector dimensions \\ Data structure missing fields} \\ \hline
-temperature3 & \shortstack{\\ real \\ vector \\ struct} & vector & \shortstack{\\ Vector dimensions \\ Data structure missing fields} \\ \hline
-\end{tabular}
-\end{center}
-
-\subsection{Interface Semantics}
-
-%\subsubsection{State Variables}
-%None
-
-\subsubsection{Assumption}
-The Control Module and the Event Module handled the different cases correctly,
- ensuring that each temperature function necessarily receives valid numerical input 
-  for the case it is meant to handle.
-
-%\subsubsection{Invariant}
-%None
-
-\subsubsection{Access Program Semantics}
-
-\noindent \textbf{Input:}\\
-The Temperature Module functions require a time value, a vector containing at 
-least two values, and a data structure containing the fields created by the 
-Input Format Module. \\
-
-\noindent \textbf{Exceptions:}\\
-Potential exceptions may occur when given inappropriately sized
-vectors or a data structure lacking the required fields.\\
-
-\noindent \textbf{Output:}\\
-The Temperature Module will return a vector containing numerical solutions to
-the differential equations it governs. \\
-
-\subsubsection{Considerations}
-Note: the three exported access functions are implemented in three separate function files. 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Energy Modules}
-
-\subsection{Module Name: energy1, energy2, energy3}
-
-%\subsection{Uses}
-
-%\subsubsection{Imported Constants}
-%None
-
-%\subsubsection{Imported Data Types}
-%None
-
-%\subsubsection{Imported Access Programs}
-%None
-
-\subsection{Interface Syntax}
-
-%\subsubsection{Exported Constants}
-%None
-
-%\subsubsection{Exported Data Types}
-%None
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{l c c c}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-energy1 & \shortstack{\\ matrix \\ struct} & vector & \shortstack{\\ Matrix dimensions\\ Data structure missing fields} \\ \hline
-energy2 & \shortstack{\\ matrix \\ struct} & vector & \shortstack{\\ Matrix dimensions\\ Data structure missing fields} \\ \hline
-energy3 & \shortstack{\\ matrix \\ struct} & vector & \shortstack{\\ Matrix dimensions\\ Data structure missing fields} \\ \hline
-\end{tabular}
-\end{center}
-
-\subsection{Interface Semantics}
-
-%\subsubsection{State Variables}
-%None
-
-\subsubsection{Assumption}
-The Control Module and the Event Module handled the different cases correctly,
- ensuring that each energy function necessarily receives valid numerical input 
-  for the case it is meant to handle.
-
-%\subsubsection{Invariant}
-%None
-
-\subsubsection{Access Program Semantics}
-
-\noindent \textbf{Input:}\\
-The Energy Module functions require a matrix containing at least three columns of
-numerical data, and a data structure containing the fields created by the 
-Input Format Module. \\
-
-\noindent \textbf{Exceptions:}\\
-Potential exceptions may occur when given an inappropriately sized matrix or a 
-data structure lacking the required fields.\\
-
-\noindent \textbf{Output:}\\
-The Energy Module will return vectors containing numerical solutions to
-the differential equations it governs. \\
-
-
-\subsubsection{Considerations}
-Note: the three exported access functions are implemented in three separate function files. 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Event Modules}
-
-\subsection{Module Name: event1, event2}
-
-%\subsection{Uses}
-
-%\subsubsection{Imported Constants}
-%None
-
-%\subsubsection{Imported Data Types}
-%None
-
-%\subsubsection{Imported Access Programs}
-%None
-
-\subsection{Interface Syntax}
-
-%\subsubsection{Exported Constants}
-
-%\subsubsection{Exported Data Types}
-%None
-
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{l l l l}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-event1 & \shortstack{\\ real \\ vector \\ struct} & \shortstack{\\ real \\ int \\ int}
- & None \\ \hline
-event2 & \shortstack{\\ real \\ vector \\ struct} & \shortstack{\\ real \\ int \\ int}
- & \shortstack{\\ Vector dimensions \\ Data structure missing fields} \\ \hline
-\end{tabular}
-\end{center}
-
-\subsection{Interface Semantics}
-
-%\subsubsection{State Variables}
-%None
-
-%\subsubsection{Assumption}
-%None
-
-%\subsubsection{Invariant}
-%None
-
-\subsubsection{Access Program Semantics}
-\noindent \textbf{Input:}\\
-The Event Module functions require a numerical value, a vector containing at 
-least three numerical values, and a data structure containing the fields created by the 
-Input Format Module. \\
-
-\noindent \textbf{Exceptions:}\\
-Potential exceptions may occur when given inappropriately sized
-vectors or a data structure lacking the required fields.\\
-
-\noindent \textbf{Output:}\\
-The Event Module will return three numerical values.  \\
-
-\subsubsection{Local Constants}
-direction = 0\\
-isterminal = 1\\
-
-\subsubsection{Considerations}
-Note: the two exported access functions are implemented in two separate function files.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Plotting Module}
-
-\subsection{Module Name: plots}
-
+\section{MIS of Input Parameters Module} \label{Parameters}
+\subsection{Module}
+parameters
 \subsection{Uses}
-
-%\subsubsection{Imported Constants}
-%None
-
-%\subsubsection{Imported Data Types}
-%None
-
-%\subsubsection{Imported Access Programs}
-%None
-
-\subsection{Interface Syntax}
-
-%\subsubsection{Exported Constants}
-%None
-
-%\subsubsection{Exported Data Types}
-%None
-
+N/A
+\subsection{Syntax}
+\subsubsection{Exported Data Types}
+parameters := structure
 \subsubsection{Exported Access Programs}
+N/A
+\subsection{Semantics}
+\subsubsection{State Variables}
+$params$.$L$: real \\
+$params$.$diam$: real \\
+$params$.$Vp$: real \\
+$params$.$Ap$: real \\
+$params$.$rho\_p$: real \\
+$params$.$Tmelt$: real \\
+$params$.$C\_ps$: real \\
+$params$.$C\_pl$: real \\
+$params$.$Hf$: real \\
+$params$.$Ac$: real \\
+$params$.$Tc$: real \\
+$params$.$rho\_w$: real \\
+$params$.$C\_w$: real \\
+$params$.$hc$: real \\
+$params$.$hp$: real \\
+$params$.$Tinit$: real \\
+$params$.$tstep$: real \\
+$params$.$tfinal$: real \\
+$params$.$AbsTol$: real \\
+$params$.$RelTol$: real \\
+$params$.$ConsTol$: real \\
+$params$.$Vt$: real \\
+$params$.$Mw$: real \\
+$params$.$tau\_w$: real \\
+$params$.$eta$: real \\
+$params$.$Mp$: real \\
+$params$.$tau\_ps$: real \\
+$params$.$tau\_pl$: real \\
+$params$.$Epmelt\_init$: real \\
+$params$.$Ep\_melt3$: real \\ 
+$params$.$Mw\_noPCM$: real \\
+$params$.$tau\_w\_no\_PCM$: real
+\subsubsection{Access Routine Semantics}
+N/A
+
+\section{MIS of Input Format Module} \label{Load}
+\subsection{Module}
+load\_params
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{l l l l}
+\begin{tabular}{c c c c}
 \hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-plots & \shortstack{\\ vector \\ matrix \\ vector \\ vector} & displays figures
- & \shortstack{\\ Matrix dimensions\\ Vector dimensions } \\ \hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+load\_params & string & parameters &  - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$params$: parameters \\
+$param$: array of reals
+\subsubsection{Assumptions}
+The input string corresponds to an existing filename in the current directory. The input file is formatted correctly.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{11cm}}
+load\_params($s$): & transition: & $params$.$L$, $params$.$diam$, $params$.$Vp$, $params$.$Ap$, $params$.$rho\_p$, $params$.$Tmelt$, $params$.$C\_ps$, $params$.$C\_pl$, $params$.$Hf$, $params$.$Ac$, $params$.$Tc$, $params$.$rho\_w$, $params$.$C\_w$, $params$.$hc$, $params$.$hp$, $params$.$Tinit$, $params$.$tstep$, $params$.$tfinal$, $params$.$AbsTol$, $params$.$RelTol$, $params$.$ConsTol$, $params$.$Vt$, $params$.$Mw$, $params$.$tau\_w$, $params$.$eta$, $params$.$Mp$, $params$.$tau\_ps$, $params$.$tau\_pl$, $params$.$Epmelt\_init$, $params$.$Ep\_melt3$, $params$.$Mw\_noPCM$, $params$.$tau\_w\_noPCM$ $:=$ $param$[0], $param$[1], $param$[2], $param$[3], $param$[4], $param$[5], $param$[6], $param$[7], $param$[8], $param$[9], $param$[10], $param$[11], $param$[12], $param$[13], $param$[14], $param$[15], $param$[16], $param$[17], $param$[18], $param$[19], $param$[20], $param$[21], $param$[22], $param$[23], $param$[24], $param$[25], $param$[26], $param$[27], $param$[28], $param$[29], $param$[30], $param$[31], where $param$ is the array of parameters obtained from the input file $s$ \\
+& exception: & none \\
 \end{tabular}
 \end{center}
 
-\subsection{Interface Semantics}
-
-%\subsubsection{State Variables}
-%None
-
-\subsubsection{Assumption}
-All vectors and matrices are handled correctly by the Control Module to be the correct size.
-
-%\subsubsection{Invariant}
-%None
-
-\subsubsection{Access Program Semantics}
-\noindent \textbf{Input:}\\
-The Plotting Module takes a matrix containing at least two columns of numerical
-data, and three different vectors containing numerical data.\\
-
-\noindent \textbf{Exceptions:}\\
-Potential exceptions may occur when given inappropriately sized
-matrices and vectors.\\
-
-\noindent \textbf{Output:}\\
-The Plotting Module produces figures of the plotted data it has received as input.
-
-\bmac{Is it okay that the Exceptions contradict the Assumption?}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Output Verification Module}
-
-\subsection{Module Name: verify\_output}
-
-\subsubsection{Imported Data Types}
-\textbf{Uses} Input Parameters Module \textbf{Imports} params := structure
-
-\subsection{Interface Syntax}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-	\begin{tabular}{l c c c}
-		\hline
-		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-		verify\_{output} & \shortstack{struct \\ vector \\ matrix \\ vector \\ vector} & none & \shortstack{\\ Matrix dimensions \\ Vector dimensions \\ Data structure missing fields}  \\
-		\hline
-	\end{tabular}
-\end{center}
-
-\subsection{Interface Semantics}
-
-\subsubsection{Assumption}
-
-All vectors and matrices are handled correctly by the Control Module to be the correct size.
-
-\subsubsection{Access Program Semantics}
-
-\noindent \textbf{Input:}\\
-verify\_{output} will accept a data structure containing the fields created by the Input Format Module, three vectors containing numerical data, and a matrix containing at least two columns of numerical data.\\
-
-\noindent \textbf{Exceptions:}\\
-Potential exceptions may occur when given inappropriately sized matrices and vectors or a data structure lacking the required fields.\\  
-
-\noindent \textbf{Output:}\\
-None
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{MIS of Output Format Module}
-
-\subsection{Module Name: output}
-
-%\subsection{Uses}
-
-%\subsubsection{Imported Constants}
-%None
-
-%\subsubsection{Imported Data Types}
-%None
-
-%\subsubsection{Imported Access Programs}
-%None
-
-\subsection{Interface Syntax}
-
-%\subsubsection{Exported Constants}
-%None
-
-%\subsubsection{Exported Data Types}
-%None
-
+\section{MIS of Input Verification Module} \label{VerifyInput}
+\subsection{Module}
+verify\_params
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{l l l l}
+\begin{tabular}{p{4cm} p{2cm} p{2cm} p{6cm}}
 \hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\ \hline
-output & \shortstack{\\ string (file) \\ vector \\ matrix \\ vector \\ vector
-\\ vector \\ struct} & prints to file
- & \shortstack{\\ Matrix dimensions\\ Vector dimensions \\ Data structure missing fields} \\ \hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+verify\_valid & parameters & - & badLength, badDiam, badPCMVolume, badPCMAndTankVol, badPCMArea, badPCMDensity, badMeltTemp, badCoilAndInitTemp, badCoilTemp, badPCMHeatCapSolid, badPCMHeatCapLiquid, badHeatFusion, badCoilArea, badWaterDensity, badWaterHeatCap, badCoilCoeff, badPCMCoeff, badInitTemp, badFinalTime, badInitAndMeltTemp \\
+\hline
+verify\_recommended & parameters & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{Environment Variables}
+$win$: 2D array of pixels displayed on the screen.
+\subsubsection{Assumptions}
+All of the fields of the input parameters structure have been assigned a value.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{8cm}}
+verify\_valid($params$): & transition: & $win$: (error is thrown $\Rightarrow$ Prints error message) \\
+& exceptions: & $exc :=$ ($params.L \leq 0 \Rightarrow$ badLength $|$ $params.diam \leq 0 \Rightarrow$ badDiam $|$ $params.Vp \leq 0 \Rightarrow$ badPCMVolume $|$ $params.Vp \geq params.Vt \Rightarrow$ badPCMAndTankVol $|$ $params.Ap \leq 0 \Rightarrow$ badPCMArea $|$ $params.rho\_p \leq 0 \Rightarrow$ badPCMDensity $|$ $params.Tmelt \leq 0 \lor params.Tmelt \geq params.Tc \Rightarrow$ badMeltTemp $|$ $params.Tc \leq params.Tinit \Rightarrow$ badCoilAndInitTemp $|$ $params.Tc \geq 100 \lor params.Tc \leq 0 \Rightarrow$ badCoilTemp $|$ $params.C\_ps \leq 0 \Rightarrow$ badPCMHeatCapSolid $|$ $params.C\_pl \leq 0 \Rightarrow$ badPCMHeatCapLiquid $|$ $params.Hf \leq 0 \Rightarrow$ badHeatFusion $|$ $params.Ac \leq 0 \Rightarrow$ badCoilArea $|$ $params.rho\_w \leq 0 \Rightarrow$ badWaterDensity $|$ $params.C\_w \leq 0 \Rightarrow$ badWaterHeatCap $|$ $params.hc \leq 0 \Rightarrow$ badCoilCoeff $|$ $params.hp \leq 0 \Rightarrow$ badPCMCoeff $|$ $params.Tinit \leq 0 \lor params.Tinit \geq 100 \Rightarrow$ badInitTemp $|$ $params.tfinal \leq 0 \Rightarrow$ badFinalTime $|$ $params.Tinit \geq params.Tmelt \Rightarrow$ badInitAndMeltTemp)  See Appendix (\ref{Appendix}) for the complete list of exceptions and associated error messages. \\ \\
+verify\_recommended($params$): & transition: & $win$: (Warning is thrown $\Rightarrow$ Prints warning message) \\
+& exception: & none
 \end{tabular}
 \end{center}
 
-\subsection{Interface Semantics}
+\section{MIS of Temperature ODEs Module} \label{Temperature}
+\subsection{Module}
+temperature
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{5cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+temperature1 & array of reals, array of reals, array of reals, parameters & array of functions & - \\
+\hline
+temperature2 & array of reals, array of reals, array of reals, array of reals, parameters & array of functions & - \\
+\hline
+temperature3 & array of reals, array of reals, array of reals, parameters & array of functions & - \\
+\hline
+event1 & array of reals, array of reals, array of reals, parameters & function & - \\
+\hline
+event2 & array of reals, array of reals, array of reals, array of reals, parameters & function & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$t$: array of reals \\
+$Tw1$: array of reals \\
+$Tw2$: array of reals \\
+$Tw3$: array of reals \\
+$Tp1$: array of reals \\
+$Tp2$: array of reals \\
+$Tp3$: array of reals \\
+$Qp2$: array of reals 
+\subsubsection{Assumptions}
+All of the fields of the input parameters structure have been assigned a value. The values have been properly constrained. 
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{6cm}}
+temperature1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ \{$dTw: real \times real \times real \rightarrow real$, $dTp: real \times real \times real \rightarrow real$\} \\
+& exception: & none \\ \\
+temperature2($t$, $Tw2$, $Tp2$, $Qp2$, $params$): & output: & $out :=$ \{$dTw: real \times real \times real \times real \rightarrow real$, $dTp: real \times real \times real \times real \rightarrow real$, $dQp: real \times real \times real \times real \rightarrow real$\} \\
+& exception: & none \\ \\
+temperature3($t$, $Tw3$, $Tp3$, $params$): & output: & $out :=$ \{$dTw: real \times real \times real \rightarrow real$, $dTp: real \times real \times real \rightarrow real$\} \\
+& exception: & none \\ \\
+event1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ $Ev: real \times real \times real \rightarrow real$ \\ 
+& exception: & none \\ \\
+event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: real \times real \times real \times real \rightarrow real$ \\
+& exception: & none \\
+\end{tabular}
+\end{center}
 
-%\subsubsection{State Variables}
-%None
+\section{MIS of ODE Solver Module} \label{ODE}
+\subsection{Module}
+ODE Solver Module
+\subsection{Uses}
+N/A
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+$N$: natural number
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{5cm} p{5cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+solve & function, array of reals, array of reals, function, real, real & array of reals ($N$ of them) & - \\
+\hline 
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$results$: array of reals ($N$ of them)
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{5cm}}
+solve($f$, $domain$, $ics$, $events$, $abstol$, $reltol$) & output: & $out := results$, where $results$ holds the solution to the ODE system generated by the solver. \\
+& exceptions: & none \\
+\end{tabular}
+\end{center}
 
-\subsubsection{Assumption}
-All vectors and matrices are handled correctly by the Control Module to be the correct size.
+\section{MIS of Energy Module} \label{Energy}
+\subsection{Module}
+energy
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{External Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{6cm} p{3cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+energy1Wat & array of reals, parameters & array of reals & - \\
+\hline
+energy1PCM & array of reals, parameters & array of reals & - \\
+\hline
+energy2Wat & array of reals, parameters & array of reals & - \\
+\hline
+energy2PCM & array of reals, parameters & array of reals & - \\
+\hline
+energy3Wat & array of reals, parameters & array of reals & - \\
+\hline
+energy3PCM & array of reals, parameters & array of reals & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$eW1$: array of reals \\
+$eP1$: array of reals \\
+$eW2$: array of reals \\
+$eP2$: array of reals \\
+$eW3$: array of reals \\
+$eP3$: array of reals 
+\subsubsection{Assumptions}
+All of the fields of the input parameters structure have been assigned a value. The values have been properly constrained.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{6cm}}
+energy1Wat($Tw1$, $params$): & transition: & ($\forall i \in [0..|Tw1| - 1]$) ($eW1[i] :=$ watEnergy($Tw1[i]$, $params$)) \\
+& output: & $out := eW1$ \\ 
+& exception: & none \\ \\
+energy1PCM($Tp1$, $params$): & transition: & ($\forall i \in [0..|Tp1| - 1]$) ($eP1[i]:=$ pcmEnergy1($Tp1[i]$, $params$)) \\
+& output: & $out := eP1$ \\ 
+& exception: & none \\ \\
+energy2Wat($Tw2$, $params$): & transition: & ($\forall i \in [0..|Tw2| - 1]$) ($eW2[i] :=$ watEnergy($Tw2[i]$, $params$)) \\
+& output: & $out := eW2$ \\ 
+& exception: & none \\ \\
+energy2PCM($Qp2$, $params$): & transition: & ($\forall i \in [0..|Qp2| - 1]$) ($eP2[i] :=$ pcmEnergy2($Qp2[i]$, $params$)) \\
+& output: & $out := eP2$ \\ 
+& exception: & none \\ \\
+energy3Wat($Tw3$, $params$): & transition: & ($\forall i \in [0..|Tw3| - 1]$) ($eW3[i] :=$ watEnergy($Tw3[i]$, $params$)) \\
+& output: & $out := eW3$ \\ 
+& exception: & none \\ \\
+energy3PCM($Tp3$, $params$): & transition: & ($\forall i \in [0..|Tp3| - 1]$) ($eP3[i] :=$ pcmEnergy3($Tp3[i]$, $params$)) \\
+& output: & $out := eP3$ \\
+& exception: & none \\
+\end{tabular}
+\end{center}
+\subsubsection{Local Functions}
+watEnergy: real $\times$ parameters $\rightarrow$ real \\
+watEnergy($Tw$, $params$) $\equiv$ $params.C\_w \times params.Mw \times (Tw - params.Tinit)$ \\
+\newline
+pcmEnergy1: real $\times$ parameters $\rightarrow$ real \\
+pcmEnergy1($Tp$, $params$) $\equiv$ $params.C\_ps \times params.Mp \times (Tp - params.Tinit)$ \\
+\newline
+pcmEnergy2: real $\times$ parameters $\rightarrow$ real \\
+pcmEnergy2($Qp$, $params$) $\equiv$ $params.Epmelt\_init + Qp$ \\
+\newline
+pcmEnergy3: real $\times$ parameters $\rightarrow$ real \\
+pcmEnergy3($Tp$, $params$) $\equiv$ $params.Epmelt\_init + params.Ep\_melt3 + params.C\_pl \times params.Mp \times (Tp - params.Tmelt)$ \\
 
-%\subsubsection{Invariant}
-%None
+\section{MIS of Output Verification Module} \label{VerifyOutput}
+\subsection{Module}
+verify\_output
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{7cm} p{2cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+verify\_output & array of reals, array of reals, array of reals, array of reals, array of reals, parameters & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$expEPCM$: array of reals \\
+$expEWat$: array of reals \\
+$errorWater$: real \\
+$errorPCM$: real
+\subsubsection{Environment Variables}
+$win$: 2D array of pixels displayed on the screen
+\subsubsection{Local Variables}
+\subsubsection{Assumptions}
+All of the fields of the input parameters structure have been assigned a value. The values have been properly constrained. The input arrays are not empty.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{6cm}}
+verify\_output($t$, $Tw$, $Tp$, $Ew$, $Ep$, $params$): & transition: & $expEPCM$, $expEWat$, $errorWater$, $errorPCM$, $win$ $:=$ ($\forall i \in [1..|t| - 1]$) (expectedEp(traprule(delta($t[i-1]$, $t[i]$), $Tw[i]$, $Tp[i]$, $Tw[i-1]$, $Tp[i-1]$), $params$)), ($\forall i \in [1..|t| - 1]$) (expectedEw (expectedEc(traprule(delta($t[i-1]$, $t[i]$), $params.Tc$, $Tw[i]$, $params.Tc$, $Tw[i-1]$), $params$), post($expEPCM$))), error(sum(post($expEWat$)), $Ew[|Ew| - 1]$), error(sum(post($expEPCM$)), $Ep[|Ep| - 1]$), ($errorWater > ConsTol \lor errorPCM > ConsTol \Rightarrow$ Prints warning message(s)) \\
+& exception: & none \\
+\end{tabular}
+\end{center}
+\subsubsection{Local Functions}
+delta: real $\times$ real $\rightarrow$ real \\
+delta($t1$, $t2$) $\equiv$ $t2 - t1$ \\
+\newline
+traprule: real $\times$ real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
+traprule($t$, $A1$, $B1$, $A2$, $B2$) $\equiv$ $t \times (A1 - B1 + A2 - B2) / 2$ \\
+\newline
+expectedEc: real $\times$ parameters $\rightarrow$ real \\
+expectedEc($c$, $params$) $\equiv$ $params.hc \times params.Ac \times c$ \\
+\newline
+expectedEp: real $\times$ parameters $\rightarrow$ real \\
+expectedEp($p$, $params$) $\equiv$ $params.hp \times params.Ap \times p$ \\
+\newline
+expectedEw: real $\times$ real $\rightarrow$ real \\
+expectedEw($Ec$, $Ep$) $\equiv$ $Ec - Ep$ \\
+\newline
+sum: array of reals $\rightarrow$ real \\
+sum($a$) $\equiv$ $\sum_{i=0}^{|a| - 1}$ $a[i]$ \\
+\newline
+error: real $\times$ real $\rightarrow$ real \\
+error($exp$, $act$) $\equiv$ $\frac{|exp - act|}{act} \times 100$ \\
 
-\subsubsection{Access Program Semantics}
-\noindent \textbf{Input:}\\
-The Output Format Module takes a string, a matrix containing at least two columns of numerical
-data, four different vectors containing numerical data, and a data structure 
-as produced by the Input Format Module.\\
+\section{MIS of Plotting Module} \label{Plot}
+\subsection{Module}
+plot
+\subsection{Uses}
+N/A
+\subsection{Syntax}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{2cm} p{8cm} p{2cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+plot & array of reals, array of reals, array of reals, array of reals, array of reals, string & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$plotFilename$: string
+\subsubsection{Environment Variables}
+$directory$: The current directory of files from which the program is run.
+\subsubsection{Assumptions}
+The input arrays are all of the same size.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{6cm}}
+plot($t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & $directory$: writes a .png file named $plotFilename$ containing the graphs of the simulation results. \\
+& exception: & none \\
+\end{tabular}
+\end{center}
 
-\noindent \textbf{Exceptions:}\\
-Potential exceptions may occur when given inappropriately sized
-matrices and vectors or a data structure lacking the required fields.\\
+\section{MIS of Output Module} \label{Output}
+\subsection{Module}
+output
+\subsection{Uses}
+parameters (\ref{Parameters})
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+$max\_width$: integer
+\subsubsection{Exported Access Program}
+\begin{center}
+\begin{tabular}{p{3cm} p{7cm} p{2cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+output & string, array of reals, array of reals, array of reals, array of reals, array of reals, array of reals, parameters & - & - \\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{State Variables}
+$outFilename$: string
+\subsubsection{Environment Variables}
+$directory$: The current directory of files from which the program is run.
+\subsubsection{Access Routine Semantics}
+\begin{center}
+\begin{tabular}{l l p{4cm}}
+output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $ETot$, $filename$): & transition: & $directory$: writes a .txt file named $outFilename$ containing the input parameters, calculated parameters, and results of the simulation. \\
+& exception: & none \\
+\end{tabular}
+\end{center}
 
-\noindent \textbf{Output:}\\
-The Output Format Module produces a file with the given string as a name, which contains a formatted list of data given by the input arrays and data structure.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Appendix}
-\begin{table}[!h]
-\caption{Standard Input Variables} \label{TblInputVar}
+\section{Appendix} \label{Appendix}
 \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable*}{l l l c} 
-  \toprule
-  \textbf{Var} & \textbf{Typical Value}\\
-  \midrule 
-  $L$	& 1.5 \si[per-mode=symbol]	{\metre}
-  \\
-  $D$	& 0.412 \si[per-mode=symbol] {\metre}	
-  \\
-  $V_P$ & 0.05 \si[per-mode=symbol] {\cubic\metre}	
-  \\
-  $A_P$ & 1.2 \si[per-mode=symbol] {\square\metre}	
-  \\
-  $\rho_P$ & 1007 \si[per-mode=symbol] {\kilogram\per\cubic\metre}
-  \\
-  $T_\text{melt}^{P}$ &	44.2 \si[per-mode=symbol] {\celsius} 
-  \\
-  $C_P^S$ & 1760 \si[per-mode=symbol] {\joule\per\kilo\gram\per\celsius}
-  \\
-  $C_P^L$ & 2270 \si[per-mode=symbol] {\joule\per\kilo\gram\per\celsius} 
-  \\
-  $H_f$ & 211600 \si[per-mode=symbol] {\joule\per\kilo\gram} & 
-  \\
-  $A_C$ & 0.12 \si[per-mode=symbol] {\square\metre}
-  \\
-  $T_C$	& 50 \si[per-mode=symbol] {\celsius}
-  \\
-  $\rho_W$ & 1000 \si[per-mode=symbol] {\kilo\gram\per\cubic\metre} 
-  \\
-  $C_W$ & 4186 \si[per-mode=symbol] {\joule\per\kilo\gram\per\celsius}
-  \\
-  $h_C$ & 1000 \si[per-mode=symbol] {\watt\per\square\metre\per\celsius}
-  \\
-  $h_P$ & 1000 \si[per-mode=symbol] {\watt\per\square\metre\per\celsius} 
-  \\
-  $T_\text{init}$ & 40 \si[per-mode=symbol] {\celsius} 
-  \\
-  $t_\text{final}$ & 50000 \si[per-mode=symbol] {\second} 
-  \\
-  AbsTol & $10^{-10}$
-  \\
-  RelTol & $10^{-10}$
-  \\
-  ConsTol & $10^{-3}$
-  \\
-  \bottomrule
-\end{longtable*}
-\end{table}
-
-\begin{table}[!h]
-\caption{Possible Exceptions} \label{TblExceptions}
-\renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable*}{l l} 
-  \toprule
-  \textbf{Message ID} & \textbf{Error Message}\\
-  \midrule
-	input:L &error: Tank length must be $> 0$ \\ 
-	input:diam &error: Tank diameter must be $> 0$ \\ 
-	input:Vp &error: PCM volume must be $> 0$ \\ 
-	input:VpVt &error: PCM volume must be $<$ tank volume \\ 
-	input:Ap &error: PCM area must be $> 0$ \\
-	input:rho\_p &error: rho\_p must be $> 0$ \\ 
-	input:Tmelt &error: Tmelt must be $> 0$ and $< T_C$ \\ 
-	input:C\_ps &error: C\_ps must be $> 0$ \\ 
-	input:C\_pl &error: C\_pl must be $> 0$ \\ 
-	input:Hf &error: Hf must be $> 0$ \\ 
-	input:Ac &error: Ac must be $> 0$ \\ 
-	input:Tc &error: Tc must be $> 0 \text{ and } < 100$ \\ 
-	input:rho\_w &error: rho\_w must be $> 0$ \\ 
-	input:C\_w &error: C\_w must be $> 0$ \\ 
-	input:hc &error: hc must be $> 0$ \\ 
-	input:hp &error: hp must be $> 0$ \\ 
-	input:Tinit &error: Tinit must be $> 0$ and $< 100$ \\ 
-	input:TcTinit &error: Tc must be $>$ Tinit \\ 
-	input:TinitTmelt &error: Tinit must be $<$ Tmelt \\ 
-	input:tfinal &error: tfinal must be $> 0$ \\ 
-  \bottomrule
-\end{longtable*}
-\end{table}
+\begin{longtable}{l p{12cm}}
+\caption{Possible Exceptions} \\
+\toprule
+\textbf{Message ID} & \textbf{Error Message} \\
+\midrule
+badLength & Error: Tank length must be $> 0$ \\
+badDiam & Error: Tank diameter must be $> 0$ \\
+badPCMVolume & Error: PCM volume must be $> 0$ \\
+badPCMAndTankVol & Error: PCM volume must be $<$ tank volume \\
+badPCMArea & Error: PCM area must be $> 0$ \\
+badPCMDensity & Error: rho\_p must be $> 0$ \\
+badMeltTemp & Error: Tmelt must be $> 0$ and $< Tc$ \\
+badCoilAndInitTemp & Error: Tc must be $>$ Tinit \\
+badCoilTemp & Error: Tc must be $> 0$ and $< 100$ \\
+badPCMHeatCapSolid & Error: C\_ps must be $> 0$ \\
+badPCMHeatCapLiquid & Error: C\_pl must be $> 0$ \\
+badHeatFusion & Error: Hf must be $> 0$ \\
+badCoilArea & Error: Ac must be $> 0$ \\
+badWaterDensity & Error: rho\_w must be $> 0$ \\
+badWaterHeatCap & Error: C\_w must be $> 0$ \\
+badCoilCoeff & Error: hc must be $> 0$ \\
+badPCMCoeff & Error: hp must be $> 0$ \\
+badInitTemp & Error: Tinit must be $> 0$ and $< 100$ \\
+badFinalTime & Error: tfinal must be $> 0$ \\
+badInitAndMeltTemp & Error: Tinit must be $<$ Tmelt \\
+\bottomrule
+\end{longtable}
 
 \end{document}
