@@ -1,4 +1,4 @@
-SYS := $(shell gcc -dumpmachine)
+#SYS := $(shell gcc -dumpmachine)
 #UNAME := $(shell uname)
 
 ifeq ($(OSTYPE),cygwin)
@@ -7,7 +7,8 @@ ifeq ($(OSTYPE),cygwin)
 	CP=cp
 	SEP=/
 else ifeq ($(OS),Windows_NT)
-	ifneq (, $(findstring mingw, $(SYS)))
+	ifneq ($(shell echo "check_quotes"), "check_quotes")
+	#ifneq (, $(findstring mingw, $(PATH)))
 	#ifeq ($(UNAME), MINGW64_NT-10.0)
 		RM=rm -f
 		CP=cp
