@@ -65,8 +65,6 @@ ODE solver.
 
 The ODE Solver Module in this implementation has the following possible 
 exceptions not specified in the MIS:
-- CV_TOO_MUCH_ACC: The solver could not satisfy the accuracy demanded by the 
-  user for some internal step.
 - CV_ERR_FAILURE: Error test failures occurred too many times during one 
   internal time step or minimum step size was reached.
 - CV_CONV_FAILURE: Convergence test failures occurred too many times during one 
@@ -91,7 +89,7 @@ exceptions not specified in the MIS:
 - CV_BAD_K: The derivative order k is larger than the order used.
 - CV_BAD_T: The time t is outside the last step taken.
 - CV_BAD_DKY: The output derivative vector is NULL.
--CV_TOO_CLOSE: The output and initial times are too close to each other.
+- CV_TOO_CLOSE: The output and initial times are too close to each other.
 
 
 The Energy Module access programs do not output an array of reals in this 
