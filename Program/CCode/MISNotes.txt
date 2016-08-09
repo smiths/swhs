@@ -64,7 +64,8 @@ number of ODEs in the system. cvode_mem represents the memory allocated for the
 ODE solver.
 
 The ODE Solver Module in this implementation has the following possible 
-exceptions not specified in the MIS:
+exceptions not specified in the MIS. Their descriptions are taken directly from 
+the user guide for CVODE:
 - CV_ERR_FAILURE: Error test failures occurred too many times during one 
   internal time step or minimum step size was reached.
 - CV_CONV_FAILURE: Convergence test failures occurred too many times during one 
