@@ -7,8 +7,9 @@ gets called, which is in the Control Module. For similar reasons, the only
 input received by the event1 and event2 access program is params.
 
 The Temperature ODEs Module event1 and event2 access programs return an event 
-rather than a function, however the function is one of the properties of the 
-event, so the effect is the same.
+rather than a function in this implementation. However, the function is one of 
+the properties of the event, so the effect of returning the event is the same 
+as returning the function.
 
 The abstract functions described in the MIS are realized by the temperature1, 
 temperature2, temperature3, event1, and event2 functions. The actual 
@@ -42,6 +43,10 @@ The ODE Solver Module accepts some extra arguments not specified in the MIS.
   time steps are determined by the ODE solver).
   
 The ODE Solver Module does not directly return as many arrays of reals as the 
-number of equations in the ODE system. Instead, it returns a dictionary 
-containing these arrays.
+number of equations in the ODE system in this implementation. Instead, it 
+returns a dictionary containing these arrays.
+
+The ODE Solver Module in this implementation has many possible exceptions for 
+different potential errors with input arguments to the solver, and other 
+exceptions related to the computation process for solving the ODEs.
 
