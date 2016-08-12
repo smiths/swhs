@@ -260,8 +260,8 @@ selected.
 \subsection{Behaviour-Hiding Module}
 
 \begin{description}
-\item[Secrets:]The contents of the required behaviors.
-\item[Services:]Includes programs that provide externally visible behavior of
+\item[Secrets:]The contents of the required behaviours.
+\item[Services:]Includes programs that provide externally visible behaviour of
   the system as specified in the software requirements specification (SRS)
   documents. This module serves as a communication layer between the
   hardware-hiding module and the software decision module. The programs in this
@@ -272,7 +272,7 @@ selected.
 \subsubsection{Input Format Module (\mref{mInput})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data
+\item[Secrets:]The format and structure of the input data.
 \item[Services:]Converts the input data into the data structure used by the
   input parameters module.
 \item[Implemented By:] SWHS
@@ -283,7 +283,7 @@ selected.
 \begin{description}
 \item[Secrets:]The format and structure of the input parameters.
 \item[Services:]Stores the parameters needed for the program, including material
-  properties, processing conditions and numerical parameters.  The values can be
+  properties, processing conditions, and numerical parameters.  The values can be
   read as needed.  This module knows how many parameters it stores.
 \item[Implemented By:] SWHS
 \end{description}
@@ -291,7 +291,7 @@ selected.
 \subsubsection{Input Verification Module (\mref{mVerify})}
 
 \begin{description}
-\item[Secrets:] The format and structure of the physical and software constraints
+\item[Secrets:] The format and structure of the physical and software constraints.
 \item[Services:] Verifies that the input parameters comply with physical and software
   constraints. Throws an error if a parameter violates a physical constraint. Throws a warning if a parameter violates a software constraint.
 \item[Implemented By:] SWHS
@@ -359,7 +359,7 @@ selected.
 \begin{description}
 \item[Secrets:] The data structure for a sequence data type.
 \item[Services:] Provides array manipulation, including building an array,
-  accessing a specific entry, slicing an array etc.
+  accessing a specific entry, slicing an array, etc.
 \item[Implemented By:] Matlab
 \end{description}
 
@@ -368,7 +368,7 @@ selected.
 \begin{description}
 \item[Secrets:] The algorithm to solve a system of first order ODEs.
 \item[Services:] Provides solvers that take the governing equation, initial
-  conditions and numerical parameters and solve them.
+  conditions, and numerical parameters, and solve them.
 \item[Implemented By:] Matlab
 \end{description}
 
