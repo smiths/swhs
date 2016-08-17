@@ -1,0 +1,4 @@
+The input file to SWHS must be formatted properly. It should contain the 
+numeric values for each input parameter in order, each on a new line. The order 
+is the same as in the table in R1 of the SRS. Any comments should be denoted 
+with a '#' symbol.
