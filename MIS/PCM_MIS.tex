@@ -220,10 +220,43 @@ The input string corresponds to an existing filename in the current directory. T
 \subsubsection{Access Routine Semantics}
 \begin{center}
 \begin{tabular}{l l p{11cm}}
-load\_params($s$): & transition: & $params$.$L$, $params$.$diam$, $params$.$Vp$, $params$.$Ap$, $params$.$rho\_p$, $params$.$Tmelt$, $params$.$C\_ps$, $params$.$C\_pl$, $params$.$Hf$, $params$.$Ac$, $params$.$Tc$, $params$.$rho\_w$, $params$.$C\_w$, $params$.$hc$, $params$.$hp$, $params$.$Tinit$, $params$.$tstep$, $params$.$tfinal$, $params$.$AbsTol$, $params$.$RelTol$, $params$.$ConsTol$, $params$.$Vt$, $params$.$Mw$, $params$.$tau\_w$, $params$.$eta$, $params$.$Mp$, $params$.$tau\_ps$, $params$.$tau\_pl$, $params$.$Epmelt\_init$, $params$.$Ep\_melt3$, $params$.$Mw\_noPCM$, $params$.$tau\_w\_noPCM$ $:=$ $param$[0], $param$[1], $param$[2], $param$[3], $param$[4], $param$[5], $param$[6], $param$[7], $param$[8], $param$[9], $param$[10], $param$[11], $param$[12], $param$[13], $param$[14], $param$[15], $param$[16], $param$[17], $param$[18], $param$[19], $param$[20], $param$[21], $param$[22], $param$[23], $param$[24], $param$[25], $param$[26], $param$[27], $param$[28], $param$[29], $param$[30], $param$[31], where $param$ is the array of parameters obtained from the input file $s$ \\
+load\_params($s$): & transition: & $params$.$L$, $params$.$diam$, $params$.$Vp$, $params$.$Ap$, $params$.$rho\_p$, $params$.$Tmelt$, $params$.$C\_ps$, $params$.$C\_pl$, $params$.$Hf$, $params$.$Ac$, $params$.$Tc$, $params$.$rho\_w$, $params$.$C\_w$, $params$.$hc$, $params$.$hp$, $params$.$Tinit$, $params$.$tstep$, $params$.$tfinal$, $params$.$AbsTol$, $params$.$RelTol$, $params$.$ConsTol$, $params$.$Vt$, $params$.$Mw$, $params$.$tau\_w$, $params$.$eta$, $params$.$Mp$, $params$.$tau\_ps$, $params$.$tau\_pl$, $params$.$Epmelt\_init$, $params$.$Ep\_melt3$, $params$.$Mw\_noPCM$, $params$.$tau\_w\_noPCM$ $:=$ $param$[0], $param$[1], $param$[2], $param$[3], $param$[4], $param$[5], $param$[6], $param$[7], $param$[8], $param$[9], $param$[10], $param$[11], $param$[12], $param$[13], $param$[14], $param$[15], $param$[16], $param$[17], $param$[18], $param$[19], $param$[20], calcVt(post($params.L$), post($params.diam$)), calcMw(post($params.Vp$), post($params.rho\_w$), post($params.Vt$)), calcTauw(post($params.Mw$), post($params.C\_w$), post($params.hc$), post($params.Ac$)), calcEta(post($params.hp$), post($params.Ap$), post($params.hc$), post($params.Ac$)), calcMp(post($params.rho\_p$). post($params.Vp$)), calcTaups(post($params.Mp$), post($params.C\_ps$), post($params.hp$), post($params.Ap$)), calcTaupl(post($params.Mp$), post($params.C\_pl$), post($params.hp$), post($params.Ap$)), calcEpmeltinit(post($params.C\_ps$), post($params.Mp$), post($params.Tmelt$), post($params.Tinit$)), calcEpmelt3(post($params.Hf$), post($params.Mp$)), calcMwnoPCM(post($params.rho\_w$), post($params.Vt$)), calcTauwnoPCM(post($params.Mw\_noPCM$), post($params.C\_w$), post($params.hc$), post($params.Ac$)), where $param$ is the array of parameters obtained from the input file $s$ \\
 & exception: & none \\
 \end{tabular}
 \end{center}
+\subsubsection{Local Functions}
+calcVt: real $\times$ real $\rightarrow$ real \\
+calcVt($L$, $diam$) $\equiv$ $\pi \times L \times (\frac{diam}{2}) ^ 2$ \\
+\newline
+calcMw: real $\times$ real $\times$ real $\rightarrow$ real \\
+calcMw($Vp$, $rho\_w$, $Vt$) $\equiv$ $rho\_w \times (Vt - Vp)$ \\
+\newline
+calcTauw: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
+calcTauw($Mw$, $C\_w$, $hc$, $Ac$) $\equiv$ $\frac{Mw \times C\_w}{Ac \times hc}$ \\
+\newline
+calcEta: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
+calcEta($hp$, $Ap$, $hc$, $Ac$) $\equiv$ $\frac{hp \times Ap}{hc \times Ac}$ \\
+\newline
+calcMp: real $\times$ real $\rightarrow$ real \\
+calcMp($rho\_p$, $Vp$) $\equiv$ $rho\_p \times Vp$ \\
+\newline
+calcTaups: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
+calcTaups($Mp$, $C\_ps$, $hp$, $Ap$) $\equiv$ $\frac{Mp \times C\_ps}{hp \times Ap}$ \\
+\newline
+calcTaupl: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
+calcTaupl($Mp$, $C\_pl$, $hp$, $Ap$) $\equiv$ $\frac{Mp \times C\_pl}{hp \times Ap}$ \\
+\newline
+calcEpmeltinit: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
+calcEpmeltinit($C\_ps$, $Mp$, $Tmelt$, $Tinit$) $\equiv$ $C\_ps \times Mp \times (Tmelt - Tinit)$ \\
+\newline
+calcEpmelt3: real $\times$ real $\rightarrow$ real \\
+calcEpmelt3($Hf$, $Mp$) $\equiv$ $Hf \times Mp$ \\
+\newline
+calcMwnoPCM: real $\times$ real $\rightarrow$ real \\
+calcMwnoPCM($rho\_w$, $Vt$) $\equiv$ $rho\_w \times Vt$ \\
+\newline
+calcTauwnoPCM: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
+calcTauwnoPCM($Mw\_noPCM$, $C\_w$, $hc$, $Ac$) $equiv$ $\frac{Mw\_noPCM \times C\_w}{hc \times Ac}$ \\
 
 \section{MIS of Input Verification Module} \label{VerifyInput}
 \subsection{Module}
