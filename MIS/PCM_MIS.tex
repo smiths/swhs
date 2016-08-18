@@ -283,11 +283,13 @@ $win$: 2D array of pixels displayed on the screen.
 All of the fields of the input parameters structure have been assigned a value.
 \subsubsection{Access Routine Semantics}
 \begin{center}
-\begin{tabular}{l l p{8cm}}
+\begin{tabular}{l l p{10cm}}
 verify\_valid($params$): & transition: & $win$: (error is thrown $\Rightarrow$ Prints error message) \\
-& exceptions: & $exc :=$ ($params.L \leq 0 \Rightarrow$ badLength $|$ $params.diam \leq 0 \Rightarrow$ badDiam $|$ $params.Vp \leq 0 \Rightarrow$ badPCMVolume $|$ $params.Vp \geq params.Vt \Rightarrow$ badPCMAndTankVol $|$ $params.Ap \leq 0 \Rightarrow$ badPCMArea $|$ $params.rho\_p \leq 0 \Rightarrow$ badPCMDensity $|$ $params.Tmelt \leq 0 \lor params.Tmelt \geq params.Tc \Rightarrow$ badMeltTemp $|$ $params.Tc \leq params.Tinit \Rightarrow$ badCoilAndInitTemp $|$ $params.Tc \geq 100 \lor params.Tc \leq 0 \Rightarrow$ badCoilTemp $|$ $params.C\_ps \leq 0 \Rightarrow$ badPCMHeatCapSolid $|$ $params.C\_pl \leq 0 \Rightarrow$ badPCMHeatCapLiquid $|$ $params.Hf \leq 0 \Rightarrow$ badHeatFusion $|$ $params.Ac \leq 0 \Rightarrow$ badCoilArea $|$ $params.rho\_w \leq 0 \Rightarrow$ badWaterDensity $|$ $params.C\_w \leq 0 \Rightarrow$ badWaterHeatCap $|$ $params.hc \leq 0 \Rightarrow$ badCoilCoeff $|$ $params.hp \leq 0 \Rightarrow$ badPCMCoeff $|$ $params.Tinit \leq 0 \lor params.Tinit \geq 100 \Rightarrow$ badInitTemp $|$ $params.tfinal \leq 0 \Rightarrow$ badFinalTime $|$ $params.Tinit \geq params.Tmelt \Rightarrow$ badInitAndMeltTemp)  See Appendix (\ref{Appendix}) for the complete list of exceptions and associated error messages. \\ \\
+& exceptions: & $exc :=$ ($params.L \leq 0 \Rightarrow$ badLength $|$ $params.diam \leq 0 \Rightarrow$ badDiam $|$ $params.Vp \leq 0 \Rightarrow$ badPCMVolume $|$ $params.Vp \geq params.Vt \Rightarrow$ badPCMAndTankVol $|$ $params.Ap \leq 0 \Rightarrow$ badPCMArea $|$ $params.rho\_p \leq 0 \Rightarrow$ badPCMDensity $|$ $params.Tmelt \leq 0 \lor params.Tmelt \geq params.Tc \Rightarrow$ badMeltTemp $|$ $params.Tc \leq params.Tinit \Rightarrow$ badCoilAndInitTemp $|$ $params.Tc \geq 100 \lor params.Tc \leq 0 \Rightarrow$ badCoilTemp $|$ $params.C\_ps \leq 0 \Rightarrow$ badPCMHeatCapSolid $|$ $params.C\_pl \leq 0 \Rightarrow$ badPCMHeatCapLiquid $|$ $params.Hf \leq 0 \Rightarrow$ badHeatFusion $|$ $params.Ac \leq 0 \Rightarrow$ badCoilArea $|$ $params.rho\_w \leq 0 \Rightarrow$ badWaterDensity $|$ $params.C\_w \leq 0 \Rightarrow$ badWaterHeatCap $|$ $params.hc \leq 0 \Rightarrow$ badCoilCoeff $|$ $params.hp \leq 0 \Rightarrow$ badPCMCoeff $|$ $params.Tinit \leq 0 \lor params.Tinit \geq 100 \Rightarrow$ badInitTemp $|$ $params.tfinal \leq 0 \Rightarrow$ badFinalTime $|$ $params.Tinit \geq params.Tmelt \Rightarrow$ badInitAndMeltTemp)  See Appendix (\ref{Appendix}) for the complete list of exceptions and associated error messages. \\
+\end{tabular}
+\begin{tabular}{l l p{8cm}}
 verify\_recommended($params$): & transition: & $win$: (Warning is thrown $\Rightarrow$ Prints warning message) \\
-& exception: & none
+& exceptions: & $exc :=$ ($params.L < 0.1 \lor params.L > 50 \Rightarrow$ warnLength $|$ $params.diam / params.L < 0.002 \lor params.diam / params.L > 200 \Rightarrow$ warnDiam $|$ $params.Vp < params.Vt \times 10 ^ -6 \Rightarrow$ warnPCMVol $|$ $params.Vp > params.Ap \lor params.Ap > (2/0.001) \times params.Vp \Rightarrow$ warnVolArea $|$ $params.rho\_p \leq 500 \lor params.rho\_p \geq 20000 \Rightarrow$ warnPCMDensity $|$ $params.C\_ps \leq 100 \lor params.C\_ps \geq 4000 \Rightarrow$ warnPCMHeatCapSolid $|$ $params.C\_pl \leq 100 \lor params.C\_pl \geq 5000 \Rightarrow$ warnPCMHeatCapLiquid $|$ $params.Ac > \pi \times (params.diam / 2) ^ 2 \Rightarrow$ warnCoilArea $|$ $params.rho\_w \leq 950 \lor params.rho\_w > 1000 \Rightarrow$ warnWaterDensity $|$ $params.C\_w \leq 4170 \lor params.C\_w \geq 4210 \Rightarrow$ warnWaterHeatCap $|$ $params.hc \leq 10 \lor params.hc \geq 10000 \Rightarrow$ warnCoilCoeff $|$ $params.hp \leq 10 \lor params.hp \geq 10000 \Rightarrow$ warnPCMCoeff $|$ $params.tfinal \leq 0 \lor params.tfinal \geq 86400 \Rightarrow$ warnFinalTime) None of these exceptions terminate the program. See Appendix (\ref{Appendix}) for the complete list of exceptions and associated warning messages. \\
 \end{tabular}
 \end{center}
 
@@ -476,7 +478,7 @@ All of the fields of the input parameters structure have been assigned a value. 
 \begin{center}
 \begin{tabular}{l l p{6cm}}
 verify\_output($t$, $Tw$, $Tp$, $Ew$, $Ep$, $params$): & transition: & $expEPCM$, $expEWat$, $errorWater$, $errorPCM$, $win$ $:=$ ($\forall i \in [1..|t| - 1]$) (expectedEp(traprule(delta($t[i-1]$, $t[i]$), $Tw[i]$, $Tp[i]$, $Tw[i-1]$, $Tp[i-1]$), $params$)), ($\forall i \in [1..|t| - 1]$) (expectedEw (expectedEc(traprule(delta($t[i-1]$, $t[i]$), $params.Tc$, $Tw[i]$, $params.Tc$, $Tw[i-1]$), $params$), post($expEPCM$))), error(sum(post($expEWat$)), $Ew[|Ew| - 1]$), error(sum(post($expEPCM$)), $Ep[|Ep| - 1]$), ($errorWater > ConsTol \lor errorPCM > ConsTol \Rightarrow$ Prints warning message(s)) \\
-& exception: & none \\
+& exception: & ($errorWater > ConsTol \Rightarrow$ warnWaterError $|$ $errorPCM > ConsTol \Rightarrow$ warnPCMError) These exceptions do not terminate the program.\\
 \end{tabular}
 \end{center}
 \subsubsection{Local Functions}
@@ -593,6 +595,21 @@ badInitAndMeltTemp & Error: Tinit must be $<$ Tmelt \\
 ODE\_ACCURACY & $reltol$ and $abstol$ were not satisfied by the ODE solver for a given solution step. \\
 ODE\_BAD\_INPUT & Invalid input to ODE solver \\
 ODE\_MAXSTEP & ODE solver took $MaxStep$ steps and did not find solution \\
+warnLength & Warning: It is recommended that 0.1 $<$= L $<$= 50 \\
+warnDiam & Warning: It is recommended that 0.002 $<$= D/L $<$= 200 \\
+warnPCMVol & Warning: It is recommended that Vp be $>$= 0.0001\% of Vt \\
+warnVolArea & Warning: It is recommended that Vp $<$= Ap $<$= (2/0.001) * Vp \\
+warnPCMDensity & Warning: It is recommended that 500 $<$ rho\_p $<$ 20000 \\
+warnPCMHeatCapSolid & Warning: It is recommended that 100 $<$ C\_ps $<$ 4000 \\
+warnPCMHeatCapLiquid & Warning: It is recommended that 100 $<$ C\_pl $<$ 5000 \\
+warnCoilArea & Warning: It is recommended that Ac $<$= pi * (D/2) $\wedge$ 2 \\
+warnWaterDensity & Warning: It is recommended that 950 $<$ rho\_w $<$= 1000 \\
+warnWaterHeatCap & Warning: It is recommended that 4170 $<$ C\_w $<$ 4210 \\
+warnCoilCoeff & Warning: It is recommended that 10 $<$ hc $<$ 10000 \\
+warnPCMCoeff & Warning: It is recommended that 10 $<$ hp $<$ 10000 \\
+warnFinalTime & Warning: It is recommended that 0 $<$ tfinal $<$ 86400 \\
+warnWaterError & Warning: There is greater than $x$\% relative error between the energy in the water output and the expected output based on the law of conservation of energy. (Where $x$ is the value of $ConsTol$) \\
+warnPCMError & Warning: There is greater than $x$\% relative error between the energy in the PCM output and the expected output based on the law of conservation of energy. (Where $x$ is the value of $ConsTol$) \\
 \bottomrule
 \end{longtable}
 
