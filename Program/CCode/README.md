@@ -103,3 +103,9 @@ To remove all of the generated files from your directory after running the softw
 If there are any failures when the tests are run, the input files used for testing will not be removed. If you would like to remove those files quickly, use the following command:
 
 - `make inputClean`
+
+__Troubleshooting For Windows__
+
+If you get an error message when trying to build CVODE that the compiler can not be found, you may need to install Microsoft Visual Studio. The CVODE CMake file seems to search specifically for the MSVC compiler, but once it is found you will have the opportunity to change the setting to a different compiler.
+
+If, when running SWHS, the CVODE libraries can not be found, even though they have been added to your PATH variable, the problem may be that the libraries were compiled with a different compiler than is used to run SWHS. Try reinstalling the libraries using the same compiler that the makefile calls when running SWHS.
