@@ -133,7 +133,7 @@ The following table is taken directly from the Module Guide document for this pr
 
 \section{MIS of Control Module} \label{Main}
 
-\subsection{Module}
+\subsection{Short Name}
 
 main
 
@@ -183,7 +183,7 @@ main($s$): & transition: & $time$, $tempW$, $tempP$, $latHeat$, $eW$, $eP$, $eTo
 
 \section{MIS of Input Parameters Module} \label{Parameters}
 
-\subsection{Module}
+\subsection{Short Name}
 
 parameters
 
@@ -244,7 +244,7 @@ N/A
 
 \section{MIS of Input Format Module} \label{Load}
 
-\subsection{Module}
+\subsection{Short Name}
 
 load\_params
 
@@ -327,7 +327,7 @@ calcTauwnoPCM($Mw\_noPCM$, $C\_w$, $hc$, $Ac$) $equiv$ $\frac{Mw\_noPCM \times C
 
 \section{MIS of Input Verification Module} \label{VerifyInput}
 
-\subsection{Module}
+\subsection{Short Name}
 
 verify\_params
 
@@ -377,7 +377,7 @@ verify\_recommended($params$): & transition: & $win$: (Warning is thrown $\Right
 
 \section{MIS of Temperature ODEs Module} \label{Temperature}
 
-\subsection{Module}
+\subsection{Short Name}
 
 temperature
 
@@ -444,7 +444,7 @@ event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: real \time
 
 \section{MIS of ODE Solver Module} \label{ODE}
 
-\subsection{Module}
+\subsection{Short Name}
 
 ODE Solver Module
 
@@ -488,7 +488,7 @@ solve($f$, $domain$, $ics$, $events$, $abstol$, $reltol$) & output: & $out := re
 
 \section{MIS of Energy Module} \label{Energy}
 
-\subsection{Module}
+\subsection{Short Name}
 
 energy
 
@@ -575,7 +575,7 @@ pcmEnergy3($Tp$, $params$) $\equiv$ $params.Epmelt\_init + params.Ep\_melt3 + pa
 
 \section{MIS of Output Verification Module} \label{VerifyOutput}
 
-\subsection{Module}
+\subsection{Short Name}
 
 verify\_output
 
@@ -652,7 +652,7 @@ error($exp$, $act$) $\equiv$ $\frac{|exp - act|}{act} \times 100$ \\
 
 \section{MIS of Plotting Module} \label{Plot}
 
-\subsection{Module}
+\subsection{Short Name}
 
 plot
 
@@ -699,7 +699,7 @@ plot($t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & $directory$: writ
 
 \section{MIS of Output Module} \label{Output}
 
-\subsection{Module}
+\subsection{Short Name}
 
 output
 
