@@ -3,6 +3,7 @@
 \usepackage{bm}
 \usepackage{amsmath, mathtools}
 
+\usepackage[round]{natbib}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -21,12 +22,12 @@
 \usepackage{fullpage}
 
 \hypersetup{
-	bookmarks=true,         % show bookmarks bar?
-	colorlinks=true,       % false: boxed links; true: colored links
-	linkcolor=red,          % color of internal links (change box color with linkbordercolor)
-	citecolor=green,        % color of links to bibliography
-	filecolor=magenta,      % color of file links
-	urlcolor=cyan           % color of external links
+bookmarks=true,     % show bookmarks bar?
+colorlinks=true,       % false: boxed links; true: colored links
+linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+citecolor=blue,      % color of links to bibliography
+filecolor=magenta,  % color of file links
+urlcolor=cyan          % color of external links
 }
 
 %% Comments
@@ -70,6 +71,14 @@ Guide.
 
 \section{Notation}
 
+The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
+with the addition that template modules have been adapted from
+\cite{GhezziEtAl2003}.  The mathematical notation comes from Chapter 3 of
+\citet{HoffmanAndStrooper1995}.  For instance, the symbol := is used for a
+multiple assignment statement and conditional rules follow the form $(c_1
+\Rightarrow r_1 | c_2 \Rightarrow r_2 | ... | c_n \Rightarrow r_n )$.
+
+??? Have to Revise ???
 The following table summarizes the primitive data types used by \progname. 
 
 \begin{center}
@@ -133,7 +142,7 @@ The following table is taken directly from the Module Guide document for this pr
 
 \section{MIS of Control Module} \label{Main}
 
-\subsection{Short Name}
+\subsection{Module}
 
 main
 
@@ -183,7 +192,7 @@ main($s$): & transition: & $time$, $tempW$, $tempP$, $latHeat$, $eW$, $eP$, $eTo
 
 \section{MIS of Input Parameters Module} \label{Parameters}
 
-\subsection{Short Name}
+\subsection{Template Module}
 
 parameters
 
@@ -195,56 +204,152 @@ N/A
 
 \subsubsection{Exported Data Types}
 
-parameters := structure
+paramT = ?
 
 \subsubsection{Exported Access Programs}
 
-N/A
+\begin{tabular}{l l l l}
+\toprule
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\midrule
+new paramT & - & paramT &  - \\
+getL & - & real &  - \\
+get\_diam & - & real &  - \\
+getVp & - & real &  - \\
+... & - & real &  - \\
+get\_tau\_w\_noPCM & - & real &  - \\
+setL & real & - &  - \\
+set\_diam & real & - &  - \\
+setVp & real & - &  - \\
+... & real & - &  - \\
+set\_tau\_w\_noPCM & real & - &  - \\
+\bottomrule
+\end{tabular}
+
+\subsubsection{Assumptions}
+
+An instance of paramT will not be used before it has been initialized.
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
 
-$params$.$L$: real \\
-$params$.$diam$: real \\
-$params$.$Vp$: real \\
-$params$.$Ap$: real \\
-$params$.$rho\_p$: real \\
-$params$.$Tmelt$: real \\
-$params$.$C\_ps$: real \\
-$params$.$C\_pl$: real \\
-$params$.$Hf$: real \\
-$params$.$Ac$: real \\
-$params$.$Tc$: real \\
-$params$.$rho\_w$: real \\
-$params$.$C\_w$: real \\
-$params$.$hc$: real \\
-$params$.$hp$: real \\
-$params$.$Tinit$: real \\
-$params$.$tstep$: real \\
-$params$.$tfinal$: real \\
-$params$.$AbsTol$: real \\
-$params$.$RelTol$: real \\
-$params$.$ConsTol$: real \\
-$params$.$Vt$: real \\
-$params$.$Mw$: real \\
-$params$.$tau\_w$: real \\
-$params$.$eta$: real \\
-$params$.$Mp$: real \\
-$params$.$tau\_ps$: real \\
-$params$.$tau\_pl$: real \\
-$params$.$Epmelt\_init$: real \\
-$params$.$Ep\_melt3$: real \\ 
-$params$.$Mw\_noPCM$: real \\
-$params$.$tau\_w\_no\_PCM$: real
+L: real \\
+diam: real \\
+Vp: real \\
+Ap: real \\
+rho\_p: real \\
+Tmelt: real \\
+C\_ps: real \\
+C\_pl: real \\
+Hf: real \\
+Ac: real \\
+Tc: real \\
+rho\_w: real \\
+C\_w: real \\
+hc: real \\
+hp: real \\
+Tinit: real \\
+tstep: real \\
+tfinal: real \\
+AbsTol: real \\
+RelTol: real \\
+ConsTol: real \\
+Vt: real \\
+Mw: real \\
+tau\_w: real \\
+eta: real \\
+Mp: real \\
+tau\_ps: real \\
+tau\_pl: real \\
+Epmelt\_init: real \\
+Ep\_melt3: real \\ 
+Mw\_noPCM: real \\
+tau\_w\_no\_PCM: real
 
 \subsubsection{Access Routine Semantics}
 
-N/A
+\noindent new paramT():
+\begin{itemize}
+\item transition: L, diam,  Vp, Ap, ..., tau\_w\_no\_PCM := 0, 0, 0, 0, ..., 0
+\item output: \textit{out} := self
+\item exception: none
+\end{itemize}
+
+\noindent getL():
+\begin{itemize}
+\item output: \textit{out} := L
+\item exception: none
+\end{itemize}
+
+\noindent get\_diam():
+\begin{itemize}
+\item output: \textit{out} := diam
+\item exception: none
+\end{itemize}
+
+\noindent getVp():
+\begin{itemize}
+\item output: \textit{out} := Vp
+\item exception: none
+\end{itemize}
+
+\noindent getAp():
+\begin{itemize}
+\item output: \textit{out} := Ap
+\item exception: none
+\end{itemize}
+
+...
+
+\noindent get\_tau\_w\_no\_PCM():
+\begin{itemize}
+\item output: \textit{out} := tau\_w\_no\_PCM
+\item exception: none
+\end{itemize}
+
+\noindent setL(x):
+\begin{itemize}
+\item transition: L := x
+\item exception: none
+\end{itemize}
+
+\noindent set\_diam(x):
+\begin{itemize}
+\item transition: diam := x
+\item exception: none
+\end{itemize}
+
+\noindent setVp(x):
+\begin{itemize}
+\item transition: Vp := x
+\item exception: none
+\end{itemize}
+
+\noindent setAp(x):
+\begin{itemize}
+\item transition: Ap := x
+\item exception: none
+\end{itemize}
+
+...
+
+\noindent set\_tau\_w\_no\_PCM(x):
+\begin{itemize}
+\item transition: tau\_w\_no\_PCM := x
+\item exception: none
+\end{itemize}
+
+\subsection{Considerations}
+
+As implied above, there is a getter and a setter for each state variable.  All
+state variables are initially initialized to zero.  Some programming language
+implementations will likely use the dot notation to access the fields of this
+template module, rather than actually write out all of the getters and setters.
 
 \section{MIS of Input Format Module} \label{Load}
 
-\subsection{Short Name}
+\subsection{Module}
 
 load\_params
 
@@ -327,7 +432,7 @@ calcTauwnoPCM($Mw\_noPCM$, $C\_w$, $hc$, $Ac$) $equiv$ $\frac{Mw\_noPCM \times C
 
 \section{MIS of Input Verification Module} \label{VerifyInput}
 
-\subsection{Short Name}
+\subsection{Module}
 
 verify\_params
 
@@ -377,7 +482,7 @@ verify\_recommended($params$): & transition: & $win$: (Warning is thrown $\Right
 
 \section{MIS of Temperature ODEs Module} \label{Temperature}
 
-\subsection{Short Name}
+\subsection{Module}
 
 temperature
 
@@ -444,7 +549,7 @@ event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: real \time
 
 \section{MIS of ODE Solver Module} \label{ODE}
 
-\subsection{Short Name}
+\subsection{Module}
 
 ODE Solver Module
 
@@ -488,7 +593,7 @@ solve($f$, $domain$, $ics$, $events$, $abstol$, $reltol$) & output: & $out := re
 
 \section{MIS of Energy Module} \label{Energy}
 
-\subsection{Short Name}
+\subsection{Module}
 
 energy
 
@@ -575,7 +680,7 @@ pcmEnergy3($Tp$, $params$) $\equiv$ $params.Epmelt\_init + params.Ep\_melt3 + pa
 
 \section{MIS of Output Verification Module} \label{VerifyOutput}
 
-\subsection{Short Name}
+\subsection{Module}
 
 verify\_output
 
@@ -652,7 +757,7 @@ error($exp$, $act$) $\equiv$ $\frac{|exp - act|}{act} \times 100$ \\
 
 \section{MIS of Plotting Module} \label{Plot}
 
-\subsection{Short Name}
+\subsection{Module}
 
 plot
 
@@ -699,7 +804,7 @@ plot($t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & $directory$: writ
 
 \section{MIS of Output Module} \label{Output}
 
-\subsection{Short Name}
+\subsection{Module}
 
 output
 
@@ -743,6 +848,9 @@ output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $ETot$, $filename$): & transition:
 & exception: & none \\
 \end{tabular}
 \end{center}
+
+\bibliographystyle {plainnat}
+\bibliography {MIS}
 
 \section{Appendix} \label{Appendix}
 
