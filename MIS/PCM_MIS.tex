@@ -19,7 +19,7 @@
 \usepackage{multirow}
 \usepackage[section]{placeins}
 \usepackage{caption}
-\usepackage{fullpage}
+%\usepackage{fullpage}
 
 \hypersetup{
 bookmarks=true,     % show bookmarks bar?
@@ -78,7 +78,6 @@ with the addition that template modules have been adapted from
 multiple assignment statement and conditional rules follow the form $(c_1
 \Rightarrow r_1 | c_2 \Rightarrow r_2 | ... | c_n \Rightarrow r_n )$.
 
-??? Have to Revise ???
 The following table summarizes the primitive data types used by \progname. 
 
 \begin{center}
@@ -97,11 +96,10 @@ real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
 \end{center}
 
 \noindent
-\progname \ also uses some derived data types: arrays, strings, and
-structures. Arrays are lists filled with elements of the same data type. Strings
-are arrays of characters. Structures contain pairs of keys and values, where
-keys are unique variable names used to identify their corresponding value, and
-values can be of any data type. In addition, \progname \ uses functions, which
+The specification of \progname \ uses some derived data types: sequences, strings, and
+tuples. Sequences are lists filled with elements of the same data type. Strings
+are sequences of characters. Tuples contain a list of values, potentially of
+different types. In addition, \progname \ uses functions, which
 are defined by the data types of their inputs and outputs. Functions are
 described by showing their input data types separated by multiplication symbols
 on the left side of an arrow, and their output data type on the right side.
@@ -140,6 +138,8 @@ The following table is taken directly from the Module Guide document for this pr
 	\label{TblMH}
 \end{table}
 
+\newpage
+~\newpage
 \section{MIS of Control Module} \label{Main}
 
 \subsection{Module}
@@ -148,10 +148,10 @@ main
 
 \subsection{Uses}
 
-parameters (\ref{Parameters}), load\_params (\ref{Load}), verify\_params
-(\ref{VerifyInput}), temperature (\ref{Temperature}), ODE Solvers Module
-(\ref{ODE}), energy (\ref{Energy}), verify\_output (\ref{VerifyOutput}), plot
-(\ref{Plot}), output (\ref{Output})
+parameters (Section~\ref{Parameters}), load\_params (Section~\ref{Load}), verify\_params
+(Section~\ref{VerifyInput}), temperature (Section~\ref{Temperature}), ODE Solvers Module
+(Section~\ref{ODE}), energy (Section~\ref{Energy}), verify\_output (Section~\ref{VerifyOutput}), plot
+(Section~\ref{Plot}), output (Section~\ref{Output})
 
 \subsection{Syntax}
 
@@ -171,13 +171,13 @@ main & string & - & - \\
 
 \subsubsection{State Variables}
 
-$time$: array of reals \\
-$tempW$: array of reals \\
-$tempP$: array of reals \\
-$latHeat$: array of reals \\
-$eW$: array of reals \\
-$eP$: array of reals \\ 
-$eTot$: array of reals
+$time$: array of $\mathbb{R}$ \\
+$tempW$: array of $\mathbb{R}$ \\
+$tempP$: array of $\mathbb{R}$ \\
+$latHeat$: array of $\mathbb{R}$ \\
+$eW$: array of $\mathbb{R}$ \\
+$eP$: array of $\mathbb{R}$ \\ 
+$eTot$: array of $\mathbb{R}$
 
 \subsubsection{Environment Variables}
 
@@ -186,15 +186,21 @@ $win$: 2D array of pixels displayed on the screen
 \subsubsection{Access Routine Semantics}
 
 \begin{tabular}{l l p{12cm}}
-main($s$): & transition: & $time$, $tempW$, $tempP$, $latHeat$, $eW$, $eP$, $eTot$, $win :=$ $results$[0], $results$[1], $results$[2], $results$[3], $eW1 \| eW2 \| eW3$, $eP1 \| eP2 \| eP3$, ($\forall i \in$ [0..$|post$($eW$)$| - 1$]) ($post$($eW$[$i$]) $+$ $post$($eP$[$i$])), Prints information about the melting of PCM. \\
+main($s$): & transition: & $time$, $tempW$, $tempP$, $latHeat$, $eW$, $eP$,
+                           $eTot$, $win :=$ $results$[0], $results$[1],
+                           $results$[2], $results$[3], $eW1 \| eW2 \| eW3$, $eP1
+                           \| eP2 \| eP3$, ($\forall i \in$ [0..$|post$($eW$)$|
+                           - 1$]) ($post$($eW$[$i$]) $+$ $post$($eP$[$i$])),
+                           Prints information about the melting of PCM. \\
 & exception: & none \\
 \end{tabular}
 
+\newpage
 \section{MIS of Input Parameters Module} \label{Parameters}
 
-\subsection{Template Module}
+\subsection{Module}
 
-parameters
+Param
 
 \subsection{Uses}
 
@@ -202,9 +208,9 @@ N/A
 
 \subsection{Syntax}
 
-\subsubsection{Exported Data Types}
+% \subsubsection{Exported Data Types}
 
-paramT = ?
+% paramT = ?
 
 \subsubsection{Exported Access Programs}
 
@@ -212,64 +218,65 @@ paramT = ?
 \toprule
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \midrule
-new paramT & - & paramT &  - \\
-getL & - & real &  - \\
-get\_diam & - & real &  - \\
-getVp & - & real &  - \\
-... & - & real &  - \\
-get\_tau\_w\_noPCM & - & real &  - \\
-setL & real & - &  - \\
-set\_diam & real & - &  - \\
-setVp & real & - &  - \\
-... & real & - &  - \\
-set\_tau\_w\_noPCM & real & - &  - \\
+init & - & - &  - \\
+getL & - & $\mathbb{R}$ &  - \\
+get\_diam & - & $\mathbb{R}$ &  - \\
+getVp & - & $\mathbb{R}$ &  - \\
+... & - & $\mathbb{R}$ &  - \\
+get\_tau\_w\_noPCM & - & $\mathbb{R}$ &  - \\
+setL & $\mathbb{R}$ & - &  - \\
+set\_diam & $\mathbb{R}$ & - &  - \\
+setVp & $\mathbb{R}$ & - &  - \\
+... & $\mathbb{R}$ & - &  - \\
+set\_tau\_w\_noPCM & $\mathbb{R}$ & - &  - \\
 \bottomrule
 \end{tabular}
 
 \subsubsection{Assumptions}
 
-An instance of paramT will not be used before it has been initialized.
+Parameters will not be used before it has been initialized.  That is, init will
+be called before any other access programs.
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
 
-L: real \\
-diam: real \\
-Vp: real \\
-Ap: real \\
-rho\_p: real \\
-Tmelt: real \\
-C\_ps: real \\
-C\_pl: real \\
-Hf: real \\
-Ac: real \\
-Tc: real \\
-rho\_w: real \\
-C\_w: real \\
-hc: real \\
-hp: real \\
-Tinit: real \\
-tstep: real \\
-tfinal: real \\
-AbsTol: real \\
-RelTol: real \\
-ConsTol: real \\
-Vt: real \\
-Mw: real \\
-tau\_w: real \\
-eta: real \\
-Mp: real \\
-tau\_ps: real \\
-tau\_pl: real \\
-Epmelt\_init: real \\
-Ep\_melt3: real \\ 
-Mw\_noPCM: real \\
-tau\_w\_no\_PCM: real
+L: $\mathbb{R}$ \\
+diam: $\mathbb{R}$ \\
+Vp: $\mathbb{R}$ \\
+Ap: $\mathbb{R}$ \\
+rho\_p: $\mathbb{R}$ \\
+Tmelt: $\mathbb{R}$ \\
+C\_ps: $\mathbb{R}$ \\
+C\_pl: $\mathbb{R}$ \\
+Hf: $\mathbb{R}$ \\
+Ac: $\mathbb{R}$ \\
+Tc: $\mathbb{R}$ \\
+rho\_w: $\mathbb{R}$ \\
+C\_w: $\mathbb{R}$ \\
+hc: $\mathbb{R}$ \\
+hp: $\mathbb{R}$ \\
+Tinit: $\mathbb{R}$ \\
+tstep: $\mathbb{R}$ \\
+tfinal: $\mathbb{R}$ \\
+AbsTol: $\mathbb{R}$ \\
+RelTol: $\mathbb{R}$ \\
+ConsTol: $\mathbb{R}$ \\
+Vt: $\mathbb{R}$ \\
+Mw: $\mathbb{R}$ \\
+tau\_w: $\mathbb{R}$ \\
+eta: $\mathbb{R}$ \\
+Mp: $\mathbb{R}$ \\
+tau\_ps: $\mathbb{R}$ \\
+tau\_pl: $\mathbb{R}$ \\
+Epmelt\_init: $\mathbb{R}$ \\
+Ep\_melt3: $\mathbb{R}$ \\ 
+Mw\_noPCM: $\mathbb{R}$ \\
+tau\_w\_no\_PCM: $\mathbb{R}$
 
 \subsubsection{Access Routine Semantics}
 
-\noindent new paramT():
+\noindent init():
 \begin{itemize}
 \item transition: L, diam,  Vp, Ap, ..., tau\_w\_no\_PCM := 0, 0, 0, 0, ..., 0
 \item output: \textit{out} := self
@@ -347,15 +354,16 @@ state variables are initially initialized to zero.  Some programming language
 implementations will likely use the dot notation to access the fields of this
 template module, rather than actually write out all of the getters and setters.
 
+\newpage
 \section{MIS of Input Format Module} \label{Load}
 
 \subsection{Module}
 
-load\_params
+Load\_params
 
 \subsection{Uses}
 
-parameters (\ref{Parameters})
+Param (Section~\ref{Parameters})
 
 \subsection{Syntax}
 
@@ -366,92 +374,7 @@ parameters (\ref{Parameters})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-load\_params & string & parameters &  - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-$params$: parameters \\
-$param$: array of reals
-
-\subsubsection{Assumptions}
-
-The input string corresponds to an existing filename in the current
-directory. The input file is formatted correctly. It should contain the numeric
-values for each input parameter in order, each on a new line. The order is the
-same as in the table in R1 of the SRS. Any comments should be denoted with a
-'\#' symbol.
-
-\subsubsection{Access Routine Semantics}
-
-\begin{center}
-\begin{tabular}{l l p{11cm}}
-load\_params($s$): & transition: & $params$.$L$, $params$.$diam$, $params$.$Vp$, $params$.$Ap$, $params$.$rho\_p$, $params$.$Tmelt$, $params$.$C\_ps$, $params$.$C\_pl$, $params$.$Hf$, $params$.$Ac$, $params$.$Tc$, $params$.$rho\_w$, $params$.$C\_w$, $params$.$hc$, $params$.$hp$, $params$.$Tinit$, $params$.$tstep$, $params$.$tfinal$, $params$.$AbsTol$, $params$.$RelTol$, $params$.$ConsTol$, $params$.$Vt$, $params$.$Mw$, $params$.$tau\_w$, $params$.$eta$, $params$.$Mp$, $params$.$tau\_ps$, $params$.$tau\_pl$, $params$.$Epmelt\_init$, $params$.$Ep\_melt3$, $params$.$Mw\_noPCM$, $params$.$tau\_w\_noPCM$ $:=$ $param$[0], $param$[1], $param$[2], $param$[3], $param$[4], $param$[5], $param$[6], $param$[7], $param$[8], $param$[9], $param$[10], $param$[11], $param$[12], $param$[13], $param$[14], $param$[15], $param$[16], $param$[17], $param$[18], $param$[19], $param$[20], calcVt(post($params.L$), post($params.diam$)), calcMw(post($params.Vp$), post($params.rho\_w$), post($params.Vt$)), calcTauw(post($params.Mw$), post($params.C\_w$), post($params.hc$), post($params.Ac$)), calcEta(post($params.hp$), post($params.Ap$), post($params.hc$), post($params.Ac$)), calcMp(post($params.rho\_p$). post($params.Vp$)), calcTaups(post($params.Mp$), post($params.C\_ps$), post($params.hp$), post($params.Ap$)), calcTaupl(post($params.Mp$), post($params.C\_pl$), post($params.hp$), post($params.Ap$)), calcEpmeltinit(post($params.C\_ps$), post($params.Mp$), post($params.Tmelt$), post($params.Tinit$)), calcEpmelt3(post($params.Hf$), post($params.Mp$)), calcMwnoPCM(post($params.rho\_w$), post($params.Vt$)), calcTauwnoPCM(post($params.Mw\_noPCM$), post($params.C\_w$), post($params.hc$), post($params.Ac$)), where $param$ is the array of parameters obtained from the input file $s$ \\
-& exception: & none \\
-\end{tabular}
-\end{center}
-
-\subsubsection{Local Functions}
-
-calcVt: real $\times$ real $\rightarrow$ real \\
-calcVt($L$, $diam$) $\equiv$ $\pi \times L \times (\frac{diam}{2}) ^ 2$ \\
-\newline
-calcMw: real $\times$ real $\times$ real $\rightarrow$ real \\
-calcMw($Vp$, $rho\_w$, $Vt$) $\equiv$ $rho\_w \times (Vt - Vp)$ \\
-\newline
-calcTauw: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
-calcTauw($Mw$, $C\_w$, $hc$, $Ac$) $\equiv$ $\frac{Mw \times C\_w}{Ac \times hc}$ \\
-\newline
-calcEta: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
-calcEta($hp$, $Ap$, $hc$, $Ac$) $\equiv$ $\frac{hp \times Ap}{hc \times Ac}$ \\
-\newline
-calcMp: real $\times$ real $\rightarrow$ real \\
-calcMp($rho\_p$, $Vp$) $\equiv$ $rho\_p \times Vp$ \\
-\newline
-calcTaups: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
-calcTaups($Mp$, $C\_ps$, $hp$, $Ap$) $\equiv$ $\frac{Mp \times C\_ps}{hp \times Ap}$ \\
-\newline
-calcTaupl: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
-calcTaupl($Mp$, $C\_pl$, $hp$, $Ap$) $\equiv$ $\frac{Mp \times C\_pl}{hp \times Ap}$ \\
-\newline
-calcEpmeltinit: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
-calcEpmeltinit($C\_ps$, $Mp$, $Tmelt$, $Tinit$) $\equiv$ $C\_ps \times Mp \times (Tmelt - Tinit)$ \\
-\newline
-calcEpmelt3: real $\times$ real $\rightarrow$ real \\
-calcEpmelt3($Hf$, $Mp$) $\equiv$ $Hf \times Mp$ \\
-\newline
-calcMwnoPCM: real $\times$ real $\rightarrow$ real \\
-calcMwnoPCM($rho\_w$, $Vt$) $\equiv$ $rho\_w \times Vt$ \\
-\newline
-calcTauwnoPCM: real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
-calcTauwnoPCM($Mw\_noPCM$, $C\_w$, $hc$, $Ac$) $equiv$ $\frac{Mw\_noPCM \times C\_w}{hc \times Ac}$ \\
-
-\section{MIS of Input Verification Module} \label{VerifyInput}
-
-\subsection{Module}
-
-verify\_params
-
-\subsection{Uses}
-
-parameters (\ref{Parameters})
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-\begin{tabular}{p{4cm} p{2cm} p{2cm} p{6cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-verify\_valid & parameters & - & badLength, badDiam, badPCMVolume, badPCMAndTankVol, badPCMArea, badPCMDensity, badMeltTemp, badCoilAndInitTemp, badCoilTemp, badPCMHeatCapSolid, badPCMHeatCapLiquid, badHeatFusion, badCoilArea, badWaterDensity, badWaterHeatCap, badCoilCoeff, badPCMCoeff, badInitTemp, badFinalTime, badInitAndMeltTemp \\
-\hline
-verify\_recommended & parameters & - & - \\
+load\_params & string & - &  - \\
 \hline
 \end{tabular}
 \end{center}
@@ -460,26 +383,195 @@ verify\_recommended & parameters & - & - \\
 
 \subsubsection{Environment Variables}
 
-$win$: 2D array of pixels displayed on the screen.
+f: sequence of string \#\textit{f[i] is the ith string in the text file f}\\ 
 
 \subsubsection{Assumptions}
 
-All of the fields of the input parameters structure have been assigned a value.
+The input string corresponds to an existing filename.  The name will be relative
+to the current directory. The input file is assumed to be formatted
+correctly. The file contains the string equivalents of the numeric values for
+each input parameter in order, each on a new line. The order is the same as in
+the table in R1 of the SRS. Any comments in the input file should be denoted
+with a '\#' symbol.
 
 \subsubsection{Access Routine Semantics}
 
-\begin{center}
-\begin{tabular}{l l p{10cm}}
-verify\_valid($params$): & transition: & $win$: (error is thrown $\Rightarrow$ Prints error message) \\
-& exceptions: & $exc :=$ ($params.L \leq 0 \Rightarrow$ badLength $|$ $params.diam \leq 0 \Rightarrow$ badDiam $|$ $params.Vp \leq 0 \Rightarrow$ badPCMVolume $|$ $params.Vp \geq params.Vt \Rightarrow$ badPCMAndTankVol $|$ $params.Ap \leq 0 \Rightarrow$ badPCMArea $|$ $params.rho\_p \leq 0 \Rightarrow$ badPCMDensity $|$ $params.Tmelt \leq 0 \lor params.Tmelt \geq params.Tc \Rightarrow$ badMeltTemp $|$ $params.Tc \leq params.Tinit \Rightarrow$ badCoilAndInitTemp $|$ $params.Tc \geq 100 \lor params.Tc \leq 0 \Rightarrow$ badCoilTemp $|$ $params.C\_ps \leq 0 \Rightarrow$ badPCMHeatCapSolid $|$ $params.C\_pl \leq 0 \Rightarrow$ badPCMHeatCapLiquid $|$ $params.Hf \leq 0 \Rightarrow$ badHeatFusion $|$ $params.Ac \leq 0 \Rightarrow$ badCoilArea $|$ $params.rho\_w \leq 0 \Rightarrow$ badWaterDensity $|$ $params.C\_w \leq 0 \Rightarrow$ badWaterHeatCap $|$ $params.hc \leq 0 \Rightarrow$ badCoilCoeff $|$ $params.hp \leq 0 \Rightarrow$ badPCMCoeff $|$ $params.Tinit \leq 0 \lor params.Tinit \geq 100 \Rightarrow$ badInitTemp $|$ $params.tfinal \leq 0 \Rightarrow$ badFinalTime $|$ $params.Tinit \geq params.Tmelt \Rightarrow$ badInitAndMeltTemp)  See Appendix (\ref{Appendix}) for the complete list of exceptions and associated error messages. \\
-\end{tabular}
+load\_params($s$): \\
+\begin{itemize}
+\item transition: The filename $s$ is first associated with the file f.
+  File $f$ is then used to modify the state of Param (Section~\ref{Parameters}) as
+  follows:
+\begin{enumerate}
+\item Param.init()
+\item Read data sequentially from f to populate the state variables of
+  Param from L to ConsTol.
+\item Calculate the derived quantities in Param as follows:
+\begin{itemize}
+\item Param.setVt(calcVt(Param.getL(), Param.get\_diam()))
+\item Param.setMw(calcMw(Param.getVp(), Param.get\_rho\_w(), Param.getVt()))
+\item Param.set\_tau\_w(calcTauw(Param.getMw(), Param.getC\_w(), Param.get\_hc(), Param.getAc()))
+\item Param.set\_eta(calcEta(Param.get\_hp(), Param.getAp(), Param.get\_hc(), Param.getAc()))
+\item Param.setMp(calcMp(Param.get\_rho\_p(), Param.getVp()))
+\item Param.set\_tau\_ps(calcTaups(Param.getMp(), Param.getC\_ps(),
+  Param.get\_hp(), Param.getAp()))
+\item Param.set\_taul\_pl(calcTaupl(Param.getMp(), Param.getC\_pl(),
+  Param.get\_hp(), Param.getAp()))
+\item Param.setEpmelt\_init(calcEpmeltinit(Param.getC\_ps(), Param.getMp(),
+  Param.getTmelt(), Param.getTinit()))
+\item Param.setEp\_melt3(calcEpmelt3(Param.getHf(), Param.getMp()))
+\item Param.setMw\_noPCM(calcMwno(Param.get\_rho\_w, Param.getVt()))
+\item Param.set\_tau\_no\_PCM(calcTauwnoPCM(Param.getMw\_noPCM(),
+  Param.getC\_w(), Param.get\_hc(), Param.getAc()))
+\end{itemize}
+\end{enumerate}
 
-\begin{tabular}{l l p{8cm}}
-verify\_recommended($params$): & transition: & $win$: (Warning is thrown $\Rightarrow$ Prints warning message) \\
-& exceptions: & $exc :=$ ($params.L < 0.1 \lor params.L > 50 \Rightarrow$ warnLength $|$ $params.diam / params.L < 0.002 \lor params.diam / params.L > 200 \Rightarrow$ warnDiam $|$ $params.Vp < params.Vt \times 10 ^ -6 \Rightarrow$ warnPCMVol $|$ $params.Vp > params.Ap \lor params.Ap > (2/0.001) \times params.Vp \Rightarrow$ warnVolArea $|$ $params.rho\_p \leq 500 \lor params.rho\_p \geq 20000 \Rightarrow$ warnPCMDensity $|$ $params.C\_ps \leq 100 \lor params.C\_ps \geq 4000 \Rightarrow$ warnPCMHeatCapSolid $|$ $params.C\_pl \leq 100 \lor params.C\_pl \geq 5000 \Rightarrow$ warnPCMHeatCapLiquid $|$ $params.Ac > \pi \times (params.diam / 2) ^ 2 \Rightarrow$ warnCoilArea $|$ $params.rho\_w \leq 950 \lor params.rho\_w > 1000 \Rightarrow$ warnWaterDensity $|$ $params.C\_w \leq 4170 \lor params.C\_w \geq 4210 \Rightarrow$ warnWaterHeatCap $|$ $params.hc \leq 10 \lor params.hc \geq 10000 \Rightarrow$ warnCoilCoeff $|$ $params.hp \leq 10 \lor params.hp \geq 10000 \Rightarrow$ warnPCMCoeff $|$ $params.tfinal \leq 0 \lor params.tfinal \geq 86400 \Rightarrow$ warnFinalTime) None of these exceptions terminate the program. See Appendix (\ref{Appendix}) for the complete list of exceptions and associated warning messages. \\
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+calcVt: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcVt($L$, $d$) $\equiv$ $\pi \times L \times (\frac{d}{2}) ^ 2$ \\
+\newline
+calcMw: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcMw($V_p$, $\rho_w$, $V_t$) $\equiv$ $\rho_w (V_t - V_p)$ \\
+\newline
+calcTauw: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcTauw($m_w$, $C_w$, $h_c$, $A_c$) $\equiv$ $\frac{m_w C_w}{A_c h_c}$ \\
+\newline
+calcEta: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcEta($h_p$, $A_p$, $h_c$, $A_c$) $\equiv$ $\frac{h_p A_p}{h_c A_c}$ \\
+\newline
+calcMp: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcMp($\rho_p$, $V_p$) $\equiv$ $\rho_p V_p$ \\
+\newline
+calcTaups: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcTaups($M_p$, $C_{ps}$, $h_p$, $A_p$) $\equiv$ $\frac{M_p C_{ps}}{h_p A_p}$ \\
+\newline
+calcTaupl: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcTaupl($M_p$, $C_{pl}$, $h_p$, $A_p$) $\equiv$ $\frac{M_p C_{pl}}{h_p A_p}$ \\
+\newline
+calcEpmeltinit: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcEpmeltinit($C_{ps}$, $M_p$, $T_{\text{melt}}$, $T_{\text{init}}$) $\equiv$ $C_{ps} M_p (T_{\text{melt}} - T_{\text{init}})$ \\
+\newline
+calcEpmelt3: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcEpmelt3($H_f$, $M_p$) $\equiv$ $H_f M_p$ \\
+\newline
+calcMwnoPCM: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcMwnoPCM($\rho_w$, $V_t$) $\equiv$ $\rho_w  V_t$ \\
+\newline
+calcTauwnoPCM: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
+calcTauwnoPCM(${M_w}_{\text{noPCM}}$, $C_w$, $h_c$, $A_c$) $\equiv$
+$\frac{{M_w}_{\text{noPCM}} C_w}{h_c A_c}$ \\
+
+\newpage
+\section{MIS of Input Verification Module} \label{VerifyInput}
+
+\subsection{Module}
+
+verify\_params
+
+\subsection{Uses}
+
+Param (Section~\ref{Parameters})
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{3cm} p{1cm} p{1cm} p{9cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+verify\_valid & - & - & badLength, badDiam, badPCMVolume, badPCMAndTankVol,
+                        badPCMArea, badPCMDensity, badMeltTemp,
+                        badCoilAndInitTemp, badCoilTemp, badPCMHeatCapSolid,
+                        badPCMHeatCapLiquid, badHeatFusion, badCoilArea,
+                        badWaterDensity, badWaterHeatCap, badCoilCoeff,
+                        badPCMCoeff, badInitTemp, badFinalTime,
+                        badInitAndMeltTemp \\
+\hline
+verify\_recommend & - & - & - \\
+\hline
 \end{tabular}
 \end{center}
 
+\subsection{Semantics}
+
+% \subsubsection{Environment Variables}
+
+% $win$: 2D array of pixels displayed on the screen.
+
+\subsubsection{Assumptions}
+
+All of the fields Param have been assigned values before any of the access
+routines for this module are called.
+
+\subsubsection{Access Routine Semantics}
+
+verify\_valid(): 
+\begin{itemize}
+\item transition: none
+\item exceptions: exc := (\\
+Param.getL() $\leq 0 \Rightarrow$ badLength $|$\\
+Param.get\_diam() $\leq 0 \Rightarrow$ badDiam $|$\\
+Params.get\_Vp() $\leq 0 \Rightarrow$ badPCMVolume $|$\\
+Params.getVp() $\geq$ Params.Vt $\Rightarrow$ badPCMAndTankVol $|$\\
+Params.getAp() $\leq 0 \Rightarrow$ badPCMArea $|$\\
+Params.get\_rho\_p() $\leq 0 \Rightarrow$ badPCMDensity $|$\\
+Params.getTmelt() $\leq 0 \Rightarrow$ badMeltTemp $|$\\
+Params.getTmelt() $\geq$ Params.getTc() $\Rightarrow$ badMeltTemp $|$\\
+Params.getTc() $\leq$ Params.getTinit() $\Rightarrow$ badCoilAndInitTemp $|$\\
+Params.getTc() $\geq 100 \lor$ Params.getTc() $\leq 0 \Rightarrow$ badCoilTemp $|$\\
+Params.getC\_ps() $\leq 0 \Rightarrow$ badPCMHeatCapSolid $|$\\
+Params.getC\_pl() $\leq 0 \Rightarrow$ badPCMHeatCapLiquid $|$\\
+Params.getHf() $\leq 0 \Rightarrow$ badHeatFusion $|$\\
+Params.getAc() $\leq 0 \Rightarrow$ badCoilArea $|$\\
+Params.get\_rho()\_w $\leq 0 \Rightarrow$ badWaterDensity $|$\\
+Params.getC\_w() $\leq 0 \Rightarrow$ badWaterHeatCap $|$\\
+Params.get\_hc() $\leq 0 \Rightarrow$ badCoilCoeff $|$\\
+Params.get\_hp() $\leq 0 \Rightarrow$ badPCMCoeff $|$\\
+Params.getTinit() $\leq 0 \lor$ Params.getTinit() $\geq 100 \Rightarrow$
+badInitTemp $|$\\
+Params.get\_tfinal() $\leq 0 \Rightarrow$ badFinalTime $|$\\
+Params.getTinit() $\geq$ Params.getTmelt() $\Rightarrow$ badInitAndMeltTemp)  
+\end{itemize}
+
+verify\_recommend():
+\begin{itemize}
+\item transition: none
+\item exceptions: exc := (\\
+Params.getL() $< 0.1 \lor$ Params.getL() $> 50 \Rightarrow$ warnLength $|$\\
+Params.getdiam() / Params.getL() $< 0.002 \lor$ Params.getdiam() / Params.getL() $> 200
+\Rightarrow$ warnDiam $|$\\
+Params.getVp() $<$ Params.getVt() $\times 10 ^ -6 \Rightarrow$ warnPCMVol $|$\\
+Params.getVp() $>$ Params.getAp() $\lor$ Params.getAp $> (2/0.001) \times$ Params.getVp()
+$\Rightarrow$ warnVolArea $|$\\
+(Params.get\_rho\_p() $\leq 500) \lor ($ Params.get\_rho\_p() $\geq 20000) \Rightarrow$
+warnPCMDensity $|$ ... )\\
+\# \textit{Need to continue for the rest of the example - tabular form?}
+ % Params.getC\_ps \leq 100 \lor Params.getC\_ps \geq 4000 \Rightarrow$
+ % warnPCMHeatCapSolid $|$\\
+ % Params.getC\_pl \leq 100 \lor Params.getC\_pl \geq 5000 \Rightarrow$
+ % warnPCMHeatCapLiquid $|$\\
+ % Params.getAc > \pi \times (Params.getdiam / 2) ^ 2 \Rightarrow$ warnCoilArea
+ % $|$\\
+ % Params.getrho\_w \leq 950 \lor Params.getrho\_w > 1000 \Rightarrow$
+ % warnWaterDensity $|$\\
+ % Params.getC\_w \leq 4170 \lor Params.getC\_w \geq 4210 \Rightarrow$
+ % warnWaterHeatCap $|$\\
+ % Params.gethc \leq 10 \lor Params.gethc \geq 10000 \Rightarrow$ warnCoilCoeff $|$\\
+ % Params.gethp \leq 10 \lor Params.gethp \geq 10000 \Rightarrow$ warnPCMCoeff $|$\\
+ % Params.gettfinal \leq 0 \lor Params.gettfinal \geq 86400 \Rightarrow$ warnFinalTime)
+\end{itemize}
+
+\subsection{Considerations}
+
+See Appendix (Section~\ref{Appendix}) for the complete list of exceptions and
+associated error messages.
+
+\newpage
 \section{MIS of Temperature ODEs Module} \label{Temperature}
 
 \subsection{Module}
@@ -488,7 +580,7 @@ temperature
 
 \subsection{Uses}
 
-parameters (\ref{Parameters})
+Param (Section~\ref{Parameters})
 
 \subsection{Syntax}
 
@@ -499,15 +591,15 @@ parameters (\ref{Parameters})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-temperature1 & array of reals, array of reals, array of reals, parameters & array of functions & - \\
+temperature1 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & array of functions & - \\
 \hline
-temperature2 & array of reals, array of reals, array of reals, array of reals, parameters & array of functions & - \\
+temperature2 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & array of functions & - \\
 \hline
-temperature3 & array of reals, array of reals, array of reals, parameters & array of functions & - \\
+temperature3 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & array of functions & - \\
 \hline
-event1 & array of reals, array of reals, array of reals, parameters & function & - \\
+event1 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & function & - \\
 \hline
-event2 & array of reals, array of reals, array of reals, array of reals, parameters & function & - \\
+event2 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & function & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -516,14 +608,14 @@ event2 & array of reals, array of reals, array of reals, array of reals, paramet
 
 \subsubsection{State Variables}
 
-$t$: array of reals \\
-$Tw1$: array of reals \\
-$Tw2$: array of reals \\
-$Tw3$: array of reals \\
-$Tp1$: array of reals \\
-$Tp2$: array of reals \\
-$Tp3$: array of reals \\
-$Qp2$: array of reals 
+$t$: array of $\mathbb{R}$ \\
+$Tw1$: array of $\mathbb{R}$ \\
+$Tw2$: array of $\mathbb{R}$ \\
+$Tw3$: array of $\mathbb{R}$ \\
+$Tp1$: array of $\mathbb{R}$ \\
+$Tp2$: array of $\mathbb{R}$ \\
+$Tp3$: array of $\mathbb{R}$ \\
+$Qp2$: array of $\mathbb{R}$ 
 
 \subsubsection{Assumptions}
 
@@ -534,19 +626,20 @@ value. The values have been properly constrained.
 
 \begin{center}
 \begin{tabular}{l l p{6cm}}
-temperature1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ \{$dTw: real \times real \times real \rightarrow real$, $dTp: real \times real \times real \rightarrow real$\} \\
+temperature1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
 & exception: & none \\ \\
-temperature2($t$, $Tw2$, $Tp2$, $Qp2$, $params$): & output: & $out :=$ \{$dTw: real \times real \times real \times real \rightarrow real$, $dTp: real \times real \times real \times real \rightarrow real$, $dQp: real \times real \times real \times real \rightarrow real$\} \\
+temperature2($t$, $Tw2$, $Tp2$, $Qp2$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dQp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
 & exception: & none \\ \\
-temperature3($t$, $Tw3$, $Tp3$, $params$): & output: & $out :=$ \{$dTw: real \times real \times real \rightarrow real$, $dTp: real \times real \times real \rightarrow real$\} \\
+temperature3($t$, $Tw3$, $Tp3$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
 & exception: & none \\ \\
-event1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ $Ev: real \times real \times real \rightarrow real$ \\ 
+event1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ $Ev: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$ \\ 
 & exception: & none \\ \\
-event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: real \times real \times real \times real \rightarrow real$ \\
+event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$ \\
 & exception: & none \\
 \end{tabular}
 \end{center}
 
+\newpage
 \section{MIS of ODE Solver Module} \label{ODE}
 
 \subsection{Module}
@@ -571,7 +664,7 @@ $N$: natural number
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-solve & function, array of reals, array of reals, function, real, real & array of reals ($N$ of them) & ODE\_BAD\_INPUT, ODE\_MAXSTEP, ODE\_ACCURACY \\
+solve & function, array of $\mathbb{R}$, array of $\mathbb{R}$, function, $\mathbb{R}$, $\mathbb{R}$ & array of $\mathbb{R}$ ($N$ of them) & ODE\_BAD\_INPUT, ODE\_MAXSTEP, ODE\_ACCURACY \\
 \hline 
 \end{tabular}
 \end{center}
@@ -580,7 +673,7 @@ solve & function, array of reals, array of reals, function, real, real & array o
 
 \subsubsection{State Variables}
 
-$results$: array of reals ($N$ of them)
+$results$: array of $\mathbb{R}$ ($N$ of them)
 
 \subsubsection{Access Routine Semantics}
 
@@ -591,6 +684,7 @@ solve($f$, $domain$, $ics$, $events$, $abstol$, $reltol$) & output: & $out := re
 \end{tabular}
 \end{center}
 
+\newpage
 \section{MIS of Energy Module} \label{Energy}
 
 \subsection{Module}
@@ -599,7 +693,7 @@ energy
 
 \subsection{Uses}
 
-parameters (\ref{Parameters})
+Param (Section~\ref{Parameters})
 
 \subsection{Syntax}
 
@@ -610,17 +704,17 @@ parameters (\ref{Parameters})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-energy1Wat & array of reals, parameters & array of reals & - \\
+energy1Wat & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
 \hline
-energy1PCM & array of reals, parameters & array of reals & - \\
+energy1PCM & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
 \hline
-energy2Wat & array of reals, parameters & array of reals & - \\
+energy2Wat & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
 \hline
-energy2PCM & array of reals, parameters & array of reals & - \\
+energy2PCM & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
 \hline
-energy3Wat & array of reals, parameters & array of reals & - \\
+energy3Wat & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
 \hline
-energy3PCM & array of reals, parameters & array of reals & - \\
+energy3PCM & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -629,12 +723,12 @@ energy3PCM & array of reals, parameters & array of reals & - \\
 
 \subsubsection{State Variables}
 
-$eW1$: array of reals \\
-$eP1$: array of reals \\
-$eW2$: array of reals \\
-$eP2$: array of reals \\
-$eW3$: array of reals \\
-$eP3$: array of reals 
+$eW1$: array of $\mathbb{R}$ \\
+$eP1$: array of $\mathbb{R}$ \\
+$eW2$: array of $\mathbb{R}$ \\
+$eP2$: array of $\mathbb{R}$ \\
+$eW3$: array of $\mathbb{R}$ \\
+$eP3$: array of $\mathbb{R}$ 
 
 \subsubsection{Assumptions}
 
@@ -666,18 +760,19 @@ energy3PCM($Tp3$, $params$): & transition: & ($\forall i \in [0..|Tp3| - 1]$) ($
 
 \subsubsection{Local Functions}
 
-watEnergy: real $\times$ parameters $\rightarrow$ real \\
+watEnergy: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
 watEnergy($Tw$, $params$) $\equiv$ $params.C\_w \times params.Mw \times (Tw - params.Tinit)$ \\
 \newline
-pcmEnergy1: real $\times$ parameters $\rightarrow$ real \\
+pcmEnergy1: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
 pcmEnergy1($Tp$, $params$) $\equiv$ $params.C\_ps \times params.Mp \times (Tp - params.Tinit)$ \\
 \newline
-pcmEnergy2: real $\times$ parameters $\rightarrow$ real \\
+pcmEnergy2: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
 pcmEnergy2($Qp$, $params$) $\equiv$ $params.Epmelt\_init + Qp$ \\
 \newline
-pcmEnergy3: real $\times$ parameters $\rightarrow$ real \\
+pcmEnergy3: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
 pcmEnergy3($Tp$, $params$) $\equiv$ $params.Epmelt\_init + params.Ep\_melt3 + params.C\_pl \times params.Mp \times (Tp - params.Tmelt)$ \\
 
+\newpage
 \section{MIS of Output Verification Module} \label{VerifyOutput}
 
 \subsection{Module}
@@ -686,7 +781,7 @@ verify\_output
 
 \subsection{Uses}
 
-parameters (\ref{Parameters})
+Param (Section~\ref{Parameters})
 
 \subsection{Syntax}
 
@@ -697,7 +792,7 @@ parameters (\ref{Parameters})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-verify\_output & array of reals, array of reals, array of reals, array of reals, array of reals, parameters & - & - \\
+verify\_output & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -706,10 +801,10 @@ verify\_output & array of reals, array of reals, array of reals, array of reals,
 
 \subsubsection{State Variables}
 
-$expEPCM$: array of reals \\
-$expEWat$: array of reals \\
-$errorWater$: real \\
-$errorPCM$: real
+$expEPCM$: array of $\mathbb{R}$ \\
+$expEWat$: array of $\mathbb{R}$ \\
+$errorWater$: $\mathbb{R}$ \\
+$errorPCM$: $\mathbb{R}$
 
 \subsubsection{Environment Variables}
 
@@ -734,27 +829,28 @@ verify\_output($t$, $Tw$, $Tp$, $Ew$, $Ep$, $params$): & transition: & $expEPCM$
 
 \subsubsection{Local Functions}
 
-delta: real $\times$ real $\rightarrow$ real \\
+delta: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
 delta($t1$, $t2$) $\equiv$ $t2 - t1$ \\
 \newline
-traprule: real $\times$ real $\times$ real $\times$ real $\times$ real $\rightarrow$ real \\
+traprule: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
 traprule($t$, $A1$, $B1$, $A2$, $B2$) $\equiv$ $t \times (A1 - B1 + A2 - B2) / 2$ \\
 \newline
-expectedEc: real $\times$ parameters $\rightarrow$ real \\
+expectedEc: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
 expectedEc($c$, $params$) $\equiv$ $params.hc \times params.Ac \times c$ \\
 \newline
-expectedEp: real $\times$ parameters $\rightarrow$ real \\
+expectedEp: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
 expectedEp($p$, $params$) $\equiv$ $params.hp \times params.Ap \times p$ \\
 \newline
-expectedEw: real $\times$ real $\rightarrow$ real \\
+expectedEw: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
 expectedEw($Ec$, $Ep$) $\equiv$ $Ec - Ep$ \\
 \newline
-sum: array of reals $\rightarrow$ real \\
+sum: array of $\mathbb{R}$s $\rightarrow$ $\mathbb{R}$ \\
 sum($a$) $\equiv$ $\sum_{i=0}^{|a| - 1}$ $a[i]$ \\
 \newline
-error: real $\times$ real $\rightarrow$ real \\
+error: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
 error($exp$, $act$) $\equiv$ $\frac{|exp - act|}{act} \times 100$ \\
 
+\newpage
 \section{MIS of Plotting Module} \label{Plot}
 
 \subsection{Module}
@@ -774,7 +870,7 @@ N/A
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-plot & array of reals, array of reals, array of reals, array of reals, array of reals, string & - & - \\
+plot & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, string & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -797,11 +893,19 @@ The input arrays are all of the same size.
 
 \begin{center}
 \begin{tabular}{l l p{6cm}}
-plot($t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & $directory$: writes a .png file named $plotFilename$ containing the graphs of the simulation results. \\
+plot($t$, $Tw$, $Tp$, $Ew$, $Ep$, $filename$): & transition: & $directory$:
+                                                               writes a .png
+                                                               file named
+                                                               $plotFilename$
+                                                               containing the
+                                                               graphs of the
+                                                               simulation
+                                                               results. \\
 & exception: & none \\
 \end{tabular}
 \end{center}
 
+\newpage
 \section{MIS of Output Module} \label{Output}
 
 \subsection{Module}
@@ -810,7 +914,7 @@ output
 
 \subsection{Uses}
 
-parameters (\ref{Parameters})
+Param (Section~\ref{Parameters})
 
 \subsection{Syntax}
 
@@ -825,7 +929,9 @@ $max\_width$: integer
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-output & string, array of reals, array of reals, array of reals, array of reals, array of reals, array of reals, parameters & - & - \\
+output & string, array of $\mathbb{R}$, array of $\mathbb{R}$, array of
+         $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of
+         $\mathbb{R}$, parameters & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -844,7 +950,10 @@ $directory$: The current directory of files from which the program is run.
 
 \begin{center}
 \begin{tabular}{l l p{4cm}}
-output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $ETot$, $filename$): & transition: & $directory$: writes a .txt file named $outFilename$ containing the input parameters, calculated parameters, and results of the simulation. \\
+output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $ETot$, $filename$): & transition:
+  & $directory$: writes a .txt file named $outFilename$ containing the input
+    parameters, calculated parameters, and results of the simulation. \\
+
 & exception: & none \\
 \end{tabular}
 \end{center}
@@ -852,6 +961,7 @@ output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $ETot$, $filename$): & transition:
 \bibliographystyle {plainnat}
 \bibliography {MIS}
 
+\newpage
 \section{Appendix} \label{Appendix}
 
 \renewcommand{\arraystretch}{1.2}
