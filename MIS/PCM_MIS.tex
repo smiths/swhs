@@ -222,12 +222,12 @@ init & - & - &  - \\
 getL & - & $\mathbb{R}$ &  - \\
 get\_diam & - & $\mathbb{R}$ &  - \\
 getVp & - & $\mathbb{R}$ &  - \\
-... & - & $\mathbb{R}$ &  - \\
+... & ... & ... &  ... \\
 get\_tau\_w\_noPCM & - & $\mathbb{R}$ &  - \\
 setL & $\mathbb{R}$ & - &  - \\
 set\_diam & $\mathbb{R}$ & - &  - \\
 setVp & $\mathbb{R}$ & - &  - \\
-... & $\mathbb{R}$ & - &  - \\
+... & ... & ... &  ... \\
 set\_tau\_w\_noPCM & $\mathbb{R}$ & - &  - \\
 \bottomrule
 \end{tabular}
@@ -396,7 +396,7 @@ with a '\#' symbol.
 
 \subsubsection{Access Routine Semantics}
 
-load\_params($s$): \\
+load\_params($s$):
 \begin{itemize}
 \item transition: The filename $s$ is first associated with the file f.
   File $f$ is then used to modify the state of Param (Section~\ref{Parameters}) as
@@ -551,6 +551,7 @@ $\Rightarrow$ warnVolArea $|$\\
 (Params.get\_rho\_p() $\leq 500) \lor ($ Params.get\_rho\_p() $\geq 20000) \Rightarrow$
 warnPCMDensity $|$ ... )\\
 \# \textit{Need to continue for the rest of the example - tabular form?}
+\# \textit{Should add a module (Configuration Module) to store symbolic constants}
  % Params.getC\_ps \leq 100 \lor Params.getC\_ps \geq 4000 \Rightarrow$
  % warnPCMHeatCapSolid $|$\\
  % Params.getC\_pl \leq 100 \lor Params.getC\_pl \geq 5000 \Rightarrow$
@@ -591,11 +592,11 @@ Param (Section~\ref{Parameters})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-temperature1 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & array of functions & - \\
+temperature1 & $\mathbb{R}$, $\mathbb{R}$, $\mathbb{R}$ & sequence[2] of $\mathbb{R}$ & - \\
 \hline
-temperature2 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & array of functions & - \\
+temperature2 & $\mathbb{R}$, $\mathbb{R}$, $\mathbb{R}$ & sequence[3] of $\mathbb{R}$ & - \\
 \hline
-temperature3 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & array of functions & - \\
+temperature3 & $\mathbb{R}$, $\mathbb{R}$, $\mathbb{R}$ & sequence[2] of $\mathbb{R}$ & - \\
 \hline
 event1 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & function & - \\
 \hline
@@ -608,36 +609,28 @@ event2 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, ar
 
 \subsubsection{State Variables}
 
-$t$: array of $\mathbb{R}$ \\
-$Tw1$: array of $\mathbb{R}$ \\
-$Tw2$: array of $\mathbb{R}$ \\
-$Tw3$: array of $\mathbb{R}$ \\
-$Tp1$: array of $\mathbb{R}$ \\
-$Tp2$: array of $\mathbb{R}$ \\
-$Tp3$: array of $\mathbb{R}$ \\
-$Qp2$: array of $\mathbb{R}$ 
+none
 
 \subsubsection{Assumptions}
 
-All of the fields of the input parameters structure have been assigned a
-value. The values have been properly constrained.
+none
 
 \subsubsection{Access Routine Semantics}
 
-\begin{center}
-\begin{tabular}{l l p{6cm}}
-temperature1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
-& exception: & none \\ \\
-temperature2($t$, $Tw2$, $Tp2$, $Qp2$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dQp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
-& exception: & none \\ \\
-temperature3($t$, $Tw3$, $Tp3$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
-& exception: & none \\ \\
-event1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ $Ev: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$ \\ 
-& exception: & none \\ \\
-event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$ \\
-& exception: & none \\
-\end{tabular}
-\end{center}
+temperature1($Tw1$, $Tp1$, $t$, ): 
+\begin{itemize}
+\item output: $out :=$ dTdt(1)   =   (1/Params.get\_tau\_w())*((Params.getTc() - Tw1) +
+  Params.getEta()*(Tp1 - Tw1));
+\item exception: none
+\end{itemize}
+% temperature2($t$, $Tw2$, $Tp2$, $Qp2$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dQp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
+% & exception: & none \\ \\
+% temperature3($t$, $Tw3$, $Tp3$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
+% & exception: & none \\ \\
+% event1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ $Ev: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$ \\ 
+% & exception: & none \\ \\
+% event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$ \\
+% & exception: & none \\
 
 \newpage
 \section{MIS of ODE Solver Module} \label{ODE}
