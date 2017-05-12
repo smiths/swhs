@@ -401,17 +401,44 @@ The goal statements are refined to the theoretical models, and theoretical
 models to the instance models.  The instance models (Section \ref{sec_instance})
 to be solved are referred to as \iref{ewat} to \iref{I_HPCM}.
 
-%\subsection{Intended Audience}
-
 \section{General System Description}
 
-This section provides general information about the system,
-identifies the interfaces between the system and its environment, and describes the
-user characteristics and the system constraints.
+This section identifies the interfaces between the system and its environment,
+describes the user characteristics and lists the system constraints.
 
-\bmac{"general information about the system" and "interfaces between the system and its environment" are not actually provided in this section.}
+\subsection{System Context}
 
-%\subsection{System Context}
+Figure~\ref{Fig_SystemContext} shows the system context.  A circle represents an
+external entity outside the software, the user in this case.  A rectangle
+represents the software system itself (\progname{}).  Arrows are used to show the data
+flow between the system and its environment.
+
+\begin{figure}[h!]
+\begin{center}
+ \includegraphics[width=0.6\textwidth]{SystemContextFigure}
+\caption{System Context}
+\label{Fig_SystemContext} 
+\end{center}
+\end{figure}
+
+\progname{} is mostly self-contained.  The only external interaction is through
+the user interface.  The responsibilities of the user and the system are as
+follows:
+
+\begin{itemize}
+\item User Responsibilities:
+\begin{itemize}
+\item Provide the input data to the system, ensuring no errors in the data entry
+\item Take care that consistent units are used for input variables
+\end{itemize}
+\item \progname{} Responsibilities:
+\begin{itemize}
+\item Detect data type mismatch, such as a string of characters instead of a
+  floating point number
+\item Determine if the inputs satisfy the required physical and software constraints
+\item Calculate the required outputs
+\end{itemize}
+\end{itemize}
 
 \subsection{User Characteristics} \label{SecUserCharacteristics}
 
@@ -591,7 +618,13 @@ likely change [LC], in which the respective assumption is used.
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_PCM_state}:] The PCM is
   either in a liquid or solid state, but not a gas [\iref{epcm}, \iref{I_HPCM}].
   
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_Pressure}:] The pressure in the tank is atmospheric, so the melting and boiling points of water are $0^o\text{C}$ and $100^o\text{C}$, respectively [\iref{ewat}, \iref{I_HWAT}].
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_Pressure}:] The pressure
+  in the tank is atmospheric, so the melting and boiling points of water are
+  $0^o\text{C}$ and $100^o\text{C}$, respectively [\iref{ewat}, \iref{I_HWAT}].
+
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_VolCoil}:] When
+  considering the volume of water in the tank, the volume of the coil is assumed
+  to be negligible [\rref{R_MassInputs}].
 	
 \end{itemize}
 
@@ -1313,7 +1346,7 @@ to either be in a solid or liquid state (\aref{A_PCM_state}).
   \hline
   Label& \bf Heat energy in the water\\
   \hline
-  Input&$C_W$, $m_W$, $T_\text{init}$, $T_W(t)$\\
+  Input&$C_W$, $m_W$, $T_\text{init}$, $T_W(t)$ from \iref{ewat}\\
   \hline
   Output&$E_W(t)$, $0 \leq t \leq t_\text{final}$, such that\\
   &$E_W(t)$ = $C_W m_W (T_W(t) - T_\text{init})$\\
@@ -1328,8 +1361,6 @@ to either be in a solid or liquid state (\aref{A_PCM_state}).
   \hline
 \end{tabular}
 \end{minipage}\\
-
-\bmac{In the "Input" section, should it be specified that Tw(t) comes from IM1? (Similar to how the "Input" sections in IM1 and IM2 specify this.)}
 
 ~\newline
 
@@ -1690,8 +1721,9 @@ m_P &= V_P \rho_P,
 \end{align*}
 %
 \noindent
-where $V_W$ is the volume of water in the tank and $V_\text{tank}$ is the volume
-inside of the cylindrical tank.
+where $V_W$ is the volume of water in the tank, $V_\text{tank}$ is the volume
+inside of the cylindrical tank and $V_P$ is the volume of the PCM.  For this
+calculation the volume of the coil is assumed to be negligible (\aref{A_VolCoil}).
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_CheckInputs}:] Verify that the
   inputs satisfy the required physical constraints shown in Table~\ref{TblInputVar}.
@@ -1736,8 +1768,6 @@ inside of the cylindrical tank.
   (from \iref{epcm}).
 
 \end{itemize}
-
-\bmac{For R2, why isn't the volume of coil considered when calculating the volume of water? Is the volume of coil assumed negligible?}
 
 \subsection{Nonfunctional Requirements}
 
