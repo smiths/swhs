@@ -339,25 +339,12 @@ traditional solar heating systems because of their smaller size.  The smaller
 size is possible because of the ability of PCM to store thermal energy as latent
 heat, which allows higher thermal energy storage capacity per unit weight.
 
-%\begin{itemize}
-
-%\item{smaller size due to the ability of phase change material to store thermal
-%  energy as latent heat, allowing higher thermal energy storage capacity per
-%  unit weight.}
-
-%\item{instantaneity of heating is improved due to high and stable thermal
-%  efficiency of PCM}
-
-%\end{itemize}
-
 The following section provides an overview of the Software Requirements
 Specification (SRS) for a solar water heating system that incorporates PCM.  The
-developed program will be referred to as Solar Water Heating System 
-(\progname{}).  This section explains the purpose of this document, the scope 
-of the system, the organization of the document and the characteristics of the 
-intended readers.
-
-\bmac{"Characteristics of intended readers" is listed as something that will appear in this section, but it never does appear.}
+developed program will be referred to as Solar Water Heating System
+(\progname{}).  This section explains the purpose of this document, the scope of
+the system, the characteristics of the intended readers and the organization of
+the document.
 
 \subsection{Purpose of Document}
 
@@ -389,6 +376,15 @@ for \progname{} is intended to predict the temperature and energy histories for
 the water and the PCM.  This entire document is written assuming that the
 substances inside the heating tank are water and PCM.
 
+\subsection{Characteristics of Intended Reader} 
+
+Reviewers of this documentation should have a strong knowledge in heat transfer
+theory.  A third or fourth year Mechanical Engineering course on this topic is
+recommended.  The reviewers should also have an understanding of differential
+equations, as typically covered in first and second year Calculus courses.  The
+users of \progname{} can have a lower level of expertise, as explained in
+Section~\ref{SecUserCharacteristics}.
+
 \subsection{Organization of Document}
 
 The organization of this document follows the template for an SRS for scientific
@@ -417,7 +413,7 @@ user characteristics and the system constraints.
 
 %\subsection{System Context}
 
-\subsection{User Characteristics}
+\subsection{User Characteristics} \label{SecUserCharacteristics}
 
 The end user of \progname{} should have an understanding of undergraduate Level
 1 Calculus and Physics.
@@ -1677,9 +1673,9 @@ qualities that the software is expected to exhibit.
                                                           temperature of water and PCM\\
               $t_\text{step}$ & \si {\second} & time step for simulation\\
               $t_\text{final}$ & \si {\second} & time at end of simulation\\
-              $AbsTol$ & unitless & absolute tolerance\\
-              $RelTol$ & unitless & relative tolerance\\
-              $ConsTol$ & unitless & relative tolerance for law of conservation of energy\\
+              $\mathit{AbsTol}$ & unitless & absolute tolerance\\
+              $\mathit{RelTol}$ & unitless & relative tolerance\\
+              $\mathit{ConsTol}$ & unitless & relative tolerance for law of conservation of energy\\
             \bottomrule
 \end{longtable*}
 
@@ -1708,11 +1704,15 @@ inside of the cylindrical tank.
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_TempWater}:] Calculate and
   output the temperature of the water ($T_W(t)$) over the simulation time  (from
-  \iref{ewat}).
+  \iref{ewat}).  The algorithm selected for this calculation will use
+  $\mathit{AbsTol}$ and $\mathit{RelTol}$ as inputs to control the absolute and
+  relative tolerance of the solution.
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_TempPCM}:] Calculate and
   output the temperature of the PCM ($T_P(t)$) over the simulation time (from
-  \iref{epcm}).
+  \iref{epcm}).  The algorithm selected for this calculation will use
+  $\mathit{AbsTol}$ and $\mathit{RelTol}$ as inputs to control the absolute and
+  relative tolerance of the solution.
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_EnergyWater}:] Calculate and
   output the energy in the water ($E_W(t)$) over the simulation time (from
