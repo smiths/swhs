@@ -208,36 +208,24 @@ N/A
 
 \subsection{Syntax}
 
-% \subsubsection{Exported Data Types}
-
-% paramT = ?
-
-\subsubsection{Exported Access Programs}
-
-\begin{tabular}{l l l l}
+\begin{tabular}{c c c c}
 \toprule
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \midrule
-init & - & - &  - \\
-getL & - & $\mathbb{R}$ &  - \\
-get\_diam & - & $\mathbb{R}$ &  - \\
-getVp & - & $\mathbb{R}$ &  - \\
-... & ... & ... &  ... \\
-get\_tau\_w\_noPCM & - & $\mathbb{R}$ &  - \\
-setL & $\mathbb{R}$ & - &  - \\
-set\_diam & $\mathbb{R}$ & - &  - \\
-setVp & $\mathbb{R}$ & - &  - \\
-... & ... & ... &  ... \\
-set\_tau\_w\_noPCM & $\mathbb{R}$ & - &  - \\
+load\_params & string & - &  - \\
+$L$ & - & $\mathbb{R}$\\
+$D$ & - & $\mathbb{R}$\\
+$V_P$ & - & $\mathbb{R}$\\
+$A_P$ & - & $\mathbb{R}$\\
+... & - & ...\\
 \bottomrule
 \end{tabular}
 
-\subsubsection{Assumptions}
-
-Parameters will not be used before it has been initialized.  That is, init will
-be called before any other access programs.
-
 \subsection{Semantics}
+
+\subsubsection{Environment Variables}
+
+f: sequence of string \#\textit{f[i] is the ith string in the text file f}\\ 
 
 \subsubsection{State Variables}
 
@@ -273,6 +261,10 @@ Epmelt\_init: $\mathbb{R}$ \\
 Ep\_melt3: $\mathbb{R}$ \\ 
 Mw\_noPCM: $\mathbb{R}$ \\
 tau\_w\_no\_PCM: $\mathbb{R}$
+
+\subsubsection{Assumptions}
+
+load\_params will be called before the values of any state variables will be accessed.
 
 \subsubsection{Access Routine Semantics}
 
@@ -349,12 +341,13 @@ tau\_w\_no\_PCM: $\mathbb{R}$
 
 \subsection{Considerations}
 
-As implied above, there is a getter and a setter for each state variable.  All
-state variables are initially initialized to zero.  Some programming language
-implementations will likely use the dot notation to access the fields of this
-template module, rather than actually write out all of the getters and setters.
+The value of each state variable can be accessed through its name (getter).  An
+access program is available for each state variable.  There are no setters for
+the state variables, since the values will be set and checked by load params and
+not changed for the life of the program.
 
 \newpage
+
 \section{MIS of Input Format Module} \label{Load}
 
 \subsection{Module}
