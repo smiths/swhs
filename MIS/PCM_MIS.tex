@@ -614,10 +614,10 @@ ODE\_SolidPCM():
 \renewcommand*{\arraystretch}{1.5}
 \begin{itemize}
 \item output: $out := 
-\left [ 
+\dfrac{d}{dt} \left [ 
 \begin{array}{c}
-\frac{dT_W}{dt}([T_W, T_P]^T)\\
-\frac{dT_P}{dt}([T_W, T_P]^T) 
+T_W\\
+T_P 
 \end{array} 
 \right] =
 \left [ 
@@ -634,11 +634,11 @@ ODE\_MeltingPCM():
 \renewcommand*{\arraystretch}{1.5}
 \begin{itemize}
 \item output: $out := 
-\left [ 
+\dfrac{d}{dt} \left [ 
 \begin{array}{c}
-\frac{dT_W}{dt}([T_W, T_P, Q_P]^T)\\
-\frac{dT_P}{dt}([T_W, T_P, Q_P]^T)\\
-\frac{dQ_P}{dt} ([T_W, T_P, Q_P]^T) 
+T_W\\
+T_P\\
+Q_P 
 \end{array} 
 \right] =
 \left [ 
@@ -656,10 +656,10 @@ ODE\_LiquidPCM():
 \renewcommand*{\arraystretch}{1.5}
 \begin{itemize}
 \item output: $out := 
-\left [ 
+\dfrac{d}{dt} \left [ 
 \begin{array}{c}
-\frac{dT_W}{dt}([T_W, T_P]^T)\\
-\frac{dT_P}{dt}([T_W, T_P]^T)
+T_W\\
+T_P
 \end{array} 
 \right] =
 \left [ 
