@@ -581,19 +581,19 @@ Param (Section~\ref{Parameters})
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{3cm} p{5cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3.5cm} p{1cm} p{7cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-temperature1 & $\mathbb{R}$, $\mathbb{R}$, $\mathbb{R}$ & sequence[2] of $\mathbb{R}$ & - \\
+ODE\_SolidPCM & -- & sequence[2] of $\mathbb{R} \rightarrow$ sequence[2] of $\mathbb{R}$ & - \\
 \hline
-temperature2 & $\mathbb{R}$, $\mathbb{R}$, $\mathbb{R}$ & sequence[3] of $\mathbb{R}$ & - \\
+ODE\_MeltingPCM & -- & sequence[3] of $\mathbb{R} \rightarrow$ sequence[3] of $\mathbb{R}$ & - \\
 \hline
-temperature3 & $\mathbb{R}$, $\mathbb{R}$, $\mathbb{R}$ & sequence[2] of $\mathbb{R}$ & - \\
+ODE\_LiquidPCM & -- & sequence[2] of $\mathbb{R} \rightarrow$ sequence[2] of $\mathbb{R}$ & - \\
 \hline
-event1 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & function & - \\
+event\_StartMelt & -- & sequence[2] of $\mathbb{R} \rightarrow \mathbb{R}$ & - \\
 \hline
-event2 & array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, array of $\mathbb{R}$, parameters & function & - \\
+event\_EndMelt & -- & sequence[3] of $\mathbb{R} \rightarrow \mathbb{R}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -610,20 +610,79 @@ none
 
 \subsubsection{Access Routine Semantics}
 
-temperature1($Tw1$, $Tp1$, $t$, ): 
+ODE\_SolidPCM(): 
+\renewcommand*{\arraystretch}{1.5}
 \begin{itemize}
-\item output: $out :=$ dTdt(1)   =   (1/Params.get\_tau\_w())*((Params.getTc() - Tw1) +
-  Params.getEta()*(Tp1 - Tw1));
+\item output: $out := 
+\left [ 
+\begin{array}{c}
+\frac{dT_W}{dt}([T_W, T_P]^T)\\
+\frac{dT_P}{dt}([T_W, T_P]^T) 
+\end{array} 
+\right] =
+\left [ 
+\begin{array}{c}
+\frac{1}{\tau_W}[(T_C - T_W(t)) + {\eta}(T_P(t) - T_W(t))]\\
+\frac{1}{\tau^S_P}(T_W(t) - T_P(t)) 
+\end{array} 
+\right]
+$
 \item exception: none
 \end{itemize}
-% temperature2($t$, $Tw2$, $Tp2$, $Qp2$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dQp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
-% & exception: & none \\ \\
-% temperature3($t$, $Tw3$, $Tp3$, $params$): & output: & $out :=$ \{$dTw: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$, $dTp: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$\} \\
-% & exception: & none \\ \\
-% event1($t$, $Tw1$, $Tp1$, $params$): & output: & $out :=$ $Ev: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$ \\ 
-% & exception: & none \\ \\
-% event2($t$, $Tw2$, $T2p$, $Qp2$, $params$): & output: & $out :=$ $Ev: \mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$ \\
-% & exception: & none \\
+
+ODE\_MeltingPCM(): 
+\renewcommand*{\arraystretch}{1.5}
+\begin{itemize}
+\item output: $out := 
+\left [ 
+\begin{array}{c}
+\frac{dT_W}{dt}([T_W, T_P, Q_P]^T)\\
+\frac{dT_P}{dt}([T_W, T_P, Q_P]^T)\\
+\frac{dQ_P}{dt} ([T_W, T_P, Q_P]^T) 
+\end{array} 
+\right] =
+\left [ 
+\begin{array}{c}
+\frac{1}{\tau_W}[(T_C - T_W(t)) + {\eta}(T_P(t) - T_W(t))]\\
+0 \\
+h_P A_P (T_W(t) - T_\text{melt}^P)
+\end{array} 
+\right]
+$
+\item exception: none
+\end{itemize}
+
+ODE\_LiquidPCM(): 
+\renewcommand*{\arraystretch}{1.5}
+\begin{itemize}
+\item output: $out := 
+\left [ 
+\begin{array}{c}
+\frac{dT_W}{dt}([T_W, T_P]^T)\\
+\frac{dT_P}{dt}([T_W, T_P]^T)
+\end{array} 
+\right] =
+\left [ 
+\begin{array}{c}
+\frac{1}{\tau_W}[(T_C - T_W(t)) + {\eta}(T_P(t) - T_W(t))]\\
+\frac{1}{\tau^L_P}(T_W(t) - T_P(t))
+\end{array} 
+\right]
+$
+\item exception: none
+\end{itemize}
+
+event\_StartMelt(): 
+\begin{itemize}
+\item output: $out := g([T_W, T_P]^T) = T_\text{melt}^P - T_P$
+\item exception: none
+\end{itemize}
+
+event\_EndMelt(): 
+\begin{itemize}
+\item output: $out := g([T_W, T_P, Q_P]^T) = 1 - \phi$, where $\phi = \frac{Q_P}{H_f m_P}$
+\item exception: none
+\end{itemize}
 
 \newpage
 \section{MIS of ODE Solver Module} \label{ODE}
