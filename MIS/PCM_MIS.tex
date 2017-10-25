@@ -198,6 +198,10 @@ main($s$): & transition: & $time$, $tempW$, $tempP$, $latHeat$, $eW$, $eP$,
 \newpage
 \section{MIS of Input Parameters Module} \label{Parameters}
 
+The secrets of this module are the data structure for input parameters, how the
+values are input and how the values are verified.  The load and verify secrets
+are isolated to their own access programs.
+
 \subsection{Module}
 
 Param
@@ -208,11 +212,18 @@ N/A
 
 \subsection{Syntax}
 
-\begin{tabular}{c c c c}
+\begin{tabular}{p{3cm} p{1cm} p{1cm} p{9cm}}
 \toprule
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \midrule
-load\_params & string & - &  - \\
+load\_params & string & - &  FileError \\
+verify\_params & - & $\mathbb{B}$ & badLength, badDiam, badPCMVolume, badPCMAndTankVol,
+                        badPCMArea, badPCMDensity, badMeltTemp,
+                        badCoilAndInitTemp, badCoilTemp, badPCMHeatCapSolid,
+                        badPCMHeatCapLiquid, badHeatFusion, badCoilArea,
+                        badWaterDensity, badWaterHeatCap, badCoilCoeff,
+                        badPCMCoeff, badInitTemp, badFinalTime,
+                        badInitAndMeltTemp \\
 $L$ & - & $\mathbb{R}$\\
 $D$ & - & $\mathbb{R}$\\
 $V_P$ & - & $\mathbb{R}$\\
@@ -229,38 +240,51 @@ f: sequence of string \#\textit{f[i] is the ith string in the text file f}\\
 
 \subsubsection{State Variables}
 
-L: $\mathbb{R}$ \\
-diam: $\mathbb{R}$ \\
-Vp: $\mathbb{R}$ \\
-Ap: $\mathbb{R}$ \\
-rho\_p: $\mathbb{R}$ \\
-Tmelt: $\mathbb{R}$ \\
-C\_ps: $\mathbb{R}$ \\
-C\_pl: $\mathbb{R}$ \\
-Hf: $\mathbb{R}$ \\
-Ac: $\mathbb{R}$ \\
-Tc: $\mathbb{R}$ \\
-rho\_w: $\mathbb{R}$ \\
-C\_w: $\mathbb{R}$ \\
-hc: $\mathbb{R}$ \\
-hp: $\mathbb{R}$ \\
-Tinit: $\mathbb{R}$ \\
-tstep: $\mathbb{R}$ \\
-tfinal: $\mathbb{R}$ \\
-AbsTol: $\mathbb{R}$ \\
-RelTol: $\mathbb{R}$ \\
-ConsTol: $\mathbb{R}$ \\
-Vt: $\mathbb{R}$ \\
-Mw: $\mathbb{R}$ \\
-tau\_w: $\mathbb{R}$ \\
-eta: $\mathbb{R}$ \\
-Mp: $\mathbb{R}$ \\
-tau\_ps: $\mathbb{R}$ \\
-tau\_pl: $\mathbb{R}$ \\
-Epmelt\_init: $\mathbb{R}$ \\
-Ep\_melt3: $\mathbb{R}$ \\ 
-Mw\_noPCM: $\mathbb{R}$ \\
-tau\_w\_no\_PCM: $\mathbb{R}$
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable*}[l]{l} 
+\# From R1\\
+$L$: $\mathbb{R}$ \\
+$D$: $\mathbb{R}$ \\
+$V_P$: $\mathbb{R}$ \\
+$A_P$: $\mathbb{R}$ \\
+$\rho_P$ : $\mathbb{R}$ \\
+$T_\text{melt}^{P}$: $\mathbb{R}$ \\
+$C^S_P$: $\mathbb{R}$ \\
+$C^L_P$: $\mathbb{R}$ \\
+$H_f$: $\mathbb{R}$ \\
+$A_C$: $\mathbb{R}$ \\
+$T_C$: $\mathbb{R}$ \\
+$\rho_W$: $\mathbb{R}$ \\
+$C_W$: $\mathbb{R}$ \\
+$h_C$: $\mathbb{R}$ \\
+$h_P$: $\mathbb{R}$ \\
+$T_\text{init}$: $\mathbb{R}$ \\
+$t_\text{step}$: $\mathbb{R}$ \\
+$t_\text{final}$: $\mathbb{R}$ \\
+$\mathit{AbsTol}$: $\mathbb{R}$ \\
+$\mathit{RelTol}$: $\mathbb{R}$ \\
+$\mathit{ConsTol}$: $\mathbb{R}$ \\
+~\\
+\# From R2\\
+$V_\text{tank}$: $\mathbb{R}$ \\
+$m_W$: $\mathbb{R}$ \\
+$m_P$: $\mathbb{R}$ \\
+~\\
+\noindent \# From R3\\
+$\tau_W$: $\mathbb{R}$ \\
+$\eta$: $\mathbb{R}$ \\
+$\tau_P^S$: $\mathbb{R}$ \\
+$\tau_P^L$: $\mathbb{R}$ \\
+~\\
+\# To Support IM4\\
+$E_{P\text{melt}}^{\text{init}}$: $\mathbb{R}$ \\
+$E_{P\text{melt}}^{\text{all}}$: $\mathbb{R}$ \\ 
+~\\
+\# To Support Testing\\
+ $\tau_P^L$
+$m_W^{\text{noPCM}}$: $\mathbb{R}$ \\
+$\tau_W^{\text{noPCM}}$: $\mathbb{R}$\\
+\end{longtable*}
 
 \subsubsection{Assumptions}
 
