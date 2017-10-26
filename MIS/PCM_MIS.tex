@@ -30,6 +30,8 @@ filecolor=magenta,  % color of file links
 urlcolor=cyan          % color of external links
 }
 
+\usepackage{array}
+
 %% Comments
 \newif\ifcomments\commentstrue
 
@@ -208,16 +210,16 @@ Param
 
 \subsection{Uses}
 
-N/A
+SpecParam (Section~\ref{SpecParam})
 
 \subsection{Syntax}
 
-\begin{tabular}{p{3cm} p{1cm} p{1cm} p{9cm}}
+\begin{tabular}{p{3cm} p{1cm} p{1cm} >{\raggedright\arraybackslash}p{9cm}}
 \toprule
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \midrule
 load\_params & string & - &  FileError \\
-verify\_params & - & $\mathbb{B}$ & badLength, badDiam, badPCMVolume, badPCMAndTankVol,
+verify\_params & - & - & badLength, badDiam, badPCMVolume, badPCMAndTankVol,
                         badPCMArea, badPCMDensity, badMeltTemp,
                         badCoilAndInitTemp, badCoilTemp, badPCMHeatCapSolid,
                         badPCMHeatCapLiquid, badHeatFusion, badCoilArea,
@@ -228,15 +230,19 @@ $L$ & - & $\mathbb{R}$\\
 $D$ & - & $\mathbb{R}$\\
 $V_P$ & - & $\mathbb{R}$\\
 $A_P$ & - & $\mathbb{R}$\\
-... & - & ...\\
+... & ... & ...\\
+$m_W^{\text{noPCM}}$ & - & $\mathbb{R}$ \\
+$\tau_W^{\text{noPCM}}$ & - & $\mathbb{R}$\\
 \bottomrule
 \end{tabular}
+
+\textit{Should verify\_params have a boolean output?}
 
 \subsection{Semantics}
 
 \subsubsection{Environment Variables}
 
-f: sequence of string \#\textit{f[i] is the ith string in the text file f}\\ 
+inputFile: sequence of string \#\textit{f[i] is the ith string in the text file f}\\ 
 
 \subsubsection{State Variables}
 
@@ -281,87 +287,136 @@ $E_{P\text{melt}}^{\text{init}}$: $\mathbb{R}$ \\
 $E_{P\text{melt}}^{\text{all}}$: $\mathbb{R}$ \\ 
 ~\\
 \# To Support Testing\\
- $\tau_P^L$
 $m_W^{\text{noPCM}}$: $\mathbb{R}$ \\
 $\tau_W^{\text{noPCM}}$: $\mathbb{R}$\\
 \end{longtable*}
 
 \subsubsection{Assumptions}
 
-load\_params will be called before the values of any state variables will be accessed.
+\begin{itemize}
+
+\item load\_params will be called before the values of any state variables will be accessed.
+
+\item The file contains the string equivalents of the numeric values for
+each input parameter in order, each on a new line. The order is the same as in
+the table in R1 of the SRS. Any comments in the input file should be denoted
+with a '\#' symbol.
+
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent init():
+\noindent Param.$L$:
 \begin{itemize}
-\item transition: L, diam,  Vp, Ap, ..., tau\_w\_no\_PCM := 0, 0, 0, 0, ..., 0
-\item output: \textit{out} := self
+\item output: \textit{out} := $L$
 \item exception: none
 \end{itemize}
 
-\noindent getL():
+\noindent Param.$D$:
 \begin{itemize}
-\item output: \textit{out} := L
-\item exception: none
-\end{itemize}
-
-\noindent get\_diam():
-\begin{itemize}
-\item output: \textit{out} := diam
-\item exception: none
-\end{itemize}
-
-\noindent getVp():
-\begin{itemize}
-\item output: \textit{out} := Vp
-\item exception: none
-\end{itemize}
-
-\noindent getAp():
-\begin{itemize}
-\item output: \textit{out} := Ap
+\item output: \textit{out} := $D$
 \item exception: none
 \end{itemize}
 
 ...
+~\newline
 
-\noindent get\_tau\_w\_no\_PCM():
+\noindent Param.$m_W^{\text{noPCM}}$:
 \begin{itemize}
-\item output: \textit{out} := tau\_w\_no\_PCM
+\item output: \textit{out} := $m_W^{\text{noPCM}}$
 \item exception: none
 \end{itemize}
 
-\noindent setL(x):
+\noindent Param.$\tau_W^{\text{noPCM}}$:
 \begin{itemize}
-\item transition: L := x
+\item output: \textit{out} := $\tau_W^{\text{noPCM}}$
 \item exception: none
 \end{itemize}
 
-\noindent set\_diam(x):
+\noindent load\_params($s$):
 \begin{itemize}
-\item transition: diam := x
-\item exception: none
+\item transition: The filename $s$ is first associated with the file f.  {inputFile} is used to
+  modify the state variables using the following procedural specification:
+\begin{enumerate}
+\item Read data sequentially from inputFile to populate the state variables from
+  R1 ($L$ to $\mathit{ConsTol}$).
+\item Calculate the derived quantities (all other state variables) as follows:
+\begin{itemize}
+\item $V_{\text{tank}} := \pi \times L \times (\frac{D}{2}) ^ 2$
+\item $m_W := \rho_w (V_t - V_p)$
+\item $m_P := \rho_p V_p$
+\item $\tau_W := \frac{m_w C_w}{A_c h_c}$
+\item $\eta := \frac{h_p A_p}{h_c A_c}$
+\item $\tau_P^S := \frac{M_p C_{ps}}{h_p A_p}$
+\item $\tau_P^L := \frac{M_p C_{pl}}{h_p A_p}$
+\item $E_{P\text{melt}}^{\text{init}} := C_{ps} M_p (T_{\text{melt}} - T_{\text{init}})$
+\item $E_{P\text{melt}}^{\text{all}} := H_f m_p$
+\item $m_W^{\text{noPCM}} := \rho_w  V_t$
+\item $\tau_W^{\text{noPCM}} := \frac{m_W^{\text{noPCM}} C_w}{h_c A_c}$
+\end{itemize}
+\end{enumerate}
+
+\item exception: exc := a file name $s$ cannot be found OR the format of
+  inputFile is incorrect $\Rightarrow$  FileError
 \end{itemize}
 
-\noindent setVp(x):
+\noindent verify\_params():
 \begin{itemize}
-\item transition: Vp := x
-\item exception: none
+\item out: \textit{out} := none
+\item exception: exc := 
 \end{itemize}
-
-\noindent setAp(x):
-\begin{itemize}
-\item transition: Ap := x
-\item exception: none
-\end{itemize}
-
-...
-
-\noindent set\_tau\_w\_no\_PCM(x):
-\begin{itemize}
-\item transition: tau\_w\_no\_PCM := x
-\item exception: none
-\end{itemize}
+\noindent \begin{longtable*}[l]{l l} 
+$L > 0$ & $\Rightarrow$ badLength\\
+$L_{\text{min}} \leq L \leq L_{\text{max}}$ & $\Rightarrow$ warnLength\\
+%   \\
+%   $D$ & $D > 0$ & ${\frac{D}{L}}_\text{min} \leq \frac{D}{L} \leq {\frac{D}{L}}_\text{max}$ 
+% 	& 0.412 \si[per-mode=symbol] {\metre} & 10\%
+%   \\
+%   $V_P$ & $V_P > 0$ (*) & $ V_P \geq \text{minfract} \cdot V_{\text{tank}}(D, L) $ &
+% 	0.05 \si[per-mode=symbol] {\cubic\metre} & 10\%
+%   \\
+%   & $V_P < V_{\text{tank}}(D, L)$ & & & 
+%   \\
+%   $A_P$ & $A_P > 0$ (*) & $V_P \leq A_P \leq \frac{2}{h_\text{min}} V_P$ (\#) & 1.2
+%        \si[per-mode=symbol] {\square\metre} & 10\%
+%   \\
+%   $\rho_P$ & $\rho_P > 0$ & $\rho_P^{\text{min}} < \rho_P < \rho_P^{\text{max}}$ & 1007 \si[per-mode=symbol]
+%                             {\kilogram\per\cubic\metre} & 10\%
+%   \\
+%   $T_\text{melt}^{P}$ 	& $0 < T_\text{melt}^{P} < T_C$ (+) & &  44.2 
+% 	\si[per-mode=symbol] {\celsius} & 10\%
+%   \\
+%   $C_P^S$ & $C_P^S > 0$ & $C_{P\text{min}}^S < C_P^S < C_{P\text{max}}^S$ & 1760 
+% 	\si[per-mode=symbol] {\joule\per\kilo\gram\per\celsius} & 10\%
+%   \\
+%   $C_P^L$ & $C_P^L > 0$ & $C_{P\text{min}}^L < C_P^S < C_{P\text{max}}^L$ & 2270 
+% 	\si[per-mode=symbol] {\joule\per\kilo\gram\per\celsius} & 10\%
+%   \\
+%   $H_f$ & $H_f > 0$ & $H_f^{\text{min}} < H_f < H_f^{\text{max}}$ & 211600 
+% 	\si[per-mode=symbol] {\joule\per\kilo\gram} & 10\%
+%   \\
+%   $A_C$ & $A_C > 0$ (*) & $A_C \leq A_C^{\text{max}}$ & 0.12 \si[per-mode=symbol] {\square\metre} & 10\%
+%   \\
+%   $T_C$ & $0 < T_C < 100$ (+)	& & 50 \si[per-mode=symbol] {\celsius} & 10\%
+%   \\
+%   $\rho_W$ & $\rho_W > 0$ & $\rho_W^{\text{min}} < \rho_W \leq \rho_W^{\text{max}}$ 
+% 	& 1000 \si[per-mode=symbol] {\kilo\gram\per\cubic\metre} & 10\%
+%   \\
+%   $C_W$ & $C_W > 0$ & $C_W^{\text{min}} < C_W < C_W^{\text{max}}$ & 4186 
+% 	\si[per-mode=symbol] {\joule\per\kilo\gram\per\celsius} & 10\%
+%   \\
+%   $h_C$ & $h_C > 0$ & $h_C^{\text{min}} \leq h_C \leq h_C^{\text{max}}$ 
+% 	& 1000 \si[per-mode=symbol] {\watt\per\square\metre\per\celsius} & 10\%
+%   \\
+%   $h_P$ & $h_P > 0$ & $h_P^{\text{min}} \leq h_P \leq h_P^{\text{max}}$ 
+% 	& 1000 \si[per-mode=symbol] {\watt\per\square\metre\per\celsius} & 10\%
+%   \\
+%   $T_\text{init}$ & $0 < T_\text{init} < T_\text{melt} $ (+) & & 40 \si[per-mode=symbol] {\celsius} & 10\%
+%   \\
+%   $t_\text{final}$ & $t_\text{final} > 0$ & $t_\text{final} < t_{\text{final}}^{\text{max}}$ (**) 
+% 		& 50000 \si[per-mode=symbol] {\second} & 10\%
+%   \\
+\end{longtable*}
 
 \subsection{Considerations}
 
@@ -372,116 +427,6 @@ not changed for the life of the program.
 
 \newpage
 
-\section{MIS of Input Format Module} \label{Load}
-
-\subsection{Module}
-
-Load\_params
-
-\subsection{Uses}
-
-Param (Section~\ref{Parameters})
-
-\subsection{Syntax}
-
-\subsection{Exported Access Programs}
-
-\begin{center}
-\begin{tabular}{c c c c}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-load\_params & string & - &  - \\
-\hline
-\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{Environment Variables}
-
-f: sequence of string \#\textit{f[i] is the ith string in the text file f}\\ 
-
-\subsubsection{Assumptions}
-
-The input string corresponds to an existing filename.  The name will be relative
-to the current directory. The input file is assumed to be formatted
-correctly. The file contains the string equivalents of the numeric values for
-each input parameter in order, each on a new line. The order is the same as in
-the table in R1 of the SRS. Any comments in the input file should be denoted
-with a '\#' symbol.
-
-\subsubsection{Access Routine Semantics}
-
-load\_params($s$):
-\begin{itemize}
-\item transition: The filename $s$ is first associated with the file f.
-  File $f$ is then used to modify the state of Param (Section~\ref{Parameters}) as
-  follows:
-\begin{enumerate}
-\item Param.init()
-\item Read data sequentially from f to populate the state variables of
-  Param from L to ConsTol.
-\item Calculate the derived quantities in Param as follows:
-\begin{itemize}
-\item Param.setVt(calcVt(Param.getL(), Param.get\_diam()))
-\item Param.setMw(calcMw(Param.getVp(), Param.get\_rho\_w(), Param.getVt()))
-\item Param.set\_tau\_w(calcTauw(Param.getMw(), Param.getC\_w(), Param.get\_hc(), Param.getAc()))
-\item Param.set\_eta(calcEta(Param.get\_hp(), Param.getAp(), Param.get\_hc(), Param.getAc()))
-\item Param.setMp(calcMp(Param.get\_rho\_p(), Param.getVp()))
-\item Param.set\_tau\_ps(calcTaups(Param.getMp(), Param.getC\_ps(),
-  Param.get\_hp(), Param.getAp()))
-\item Param.set\_taul\_pl(calcTaupl(Param.getMp(), Param.getC\_pl(),
-  Param.get\_hp(), Param.getAp()))
-\item Param.setEpmelt\_init(calcEpmeltinit(Param.getC\_ps(), Param.getMp(),
-  Param.getTmelt(), Param.getTinit()))
-\item Param.setEp\_melt3(calcEpmelt3(Param.getHf(), Param.getMp()))
-\item Param.setMw\_noPCM(calcMwno(Param.get\_rho\_w, Param.getVt()))
-\item Param.set\_tau\_no\_PCM(calcTauwnoPCM(Param.getMw\_noPCM(),
-  Param.getC\_w(), Param.get\_hc(), Param.getAc()))
-\end{itemize}
-\end{enumerate}
-
-\item exception: none
-\end{itemize}
-
-\subsubsection{Local Functions}
-
-calcVt: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcVt($L$, $d$) $\equiv$ $\pi \times L \times (\frac{d}{2}) ^ 2$ \\
-\newline
-calcMw: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcMw($V_p$, $\rho_w$, $V_t$) $\equiv$ $\rho_w (V_t - V_p)$ \\
-\newline
-calcTauw: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcTauw($m_w$, $C_w$, $h_c$, $A_c$) $\equiv$ $\frac{m_w C_w}{A_c h_c}$ \\
-\newline
-calcEta: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcEta($h_p$, $A_p$, $h_c$, $A_c$) $\equiv$ $\frac{h_p A_p}{h_c A_c}$ \\
-\newline
-calcMp: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcMp($\rho_p$, $V_p$) $\equiv$ $\rho_p V_p$ \\
-\newline
-calcTaups: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcTaups($M_p$, $C_{ps}$, $h_p$, $A_p$) $\equiv$ $\frac{M_p C_{ps}}{h_p A_p}$ \\
-\newline
-calcTaupl: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcTaupl($M_p$, $C_{pl}$, $h_p$, $A_p$) $\equiv$ $\frac{M_p C_{pl}}{h_p A_p}$ \\
-\newline
-calcEpmeltinit: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcEpmeltinit($C_{ps}$, $M_p$, $T_{\text{melt}}$, $T_{\text{init}}$) $\equiv$ $C_{ps} M_p (T_{\text{melt}} - T_{\text{init}})$ \\
-\newline
-calcEpmelt3: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcEpmelt3($H_f$, $M_p$) $\equiv$ $H_f M_p$ \\
-\newline
-calcMwnoPCM: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcMwnoPCM($\rho_w$, $V_t$) $\equiv$ $\rho_w  V_t$ \\
-\newline
-calcTauwnoPCM: $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\times$ $\mathbb{R}$ $\rightarrow$ $\mathbb{R}$ \\
-calcTauwnoPCM(${M_w}_{\text{noPCM}}$, $C_w$, $h_c$, $A_c$) $\equiv$
-$\frac{{M_w}_{\text{noPCM}} C_w}{h_c A_c}$ \\
-
-\newpage
 \section{MIS of Input Verification Module} \label{VerifyInput}
 
 \subsection{Module}
@@ -704,7 +649,7 @@ event\_StartMelt():
 
 event\_EndMelt(): 
 \begin{itemize}
-\item output: $out := g([T_W, T_P, Q_P]^T) = 1 - \phi$, where $\phi = \frac{Q_P}{H_f m_P}$
+\item output: $out := g([T_W, T_P, Q_P]^T) = 1 - \phi$, where $\phi = \frac{Q_P}{E_{P\text{melt}}^{\text{all}}}$
 \item exception: none
 \end{itemize}
 
@@ -1031,6 +976,95 @@ output($params$, $t$, $Tw$, $Tp$, $Ew$, $Ep$, $ETot$, $filename$): & transition:
 \bibliography {MIS}
 
 \newpage
+\section{MIS of Specification Parameters} \label{SpecParam}
+
+The secrets of this module is the value of the specification parameters.
+
+\subsection{Module}
+
+SpecParam
+
+\subsection{Uses}
+
+N/A
+
+\subsection{Syntax}
+
+\begin{tabular}{p{3cm} p{1cm} p{1cm} >{\raggedright\arraybackslash}p{9cm}}
+\toprule
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\midrule
+$L$ & - & $\mathbb{R}$\\
+$D$ & - & $\mathbb{R}$\\
+$V_P$ & - & $\mathbb{R}$\\
+$A_P$ & - & $\mathbb{R}$\\
+... & ... & ...\\
+$m_W^{\text{noPCM}}$ & - & $\mathbb{R}$ \\
+$\tau_W^{\text{noPCM}}$ & - & $\mathbb{R}$\\
+\bottomrule
+\end{tabular}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable*}[l]{l} 
+\# From Table 2 in SRS\\
+  $L_\text{min}$ := 0.1\\
+  $L_\text{min}$ := 50\\
+  ${\frac{D}{L}}_\text{min}$ := 0.002 \\
+  ${\frac{D}{L}}_\text{max}$ := 200 \\
+  $\text{minfrac} $ := $10^{-6}$\\
+  $h_\text{min}$ := 0.001 \\
+  $\rho_P^{\text{min}}$ := 500\\
+  $\rho_P^{\text{max}}$ := 20000\\
+  $C_{P\text{min}}^S$ := 100 \\
+  $C_{P\text{max}}^S$ := 4000\\
+  $C_{P\text{min}}^L$ := 100 \\
+  $C_{P\text{max}}^L$ := 5000\\
+  $A_C^{\text{max}}$ := $\pi(\frac{D}{2})^2$\\
+  $\rho_W^{\text{min}}$ := 950\\
+  $\rho_W^{\text{max}}$ := 1000\\
+  $C_W^{\text{min}}$ := 4170\\
+  $C_W^{\text{max}}$ := 4210\\
+  $h_C^{\text{min}}$ := 10\\
+  $h_C^{\text{max}}$ := 10000\\
+  $h_P^{\text{min}}$ := 10\\
+  $h_P^{\text{max}}$ := 10000\\
+  $t_{\text{final}}^{\text{max}}$ := 86400\\
+\end{longtable*}
+
+\#\textit{$A_C^{\text{max}}$ shouldn't be in this table of constants}
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent SpecParam.$L_\text{min}$:
+\begin{itemize}
+\item output: \textit{out} := $L_\text{min}$
+\item exception: none
+\end{itemize}
+
+\noindent SpecParam.$L_\text{min}$:
+\begin{itemize}
+\item output: \textit{out} := $L_\text{min}$
+\item exception: none
+\end{itemize}
+
+...
+~\newline
+
+\noindent SpecParam.$t_{\text{final}}^{\text{max}}$:
+\begin{itemize}
+\item output: \textit{out} := $t_{\text{final}}^{\text{max}}$
+\item exception: none
+\end{itemize}
+
+\newpage
 \section{Appendix} \label{Appendix}
 
 \renewcommand{\arraystretch}{1.2}
@@ -1080,5 +1114,6 @@ warnWaterError & Warning: There is greater than $x$\% relative error between the
 warnPCMError & Warning: There is greater than $x$\% relative error between the energy in the PCM output and the expected output based on the law of conservation of energy. (Where $x$ is the value of $ConsTol$) \\
 \bottomrule
 \end{longtable}
+
 
 \end{document}
