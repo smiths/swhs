@@ -110,38 +110,38 @@ on the left side of an arrow, and their output data type on the right side.
 
 The following table is taken directly from the Module Guide document for this project.
 
-\begin{table}[!h]
-	\centering
-	\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-		\toprule
-		\textbf{Level 1} & \textbf{Level 2}\\
-		\midrule
-		
-		{Hardware-Hiding Module} & ~ \\
-		\midrule
-		
-		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
-		& Input Parameters Module\\
-		& Input Verification Module\\
-		& Output Format Module\\
-		& Output Verification Module\\
-		& Temperature ODEs Module\\
-		& Energy Equations Module\\ 
-		& Control Module\\
-		\midrule
-		
-		\multirow{3}{0.3\textwidth}{Software Decision Module} & {Sequence Data Structure Module}\\
-		& ODE Solver Module\\
-		& Plotting Module\\
-		\bottomrule
-		
-	\end{tabular}
-	\caption{Module Hierarchy}
-	\label{TblMH}
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+\toprule
+\textbf{Level 1} & \textbf{Level 2}\\
+\midrule
+
+{Hardware-Hiding Module} & ~ \\
+\midrule
+
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Parameters Module\\
+& Output Format Module\\
+& Output Verification Module\\
+& Temperature ODEs Module\\
+& Energy Equations Module\\ 
+& Control Module\\
+& Specification Parameters Module\\
+\midrule
+
+\multirow{3}{0.3\textwidth}{Software Decision Module} & {Sequence Data Structure Module}\\
+& ODE Solver Module\\
+& Plotting Module\\
+\bottomrule
+
+\end{tabular}
+\caption{Module Hierarchy}
+\label{TblMH}
 \end{table}
 
 \newpage
 ~\newpage
+
 \section{MIS of Control Module} \label{Main}
 
 \subsection{Module}
