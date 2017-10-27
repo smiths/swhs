@@ -17,6 +17,20 @@ filecolor=magenta,  % color of file links
 urlcolor=cyan          % color of external links
 }
 
+%% Comments
+\newif\ifcomments\commentstrue
+
+\ifcomments
+\newcommand{\authornote}[3]{\textcolor{#1}{[#3 ---#2]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+\newcommand{\authornote}[3]{}
+\newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\wss}[1]{\authornote{blue}{SS}{#1}}
+\newcommand{\bmac}[1]{\authornote{red}{BM}{#1}}
+
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
 \newcommand{\acref}[1]{AC\ref{#1}}
@@ -174,14 +188,15 @@ actually be implemented.
 
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item [\refstepcounter{mnum} \mthemnum \label{mInput}:] Input Format Module
+%\item [\refstepcounter{mnum} \mthemnum \label{mInput}:] Input Format Module
 \item [\refstepcounter{mnum} \mthemnum \label{mParams}:] Input Parameters Module
-\item [\refstepcounter{mnum} \mthemnum \label{mVerify}:] Input Verification Module
+%\item [\refstepcounter{mnum} \mthemnum \label{mVerify}:] Input Verification Module
 \item [\refstepcounter{mnum} \mthemnum \label{mOutput}:] Output Format Module
 \item [\refstepcounter{mnum} \mthemnum \label{mVerifyOut}:] Output Verification Module
 \item [\refstepcounter{mnum} \mthemnum \label{mODEs}:] Temperature ODEs Module
 \item [\refstepcounter{mnum} \mthemnum \label{mEnergy}:] Energy Equations Module
 \item [\refstepcounter{mnum} \mthemnum \label{mControl}:] Control Module
+\item [\refstepcounter{mnum} \mthemnum \label{mSpecParams}:] Specification Parameters Module
 \item [\refstepcounter{mnum} \mthemnum \label{mSeqDS}:] Sequence Data Structure Module
 \item [\refstepcounter{mnum} \mthemnum \label{mSolver}:] ODE Solver Module
 \item [\refstepcounter{mnum} \mthemnum \label{mPlot}:] Plotting Module
@@ -201,14 +216,13 @@ and \mref{mPlot} are already available in Matlab and will not be reimplemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
-& Input Parameters Module\\
-& Input Verification Module\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Parameters Module\\
 & Output Format Module\\
 & Output Verification Module\\
 & Temperature ODEs Module\\
 & Energy Equations Module\\ 
 & Control Module\\
+& Specification Parameters Module\\
 \midrule
 
 \multirow{3}{0.3\textwidth}{Software Decision Module} & {Sequence Data Structure Module}\\
@@ -249,9 +263,9 @@ selected.
 \subsection{Hardware Hiding Modules (\mref{mHH})}
 
 \begin{description}
-\item[Secrets:]The data structure and algorithm used to implement the virtual
+\item[Secrets:] The data structure and algorithm used to implement the virtual
   hardware.
-\item[Services:]Serves as a virtual hardware used by the rest of the
+\item[Services:] Serves as a virtual hardware used by the rest of the
   system. This module provides the interface between the hardware and the
   software. So, the system can use it to display outputs or to accept inputs.
 \item[Implemented By:] OS
@@ -260,8 +274,8 @@ selected.
 \subsection{Behaviour-Hiding Module}
 
 \begin{description}
-\item[Secrets:]The contents of the required behaviours.
-\item[Services:]Includes programs that provide externally visible behaviour of
+\item[Secrets:] The contents of the required behaviours.
+\item[Services:] Includes programs that provide externally visible behaviour of
   the system as specified in the software requirements specification (SRS)
   documents. This module serves as a communication layer between the
   hardware-hiding module and the software decision module. The programs in this
@@ -269,33 +283,33 @@ selected.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
-
-\begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] SWHS
-\end{description}
-
 \subsubsection{Input Parameters Module (\mref{mParams})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input parameters.
-\item[Services:]Stores the parameters needed for the program, including material
-  properties, processing conditions, and numerical parameters.  The values can be
-  read as needed.  This module knows how many parameters it stores.
+\item[Secrets:] The data structure for input parameters, how the
+values are input and how the values are verified.  The load and verify secrets
+are isolated to their own access programs (like submodules).  This, combined
+with the fact that all of the services are invoked together, suggests that the
+one module one secret rule can be relaxed here.
+\item[Services:] Gets input from user (including material properties, processing
+  conditions, and numerical parameters), stores input and verifies that the
+  input parameters comply with physical and software constraints. Throws an
+  error if a parameter violates a physical constraint. Throws a warning if a
+  parameter violates a software constraint.  Stored parameters can be read
+  individually, but write access is only to redefine the entire set of inputs.
+ % This module knows how many parameters it stores.
 \item[Implemented By:] SWHS
 \end{description}
 
-\subsubsection{Input Verification Module (\mref{mVerify})}
+% \subsubsection{Input Verification Module (\mref{mVerify})}
 
-\begin{description}
-\item[Secrets:] The format and structure of the physical and software constraints.
-\item[Services:] Verifies that the input parameters comply with physical and software
-  constraints. Throws an error if a parameter violates a physical constraint. Throws a warning if a parameter violates a software constraint.
-\item[Implemented By:] SWHS
-\end{description}
+% \begin{description}
+% \item[Secrets:] The format and structure of the physical and software constraints.
+% \item[Services:] Verifies that the input parameters comply with physical and
+%   software constraints. Throws an error if a parameter violates a physical
+%   constraint. Throws a warning if a parameter violates a software constraint.
+% \item[Implemented By:] SWHS
+% \end{description}
 
 \subsubsection{Output Format Module (\mref{mOutput})}
 
@@ -332,12 +346,21 @@ selected.
   parameters module.
 \item[Implemented By:] SWHS
 \end{description} 
- 
+
 \subsubsection{Control Module (\mref{mControl})}
 
 \begin{description}
 \item[Secrets:] The algorithm for coordinating the running of the program.
 \item[Services:] Provides the main program.
+\item[Implemented By:] SWHS
+\end{description}
+ 
+\subsubsection{Specification Parameters Module (\mref{mSpecParams})}
+
+\begin{description}
+\item[Secrets:] The values of the specification parameters (such as bounds for
+  software constraints on input variables).
+\item[Services:] Read access for the specification parameters.
 \item[Implemented By:] SWHS
 \end{description}
 
@@ -366,9 +389,11 @@ selected.
 \subsubsection{ODE Solver Module (\mref{mSolver})}
 
 \begin{description}
-\item[Secrets:] The algorithm to solve a system of first order ODEs.
-\item[Services:] Provides solvers that take the governing equation, initial
-  conditions, and numerical parameters, and solve them.
+\item[Secrets:] The algorithm to solve a system of first order ODEs initial
+  value problem from a given starting time until the given event function shows
+  termination.
+\item[Services:] Solves an ODE using the governing equation, initial
+  conditions, event function and numerical parameters.
 \item[Implemented By:] Matlab
 \end{description}
 
@@ -383,9 +408,16 @@ selected.
 \section{Traceability Matrix} \label{SecTM}
 
 This section shows two traceability matrices: between the modules and the
-requirements and between the modules and the anticipated changes.  We should
-also consider documenting the mapping between these ``abstract'' modules and the
-Matlab files.
+requirements and between the modules and the anticipated changes.  Three of the
+anticipated changes (\acref{acInput}, \acref{acParams}, \acref{acVerify})
+related to the input parameters map to the same module (\mref{mParams}).  The
+reason for this is that the services of this module will never need to be
+provided separately.  Input will be provided to the system, stored and verified
+at the beginning of any simulation.  From that point on, the only access needed
+to the input parameters is read access.
+
+\wss{We should also document the mapping between these ``abstract'' modules and
+  the Matlab files.}
 
 % the table should use mref, the requirements should be named, use something
 % like fref
@@ -395,9 +427,9 @@ Matlab files.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
+R1 & \mref{mHH}, \mref{mParams}, \mref{mControl}\\ %\mref{mInput}, 
+R2 & \mref{mParams}\\ %\mref{mInput}, 
+R3 & \mref{mParams}, \mref{mSpecParams}\\ %\mref{mVerify}\\
 R4 & \mref{mOutput}, \mref{mControl}\\
 R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
 R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
@@ -419,9 +451,9 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \textbf{AC} & \textbf{Modules}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
+\acref{acInput} & \mref{mParams}\\ %\mref{mInput}\\
 \acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
+\acref{acVerify} & \mref{mParams}\\ %\mref{mVerify}\\
 \acref{acOutput} & \mref{mOutput}\\
 \acref{acVerifyOut} & \mref{mVerifyOut}\\
 \acref{acODEs} & \mref{mODEs}\\
@@ -435,6 +467,7 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \caption{Trace Between Anticipated Changes and Modules}
 \label{TblACT}
 \end{table}
+
 \section{Use Hierarchy Between Modules} \label{SecUse}
 
 In this section, the uses hierarchy between modules is
