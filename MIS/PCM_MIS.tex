@@ -163,7 +163,7 @@ parameters (Section~\ref{Parameters}), load\_params (Section~\ref{Load}), verify
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-main & string & - & - \\
+main & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -172,29 +172,34 @@ main & string & - & - \\
 
 \subsubsection{State Variables}
 
-$time$: array of $\mathbb{R}$ \\
-$tempW$: array of $\mathbb{R}$ \\
-$tempP$: array of $\mathbb{R}$ \\
-$latHeat$: array of $\mathbb{R}$ \\
-$eW$: array of $\mathbb{R}$ \\
-$eP$: array of $\mathbb{R}$ \\ 
-$eTot$: array of $\mathbb{R}$
-
-\subsubsection{Environment Variables}
-
-$win$: 2D array of pixels displayed on the screen
+None
 
 \subsubsection{Access Routine Semantics}
 
-\begin{tabular}{l l p{12cm}}
-main($s$): & transition: & $time$, $tempW$, $tempP$, $latHeat$, $eW$, $eP$,
-                           $eTot$, $win :=$ $results$[0], $results$[1],
-                           $results$[2], $results$[3], $eW1 \| eW2 \| eW3$, $eP1
-                           \| eP2 \| eP3$, ($\forall i \in$ [0..$|post$($eW$)$|
-                           - 1$]) ($post$($eW$[$i$]) $+$ $post$($eP$[$i$])),
-                           Prints information about the melting of PCM. \\
-& exception: & none \\
-\end{tabular}
+\noindent main():
+\begin{itemize}
+\item transition: Modify the state of other modules and their
+  environment variables by following these steps
+\begin{enumerate}
+\item Read data sequentially from inputFile to populate the state variables from
+  R1 ($L$ to $\mathit{ConsTol}$).
+\item Calculate the derived quantities (all other state variables) as follows:
+\begin{itemize}
+\item $V_{\text{tank}} := \pi \times L \times (\frac{D}{2}) ^ 2$
+\item $m_W := \rho_w (V_t - V_p)$
+\item $m_P := \rho_p V_p$
+\item $\tau_W := \frac{m_w C_w}{A_c h_c}$
+\item $\eta := \frac{h_p A_p}{h_c A_c}$
+\item $\tau_P^S := \frac{M_p C_{ps}}{h_p A_p}$
+\item $\tau_P^L := \frac{M_p C_{pl}}{h_p A_p}$
+\item $E_{P\text{melt}}^{\text{init}} := C_{ps} M_p (T_{\text{melt}} - T_{\text{init}})$
+\item $E_{P\text{melt}}^{\text{all}} := H_f m_p$
+\item $m_W^{\text{noPCM}} := \rho_w  V_t$
+\item $\tau_W^{\text{noPCM}} := \frac{m_W^{\text{noPCM}} C_w}{h_c A_c}$
+\end{itemize}
+\item verify\_params()
+\end{enumerate}
+\end{itemize}
 
 \newpage
 \section{MIS of Input Parameters Module} \label{Parameters}
