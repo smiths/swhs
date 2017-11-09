@@ -194,17 +194,25 @@ None
 
 \noindent $t_\text{melt}^\text{final}$, $[T_W^{\text{Melting}},
 T_P^{\text{Melting}}, Q_p]^T$ := solve(ODE\_MeltingPCM,
-$t_\text{melt}^\text{init}$, [$T_W^{\text{Solid}}(t_\text{melt}^\text{init})$,
-  $T_P^{\text{Solid}}(t_\text{melt}^\text{init})$]$^T$,
+$t_\text{melt}^\text{init}$, $[T_W^{\text{Solid}}(t_\text{melt}^\text{init}),
+  T_P^{\text{Solid}}(t_\text{melt}^\text{init}), 0.0]^T$,
   event\_EndMelt)\\
 
 \noindent $[ T_W^{\text{Liquid}}, T_P^{\text{Liquid}}]^T$ := solveNoE(ODE\_LiquidPCM, $t_\text{melt}^\text{final}$,
 [$T_W^{\text{Melting}}(t_\text{melt}^\text{final})$,
 $T_P^{\text{Melting}}(t_\text{melt}^\text{final})$]$^T$, $t_\text{final}$)\\
 
-\noindent $E_W$ := EnergyWater($T_W^{\text{Solid}}$) ...\\
-\textit{conditional rule with time constraints - or energy equation
-  for each zone}
+\noindent $E_W^{\text{Solid}}$ := energyWater($T_W^{\text{Solid}}$)\\
+
+\noindent $E_W^{\text{Melting}}$ := energyWater($T_W^{\text{Melting}}$)\\
+
+\noindent $E_W^{\text{Liquid}}$ := energyWater($T_W^{\text{Liquid}}$)\\
+
+\noindent $E_P^{\text{Solid}}$ := energySolidPCM($T_P^{\text{Solid}}$)\\
+
+\noindent $E_P^{\text{Melting}}$ := energyMeltingPCM($Q_P$)\\
+
+\noindent $E_P^{\text{Liquid}}$ := energyLiquidPCM($T_P^{\text{Liquid}}$)\\
 
 etc.
 % \end{enumerate}
@@ -737,11 +745,9 @@ $y(t)$ is calculated from $t = t_o$ to $t = t_\text{fin}$.
 \newpage
 \section{MIS of Energy Module} \label{Energy}
 
-\wss{Needs to be revised}
-
 \subsection{Module}
 
-energy
+Energy
 
 \subsection{Uses}
 
@@ -752,21 +758,17 @@ Param (Section~\ref{Parameters})
 \subsubsection{External Access Programs}
 
 \begin{center}
-\begin{tabular}{p{3cm} p{6cm} p{3cm} p{2cm}}
+\begin{tabular}{p{4cm} p{4cm} p{3cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-energy1Wat & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
+energyWater & functT & functT & - \\
 \hline
-energy1PCM & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
+energySolidPCM & functT & functT & - \\
 \hline
-energy2Wat & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
+energyMeltingPCM & functT & functT & - \\
 \hline
-energy2PCM & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
-\hline
-energy3Wat & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
-\hline
-energy3PCM & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
+energyLiquidPCM & functT & functT & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -775,54 +777,41 @@ energy3PCM & array of $\mathbb{R}$, parameters & array of $\mathbb{R}$ & - \\
 
 \subsubsection{State Variables}
 
-$eW1$: array of $\mathbb{R}$ \\
-$eP1$: array of $\mathbb{R}$ \\
-$eW2$: array of $\mathbb{R}$ \\
-$eP2$: array of $\mathbb{R}$ \\
-$eW3$: array of $\mathbb{R}$ \\
-$eP3$: array of $\mathbb{R}$ 
+None
 
 \subsubsection{Assumptions}
 
-All of the fields of the input parameters structure have been assigned a value. The values have been properly constrained.
+None
 
 \subsubsection{Access Routine Semantics}
-\begin{center}
-\begin{tabular}{l l p{6cm}}
-energy1Wat($Tw1$, $params$): & transition: & ($\forall i \in [0..|Tw1| - 1]$) ($eW1[i] :=$ watEnergy($Tw1[i]$, $params$)) \\
-& output: & $out := eW1$ \\ 
-& exception: & none \\ \\
-energy1PCM($Tp1$, $params$): & transition: & ($\forall i \in [0..|Tp1| - 1]$) ($eP1[i]:=$ pcmEnergy1($Tp1[i]$, $params$)) \\
-& output: & $out := eP1$ \\ 
-& exception: & none \\ \\
-energy2Wat($Tw2$, $params$): & transition: & ($\forall i \in [0..|Tw2| - 1]$) ($eW2[i] :=$ watEnergy($Tw2[i]$, $params$)) \\
-& output: & $out := eW2$ \\ 
-& exception: & none \\ \\
-energy2PCM($Qp2$, $params$): & transition: & ($\forall i \in [0..|Qp2| - 1]$) ($eP2[i] :=$ pcmEnergy2($Qp2[i]$, $params$)) \\
-& output: & $out := eP2$ \\ 
-& exception: & none \\ \\
-energy3Wat($Tw3$, $params$): & transition: & ($\forall i \in [0..|Tw3| - 1]$) ($eW3[i] :=$ watEnergy($Tw3[i]$, $params$)) \\
-& output: & $out := eW3$ \\ 
-& exception: & none \\ \\
-energy3PCM($Tp3$, $params$): & transition: & ($\forall i \in [0..|Tp3| - 1]$) ($eP3[i] :=$ pcmEnergy3($Tp3[i]$, $params$)) \\
-& output: & $out := eP3$ \\
-& exception: & none \\
-\end{tabular}
-\end{center}
 
-\subsubsection{Local Functions}
+energyWater($T_W$): 
+\renewcommand*{\arraystretch}{1.5}
+\begin{itemize}
+\item output: $out := C_W m_W (T_W - T_\text{init})$
+\item exception: none
+\end{itemize}
 
-watEnergy: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
-watEnergy($Tw$, $params$) $\equiv$ $params.C\_w \times params.Mw \times (Tw - params.Tinit)$ \\
-\newline
-pcmEnergy1: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
-pcmEnergy1($Tp$, $params$) $\equiv$ $params.C\_ps \times params.Mp \times (Tp - params.Tinit)$ \\
-\newline
-pcmEnergy2: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
-pcmEnergy2($Qp$, $params$) $\equiv$ $params.Epmelt\_init + Qp$ \\
-\newline
-pcmEnergy3: $\mathbb{R}$ $\times$ parameters $\rightarrow$ $\mathbb{R}$ \\
-pcmEnergy3($Tp$, $params$) $\equiv$ $params.Epmelt\_init + params.Ep\_melt3 + params.C\_pl \times params.Mp \times (Tp - params.Tmelt)$ \\
+energySolidPCM($T_P$): 
+\renewcommand*{\arraystretch}{1.5}
+\begin{itemize}
+\item output: $out := C^S_P m_P (T_P - T_\text{init})$
+\item exception: none
+\end{itemize}
+
+energyMeltingPCM($Q_P$): 
+\renewcommand*{\arraystretch}{1.5}
+\begin{itemize}
+\item output: $out := E_{P\text{melt}}^{\text{init}} + Q_P$
+\item exception: none
+\end{itemize}
+
+energyLiquidPCM($T_P$): 
+\renewcommand*{\arraystretch}{1.5}
+\begin{itemize}
+\item output: $out := E_{P\text{melt}}^{\text{init}}+H_f m_p + C_P^L m_P(T_P(t) - T_\text{melt}^P)$
+\item exception: none
+\end{itemize}
 
 \newpage
 \section{MIS of Output Verification Module} \label{VerifyOutput}
