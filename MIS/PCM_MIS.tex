@@ -677,39 +677,36 @@ event\_EndMelt():
 
 \subsection{Template Module}
 
-Solver(Types $n$)
+Solver($n: \mathbb{N}$) \#\textit{$n$ is the length of the sequences}
 
 \subsection{Uses}
 
-Types $n$
+None
 
 \subsection{Syntax}
 
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} >{\raggedright\arraybackslash}p{5cm} >{\raggedright\arraybackslash}p{2cm} p{3.5cm}}
+\begin{tabular}{p{1.5cm} >{\raggedright\arraybackslash}p{9.25cm} >{\raggedright\arraybackslash}p{2.5cm} p{1.5cm}}
   \hline
-  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Except.} \\
   \hline
-  solve & systFunctT n, $\mathbb{R}$, stateT n, stateBasedFuncT n &
-                                                                 $\mathbb{R}$,
-                                                                    seqFuncT
-                                                                    n & ODE\_BAD\_INPUT, ODE\_MAXSTEP, ODE\_ACCURACY \\
-  solve (alternative notation) & $(\mathbb{R}^n \rightarrow \mathbb{R})^n$, $\mathbb{R}$,
-          $\mathbb{R}^n$, $\mathbb{R}^n \rightarrow \mathbb{R}$ & $\mathbb{R}$, 
-                                                                  $(\mathbb{R}
-                                                                  \rightarrow
-                                             \mathbb{R})^n$ & ODE\_BAD\_INPUT, ODE\_MAXSTEP, ODE\_ACCURACY \\
-  solveNoE & systFunctT n, $\mathbb{R}$, stateT n, $\mathbb{R}$ &
-                                                                    seqFuncT
-                                                                    n & ODE\_BAD\_INPUT, ODE\_MAXSTEP, ODE\_ACCURACY \\
+  solve & $f: (\mathbb{R}^{n+1} \rightarrow \mathbb{R})^n, t_0 : \mathbb{R},
+          y_0: \mathbb{R}^n, g: \mathbb{R}^n \rightarrow \mathbb{R},
+          t_\text{fin}: \mathbb{R}$ & $t_1: \mathbb{R}, 
+                                      y:
+                                      (\mathbb{R}
+                                      \rightarrow
+                                      \mathbb{R})^n$ & ODE\_ERR\\
+  solveNoE & $f: (\mathbb{R}^{n+1} \rightarrow \mathbb{R})^n, t_0 : \mathbb{R},
+             y_0: \mathbb{R}^n, t_\text{fin}: \mathbb{R}$ & $y: (\mathbb{R}
+                                                            \rightarrow
+                                                            \mathbb{R})^n$ & ODE\_ERR\\
 
   \hline 
 \end{tabular}
 \end{center}
-
-\textit{Need to add final times}
 
 \subsection{Semantics}
 
@@ -719,10 +716,10 @@ None
 
 \subsubsection{Access Routine Semantics}
 
-solve($f$, $t_0$, $y_0$, $g$): 
+solve($f, t_0, y_0, g, t_\text{fin}$): 
 \begin{itemize}
 \item output: $out := t_1, y(t)$ where 
-$$y(t) = y_0 + \int_{t_0}^{t} f(y(s)) ds$$ 
+$$y(t) = y_0 + \int_{t_0}^{t} f(s, y(s)) ds$$ 
 with $t_1$ determined by the first time where $g(y(t_1)) = 0$.  $y(t)$ is
 calculated from $t = t_o$ to $t = t_1$.
 \item exception: $exc :=$ (Invalid input parameters $\Rightarrow$
@@ -731,10 +728,10 @@ calculated from $t = t_o$ to $t = t_1$.
   ODE\_ACCURACY)
 \end{itemize}
 
-solve($f$, $t_0$, $y_0$, $t_\text{fin}$): 
+solveNoE($f$, $t_0$, $y_0$, $t_\text{fin}$): 
 \begin{itemize}
-\item output: $out := t_1, y(t)$ where 
-$$y(t) = y_0 + \int_{t_0}^{t_\text{fin}} f(y(s)) ds$$ 
+\item output: $out := y(t)$ where 
+$$y(t) = y_0 + \int_{t_0}^{t_\text{fin}} f(s, y(s)) ds$$ 
 $y(t)$ is calculated from $t = t_o$ to $t = t_\text{fin}$.
 \item exception: $exc :=$ (Invalid input parameters $\Rightarrow$
   ODE\_BAD\_INPUT $|$ $MaxStep$ steps taken and no solution found $\Rightarrow$
@@ -1087,29 +1084,6 @@ None
 \item output: \textit{out} := $t_{\text{final}}^{\text{max}}$
 \item exception: none
 \end{itemize}
-
-\newpage
-
-\section{MIS of Types} \label{SpecParam}
-
-This modules provides types that are used throughout the specification.
-
-\subsection{Template Module}
-
-Types($n: \mathbb{N}$)
-
-\subsection{Uses}
-
-N/A
-
-\subsection{Exported Types}
-
-functT = $\mathbb{R} \rightarrow \mathbb{R}$\\
-seqFuncT n = (functT)$^n$ = $(\mathbb{R} \rightarrow \mathbb{R})^n$\\
-stateT n = $\mathbb{R}^n$\\
-stateBasedFuncT n = stateT n $\rightarrow \mathbb{R}$ = $\mathbb{R}^n
-\rightarrow \mathbb{R}$\\
-systFunctT n = (stateBasedFuncT n)$^n$ $= (\mathbb{R}^n \rightarrow \mathbb{R})^n$\\
 
 \newpage
 
