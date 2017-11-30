@@ -1048,20 +1048,7 @@ N/A
 
 \subsection{Syntax}
 
-\begin{tabular}{p{3cm} p{1cm} p{1cm} >{\raggedright\arraybackslash}p{9cm}}
-\toprule
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\midrule
-$L_{\text{min}}$ & - & $\mathbb{R}$\\
-$L_{\text{max}}$ & - & $\mathbb{R}$\\
-... & ... & ...\\
-$t_{\text{final}}^{\text{max}}$ & - & $\mathbb{R}$\\
-\bottomrule
-\end{tabular}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
+\subsubsection{Exported Constants}
 
 \renewcommand{\arraystretch}{1.2}
 \begin{longtable*}[l]{l} 
@@ -1090,34 +1077,11 @@ $t_{\text{final}}^{\text{max}}$ & - & $\mathbb{R}$\\
   $t_{\text{final}}^{\text{max}}$ := 86400\\
 \end{longtable*}
 
-\#\textit{$A_C^{\text{max}}$ shouldn't be in this table of constants}
+\wss{$A_C^{\text{max}}$ shouldn't be in this table of constants}
 
-\subsubsection{Assumptions}
+\subsection{Semantics}
 
-None
-
-\subsubsection{Access Routine Semantics}
-
-\noindent SpecParam.$L_\text{min}$:
-\begin{itemize}
-\item output: \textit{out} := $L_\text{min}$
-\item exception: none
-\end{itemize}
-
-\noindent SpecParam.$L_\text{max}$:
-\begin{itemize}
-\item output: \textit{out} := $L_\text{max}$
-\item exception: none
-\end{itemize}
-
-...
-~\newline
-
-\noindent SpecParam.$t_{\text{final}}^{\text{max}}$:
-\begin{itemize}
-\item output: \textit{out} := $t_{\text{final}}^{\text{max}}$
-\item exception: none
-\end{itemize}
+N/A
 
 \newpage
 
