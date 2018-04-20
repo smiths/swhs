@@ -154,9 +154,6 @@ systems.  The symbols are listed in alphabetical order.
   $A_P$ & \si[per-mode=symbol] {\square\metre} & phase change material surface
   area
   \\ 
-  $A_R$ & unitless & Aspect ratio (ratio of tank diameter ($D$) to tank length
-  ($L$) %CHANGE
-  \\ 
   $C$ & \si[per-mode=symbol] {\joule\per \kilogram\per \celsius} &
   specific heat capacity
   \\
@@ -233,6 +230,9 @@ systems.  The symbols are listed in alphabetical order.
   \\
   $Q_P$ & \si[per-mode=symbol] {\joule} & latent heat energy added to PCM
   \\
+  $R$ & unitless & Aspect ratio (ratio of tank diameter ($D$) to tank length
+  ($L$) %CHANGE
+  \\ 
   $S$ & \si[per-mode=symbol] {unitless} & surface
   \\
   $t$ & \si[per-mode=symbol] {\second} & time
@@ -1454,8 +1454,9 @@ Table~\ref{TblSpecParams}.
   \midrule 
   $L$ & $L > 0$ & $L_{\text{min}} \leq L \leq L_{\text{max}}$ & 1.5 \si[per-mode=symbol] {\metre} & 10\%
   \\
-  $D$ & $D > 0$ & ${\frac{D}{L}}_\text{min} \leq \frac{D}{L} \leq {\frac{D}{L}}_\text{max}$ 
-	& 0.412 \si[per-mode=symbol] {\metre} & 10\%
+  $D$ & $D > 0$ & $R_\text{min} \leq R \leq R_\text{max}$ where $R = \frac{D}{L}$ 
+	& 0.412 \si[per-mode=symbol] {\metre} & 10\% %CHANGE to introduce aspect
+                                %ratio R
   \\
   $V_P$ & $V_P > 0$ (*) & $ V_P \geq \text{minfract} \cdot V_{\text{tank}}(D, L) $ &
 	0.05 \si[per-mode=symbol] {\cubic\metre} & 10\%
@@ -1530,8 +1531,8 @@ Table~\ref{TblSpecParams}.
   \midrule 
   $L_\text{min}$ & 0.1 \si{\metre}\\
   $L_\text{max}$ & 50 \si{\metre}\\
-  ${\frac{D}{L}}_\text{min}$ & 0.002 \\
-  ${\frac{D}{L}}_\text{max}$ & 200 \\
+  $R_\text{min}$ & 0.002 \\ % CHANGE for R
+  $R_\text{max}$ & 200 \\ % CHANGE for R
   $\text{minfrac} $ & $10^{-6}$\\
   $h_\text{min}$ & 0.001 \si{\metre}\\
   $\rho_P^{\text{min}}$ & 500 \si{\kilo\gram\per\cubic\metre}\\
@@ -1590,7 +1591,7 @@ E_W = \int_{0}^{t} h_C A_C (T_C - T_W(t)) dt - \int_{0}^{t} h_P A_P (T_W(t) - T_
 
 \noindent
 In addition, the energy change in the PCM should equal the energy input to 
-the PCM from the water. This can be expressed as
+the PCM from the water.  This can be expressed as
 
 \begin{equation}
 E_{P} = \int_{0}^{t} h_{P} A_{P} (T_{W}(t) - T_{P}(t)) dt. \label{eq:PCMBal}
