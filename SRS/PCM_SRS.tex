@@ -742,7 +742,7 @@ mechanical energy, are assumed to be negligible in the
   Label&\bf Latent heat energy\\
   \hline
 Equation& $Q(t)$ = 
-+  $\int_0^t \frac{dQ(\tau)}{d\tau}d\tau$\\ % where is Q(0) = 0? [SS]
++  $\int_0^t \frac{dQ(\tau)}{d\tau}d\tau$, with $Q(0)=0$\\
   \hline
   Description & $Q$ is the change in thermal energy (\si{\joule}), latent heat energy.\\
   &$\int_0^t \frac{dQ(\tau)}{d\tau}d\tau$ is the rate of change of $Q$ with respect 
@@ -910,15 +910,16 @@ Symbol &$q_C$\\
 % \hline
 SI Units & \si{\watt\per\square\metre}\\
 \hline
-Equation&$q_C(t) = h_C (T_C - T_W(t))$\\ %what happened to over area $A_C$? [SS]
+Equation&$q_C(t) = h_C (T_C - T_W(t))$, over area $A_C$\\
 \hline
 Description & 
-${q_{C}}$ is the heat flux into the water from the coil (\si{\watt\per\square\metre})\newline
+${q_{C}}$ is the heat flux into the water from the coil (\si{\watt\per\square\metre}), is found by assuming that Newton's Law of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of the coil, which has area $A_C$ (\si{\square\metre})\newline
 +${h_{C}}$ is the convective heat transfer coefficient between coil and water (\si{\watt\per\square\metre\per\celsius})\newline
 +${T_{C}}$ is the temperature of the heating coil (\si{\celsius})\newline
 +${T_{W}}$ is the temperature of the water (\si{\celsius})\newline
-+$t$ is the time (s)\newline\\ %\arefs have been removed - where is the
-                               %derivation now? [SS]
++$t$ is the time (s)\newline
+This equation assumes that the temperature of the coil is constant over time (\aref{A_tcoil}) and that it does not vary along the length of the coil (\aref{A_tlcoil})\newline
+\\ 
 \hline
 Sources&~\cite{Lightstone2012}  \\
 \hline
@@ -951,13 +952,16 @@ SI Units & \si{\watt\per\square\metre}\\
 Equation&$q_P(t) = h_P (T_W(t) - T_P(t))$, over area $A_P$\\
 \hline
 Description & 
-${q_{P}}$ is the heat flux into the PCM from water
+${q_{P}}$ is the heat flux into the PCM from water, is found by assuming that Newton's Law of Cooling applies (\aref{A_Newt_pcm}).  This law (\dref{NL}) is used on the surface of the PCM, which has area $A_P$ (\si{\square\metre})
               ($\frac{\text{W}}{\text{m}^{2}}$)\newline${h_{P}}$ is the
               convective heat transfer coefficient between PCM and water
               ($\frac{\text{W}}{(\text{m}^{2}{}^{\circ}C)}$)\newline${T_{W}}$ is
               the temperature of the water (${}^{\circ}C$)\newline$t$ is the
               time (s)\newline${T_{P}}$ is the temperature of the phase change
-              material (${}^{\circ}C$) % what happened to the assumptions? [SS]
+              material (${}^{\circ}C$) 
+	      This equation assumes that the temperature of the coil is 
+              constant over time (\aref{A_tcoil}) and that it does not vary 
+              along the length of the coil (\aref{A_tlcoil})
 \\ 
 \hline
 Sources&~\cite{Lightstone2012}  \\
@@ -1111,8 +1115,7 @@ Symbol &$\phi$ \\
 % \hline
 SI Units & dimensionless\\
 \hline
-Equation&$\phi$ = $\frac{Q_P}{H_f m_P}$\\  % what happened to ($0\leq \phi \leq
-                                % 1$) [SS]
+Equation&$\phi$ = $\frac{Q_P}{H_f m_P}$, ($0\leq \phi \leq 1$)\\  
 \hline
 Description & $\phi$ is the fraction of the PCM that is liquid (dimensionless).\\
 & $Q_P$ is the latent heat energy added to the PCM (\si{\joule}).\\
