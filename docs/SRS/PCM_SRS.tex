@@ -872,7 +872,10 @@ constant.  Then (\ref{eq:1}) can be written as
 \end{equation*}
 
 \noindent where $q_{\mathrm{in}}$, $q_{\mathrm{out}}$, $A_{\mathrm{in}}$, and 
-$A_{\mathrm{out}}$ are explained in \dref{ROCT}.  Assuming $\rho$, $C$ and $T$ are
+$A_{\mathrm{out}}$ are explained in \dref{ROCT}.  \wss{The integral over the
+  surface could be simplified because the thermal flux is assumed constant over
+  $A_\text{in}$ and $A_\text{out}$ and $0$ on all other surfaces.  Outward flux
+  is considered positive.}  Assuming $\rho$, $C$ and $T$ are
 constant over the volume, which is true in our case by assumptions (\aref{A_mixed}),
 (\aref{A_tpcm}), (\aref{A_const_density}), and (\aref{A_const_C}), we have
 
@@ -908,23 +911,35 @@ Symbol &$q_C$\\
 \hline
 % Units& $Mt^{-3}$\\
 % \hline
-SI Units & \si{\watt\per\square\metre}\\
-\hline
-Equation&$q_C(t) = h_C (T_C - T_W(t))$, over area $A_C$\\
-\hline
-Description & 
-${q_{C}}$ is the heat flux into the water from the coil (\si{\watt\per\square\metre}), is found by assuming that Newton's Law of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of the coil, which has area $A_C$ (\si{\square\metre})\newline
-+${h_{C}}$ is the convective heat transfer coefficient between coil and water (\si{\watt\per\square\metre\per\celsius})\newline
-+${T_{C}}$ is the temperature of the heating coil (\si{\celsius})\newline
-+${T_{W}}$ is the temperature of the water (\si{\celsius})\newline
-+$t$ is the time (s)\newline
-This equation assumes that the temperature of the coil is constant over time (\aref{A_tcoil}) and that it does not vary along the length of the coil (\aref{A_tlcoil})\newline
-\\ 
-\hline
-Sources&~\cite{Lightstone2012}  \\
-\hline
-Ref.\ By & \iref{ewat}\\
-\hline
+  SI Units & \si{\watt\per\square\metre}\\
+  \hline
+  Equation&$q_C(t) = h_C (T_C - T_W(t))$ \wss{REMOVE - over area $A_C$}\\
+  \hline
+  Description & 
+                ${q_{C}}$ is the heat flux into the water from the coil
+                (\si{\watt\per\square\metre}), is found by assuming that
+                Newton's Law of Cooling applies (\aref{A_Newt_coil}).  This law
+                (\dref{NL}) is used on the surface of the coil \wss{REMOVE -, which has area
+                $A_C$ (\si{\square\metre})}\\
+
+                & ${h_{C}}$ is the convective heat transfer coefficient between
+                  coil and water (\si{\watt\per\square\metre\per\celsius})\\
+
+                & ${T_{C}}$ is the temperature of the heating coil
+                  (\si{\celsius})\\
+
+                & ${T_{W}}$ is the temperature of the water (\si{\celsius})\\
+
+                & $t$ is the time (s)\\
+
+      & This equation assumes that the temperature of the coil is
+        constant over time (\aref{A_tcoil}) \wss{REMOVE - and that it does not vary
+        along the length of the coil (\aref{A_tlcoil})}\\
+  \hline
+  Sources&~\cite{Lightstone2012}  \\
+  \hline
+  Ref.\ By & \iref{ewat}\\
+  \hline
 \end{tabular}
 \end{minipage}\\
 
@@ -947,27 +962,37 @@ Symbol &$q_P$\\
 \hline
 % Units&$Mt^{-3}$\\
 % \hline
-SI Units & \si{\watt\per\square\metre}\\
-\hline
-Equation&$q_P(t) = h_P (T_W(t) - T_P(t))$, over area $A_P$\\
-\hline
-Description & 
-${q_{P}}$ is the heat flux into the PCM from water, is found by assuming that Newton's Law of Cooling applies (\aref{A_Newt_pcm}).  This law (\dref{NL}) is used on the surface of the PCM, which has area $A_P$ (\si{\square\metre})
-              ($\frac{\text{W}}{\text{m}^{2}}$)\newline${h_{P}}$ is the
-              convective heat transfer coefficient between PCM and water
-              ($\frac{\text{W}}{(\text{m}^{2}{}^{\circ}C)}$)\newline${T_{W}}$ is
-              the temperature of the water (${}^{\circ}C$)\newline$t$ is the
-              time (s)\newline${T_{P}}$ is the temperature of the phase change
-              material (${}^{\circ}C$) 
-	      This equation assumes that the temperature of the coil is 
-              constant over time (\aref{A_tcoil}) and that it does not vary 
-              along the length of the coil (\aref{A_tlcoil})
-\\ 
-\hline
-Sources&~\cite{Lightstone2012}  \\
-\hline
-Ref.\ By & \iref{ewat}, \iref{epcm}, \iref{I_HPCM}\\
-\hline
+  SI Units & \si{\watt\per\square\metre}\\
+  \hline
+  Equation&$q_P(t) = h_P (T_W(t) - T_P(t))$ \wss{REMOVE - , over area $A_P$}\\
+  \hline
+  Description & 
+                ${q_{P}}$ is the heat flux into the PCM from water, is found by
+                assuming that Newton's Law of Cooling applies
+                (\aref{A_Newt_pcm}).  This law (\dref{NL}) is used on the
+                surface of the PCM \wss{REMOVE - , which has area $A_P$ (\si{\square\metre}) ($\frac{\text{W}}{\text{m}^{2}}$)}\\
+
+      & ${h_{P}}$ is the
+        convective heat transfer coefficient between PCM and water
+        ($\frac{\text{W}}{(\text{m}^{2}{}^{\circ}C)}$)\\
+
+      & ${T_{W}}$ is
+        the temperature of the water (${}^{\circ}C$)\\
+
+  & $t$ is the time (s)\\
+
+  & ${T_{P}}$ is the temperature of the phase change
+  material (${}^{\circ}C$) \\
+
+  & \wss{Remove - This equation assumes that the temperature of the coil is 
+  constant over time (\aref{A_tcoil}) and that it does not vary 
+  along the length of the coil (\aref{A_tlcoil})}
+  \\ 
+  \hline
+  Sources&~\cite{Lightstone2012}  \\
+  \hline
+  Ref.\ By & \iref{ewat}, \iref{epcm}, \iref{I_HPCM}\\
+  \hline
 \end{tabular}
 \end{minipage}\\
 
@@ -1190,11 +1215,16 @@ of the PCM depend on the phase change.
 To find the rate of change of $T_W$, we look at the energy balance on water.
 The volume being considered is the volume of water in the tank $V_W$, which has
 mass $m_W$ and specific heat capacity, $C_W$.  Heat transfer occurs in the water
-from the coil as $q_C$ and from the water into the PCM as $q_p$, over areas
-$A_C$ and $A_P$, respectively.  No heat transfer occurs to the outside of the
-tank, since it has been assumed to be perfectly insulated (\aref{A_htank}).
-Assuming no internal heat is generated (\aref{A_int_heat}), $g$ = 0.  Therefore,
-the equation for \dref{ROCT} can be written as:
+from the coil as $q_C$ \wss{(\ddref{FluxCoil})} and from the water into the PCM as
+$q_p$ \wss{(\ddref{FluxPCM})}, over areas $A_C$ and $A_P$, respectively.  \wss{The
+  thermal flux is constant over $A_C$, since the temperature of the coil is
+  assumed to not vary along its length (\aref{A_tlcoil}), and the thermal flux is constant over
+  $A_p$, since the temperature of the PCM is the same throughout its
+  volume (\aref{A_tpcm}) and the water is fully mixed (\aref{A_mixed}).}  No heat
+transfer occurs to the outside of the tank, since it has been assumed to be
+perfectly insulated (\aref{A_htank}).  \wss{The assumption is made that no
+  internal heat is generated (\aref{A_int_heat}), $g$ = 0}.  Therefore, the
+equation for \dref{ROCT} can be written as:
 
 \begin{equation*}
 \\m_W C_W \frac{dT_W}{dt} = q_C A_C - q_P A_P.
@@ -1314,12 +1344,14 @@ specific ODE depends on $T_P$ as follows:\\
 \subsubsection*{Detailed derivation of the energy balance on the PCM during sensible heating phase}
 
 To find the rate of change of $T_P$, we look at the energy balance on the PCM.
-The volume being considered is the volume of the PCM, $V_P$.  The derivation that
-follows is initially for the solid PCM.  The PCM in the tank has mass $m_P$ and
-specific heat capacity $C^S_P$.  Heat input from the water to the PCM is $q_P$
-over area $A_P$.  There is no heat flux output.  Assuming no internal heat
-generated (\aref{A_int_heat}), $g=0$, the equation for \dref{ROCT} can be
-written as:
+The volume being considered is the volume of the PCM, $V_P$.  The derivation
+that follows is initially for the solid PCM.  The PCM in the tank has mass $m_P$
+and specific heat capacity $C^S_P$.  Heat input from the water to the PCM is
+$q_P$ \wss{(\ddref{FluxPCM})} over area $A_P$.  \wss{The thermal flux is constant
+  over $A_p$, since the temperature of the PCM is the same throughout its
+  volume (\aref{A_tpcm}) and the water is fully mixed (\aref{A_mixed}).}  There is
+no heat flux output \wss{from the PCM}.  Assuming no internal heat generated
+(\aref{A_int_heat}), $g=0$, the equation for \dref{ROCT} can be written as:
 
 \begin{equation*}
 \\m_P C_P^S \frac{d T_P}{dt} = q_P A_P
