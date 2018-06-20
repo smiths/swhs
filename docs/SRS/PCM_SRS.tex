@@ -18,6 +18,9 @@
 \usepackage{pdflscape}
 \usepackage{afterpage}
 \usepackage[numbib,nottoc]{tocbibind}
+\newcounter{ucnum}
+\newcommand{\ltheucnum}{UC\theucnum}
+\newcommand{\ucref}[1]{UC\ref{#1}}
 %\usepackage{refcheck}
 
 \hypersetup{
@@ -1831,6 +1834,16 @@ maintainability.
 \item[LC\refstepcounter{lcnum}\thelcnum \label{LC_htank}:]\aref{A_htank} - Any
   real tank cannot be perfectly insulated and will lose heat.
 
+\end{itemize}
+
+\section{Unlikely Changes}
+If changes were to be made with regard to the following, a different algorithm would be needed.
+
+\begin{itemize}
+\item[\refstepcounter{ucnum}\ltheucnum \label{UC_convCooling}:] Changes related to \aref{A_Newt_coil} and \aref{A_Newt_pcm} are not possible due to the dependency of the calculations of the Heat flux into the water from the coil and the PCM from the water.
+\item[\refstepcounter{ucnum}\ltheucnum \label{UC_opRange}:] Changes related to \aref{A_OpRange} are not possible due to \iref{ewat} and \iref{I_HWAT} only applying if \aref{A_OpRange} is true.
+\item[\refstepcounter{ucnum}\ltheucnum \label{UC_intHeat}:] For the derivations of \iref{ewat} and \iref{epcm}, \aref{A_int_heat} must be held true. 
+\item[\refstepcounter{ucnum}\ltheucnum \label{UC_pcmState}:] \aref{A_PCM_state} must be held true for the derivation of \iref{epcm} to be valid and for the equation given by \iref{I_HPCM} to be valid.
 \end{itemize}
 
 \section{Traceability Matrices and Graphs}
