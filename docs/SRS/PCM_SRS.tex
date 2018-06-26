@@ -1534,7 +1534,7 @@ restricts the range of inputs to reasonable values.
 	& 0.412 \si[per-mode=symbol] {\metre} & 10\% %CHANGE to introduce aspect
                                 %ratio R
   \\
-  $V_P$ & $V_P > 0$ (*) & $ V_P \geq \text{minfract} \cdot V_{\text{tank}}(D, L) $ &
+  $V_P$ & $V_P > 0$ (*) & $ V_P \geq \text{MINFRACT} \cdot V_{\text{tank}}(D, L) $ &
 	0.05 \si[per-mode=symbol] {\cubic\metre} & 10\%
   \\
   & $V_P < V_{\text{tank}}(D, L)$ & & & 
@@ -1980,7 +1980,7 @@ future work.
 This section contains the standard values that are used for calculations in
 SWHS.\\
 
-\begin{tabular}{l X l l l l l}
+\begin{tabular}{l p{10cm} l l l l l}
 \toprule
 Symbol & Description & Value & Unit
 \\
@@ -1989,7 +1989,11 @@ ${L_\text{min}}$ & minimum length of tank & $0.1$ & m
 \\
 ${L_{\text{max}}}$ & maximum length of tank & $50$ & m
 \\
-${h_{\text{min}}}$ & minimum thickness of ``sheet'' of PCM & $0.001$ & $\text{m}$
+${h_{\text{min}}}$ & minimum thickness of ``sheet'' of PCM & $0.001$ &
+                                                                       $\text{m}$
+\\
+$\text{MINFRACT}$ & minimum fraction of the tank volume taken up by the PCM &
+                                                                              $ 1 \times 10^{-6}$ & unitless
 \\
 ${\rho{}_{P}^{\text{min}}}$ & minimum density of PCM & $500$ & $\frac{\text{kg}}{\text{m}^{3}}$
 \\
