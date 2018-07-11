@@ -1000,67 +1000,87 @@ Symbol &$q_P$\\
 \end{minipage}\\
 
 
-% ~\newline
+~\newline
 
-% \noindent
-% \begin{minipage}{\textwidth}
-% \renewcommand*{\arraystretch}{1.5}
-% \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-% \hline
-% \rowcolor[gray]{0.9}
-% Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{BalanceConstant1}\\
-% \hline
-% Label& \bf Energy Balance Constant 1\\
-% \hline
-% Symbol &$\tau_W$\\
-% \hline
-% Units&$t^2$\\
-% \hline
-% SI Units &$\mathrm{\frac{J}{W}}$\\
-% \hline
-% Equation&$\tau_W = \frac{m_W C_W}{h_C A_C}$\\
-% \hline
-% Description & 
-% $\tau_W$ is a constant comprised of the mass of the water $m_W$,
-% the specific heat capacity of water $C_W$, the heat transfer 
-% coefficient of the coil $h_C$, and the surface area of the coil, $A_C$.
-% \\
-% \hline
- % Sources&  \\
-% \hline
-% \end{tabular}
-% \end{minipage}\\
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{BalanceConstant1}\\
+\hline
+Label& \bf Energy Balance Water Decay Time\\
+\hline
+Symbol &$\tau_W$\\
+\hline
+SI Units &$\mathrm{s}$\\
+\hline
+Equation&$\tau_W = \frac{m_W C_W}{h_C A_C}$\\
+\hline
+Description & 
+  $\tau_W$ is the ODE parameter for water ($\mathrm{s}$)\\
+  
+  & $m_W$ is the mass of the water ($\mathrm{kg}$)\\
+  
+  & $C_W$ is the specific heat capacity of water 
+  ($\frac{\text{J}}{(\text{kg}{}^{\circ}C)}$) \\
+  
+  & $h_C$ is the heat transfer coefficient of the coil 
+  ($\frac{\text{W}}{(\text{m}^{2}{}^{\circ}C)}$)\\
+  
+  & $A_C$ is the surface area of the coil ($\text{m}^{2}$)\\
+%$\tau_W$ is a constant comprised of the mass of the water $m_W$,
+%the specific heat capacity of water $C_W$, the heat transfer 
+%coefficient of the coil $h_C$, and the surface area of the coil, $A_C$.
+\hline
+Sources&~\cite{Lightstone2012}  \\
+\hline
+Ref.\ By & \iref{ewat}\\
+\hline
+\end{tabular}
+\end{minipage}\\
 
-% ~\newline
+~\newline
 
-% \noindent
-% \begin{minipage}{\textwidth}
-% \renewcommand*{\arraystretch}{1.5}
-% \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-% \hline
-% \rowcolor[gray]{0.9}
-% Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{BalanceConstant2}\\
-% \hline
-% Label& \bf Energy Balance Constant 2\\
-% \hline
-% Symbol &$\eta$\\
-% \hline
-% Units& dimensionless\\
-% \hline
-% SI Units & dimensionless\\
-% \hline
-% Equation&$\eta = \frac{h_P A_P}{h_C A_C}$\\
-% \hline
-% Description & 
-% $\eta$ is a constant comprised of the heat transfer coefficient of the PCM ($h_P$), 
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{BalanceConstant2}\\
+\hline
+Label& \bf Energy Balance Water Decay Rate\\
+\hline
+Symbol &$\eta$\\
+\hline
+SI Units & dimensionless\\
+\hline
+Equation&$\eta = \frac{h_P A_P}{h_C A_C}$\\
+\hline
+Description & 
+  $\eta$ is the ODE parameter (dimensionless)\\
+  
+  & $h_P$ is the convective heat transfer coefficient between PCM and water
+  ($\frac{\text{W}}{(\text{m}^{2}{}^{\circ}C)}$)\\
+
+  & $A_P$ is the phase change material surface area ($\text{m}^{2}$)\\
+
+  & $h_C$ is the convective heat transfer coefficient between coil and water
+  ($\frac{\text{W}}{(\text{m}^{2}{}^{\circ}C)}$)\\
+
+  & $A_C$ is the heating coil surface area ($\text{m}^{2}$)\\
+%$\eta$ is a constant comprised of the heat transfer coefficient of the PCM ($h_P$), 
 % the surface area of the PCM ($A_P$), the heat transfer coefficient of the coil ($h_C$), 
 % and the surface area of the coil ($A_C$).
-% \\
-% \hline
- % Sources&  \\
-% \hline
-% \end{tabular}
-% \end{minipage}\\
+\hline
+Sources&~\cite{Lightstone2012}  \\
+\hline
+Ref.\ By & \iref{ewat}\\
+\hline
+\end{tabular}
+\end{minipage}\\
 
 % ~\newline
 
@@ -1186,7 +1206,7 @@ of the PCM depend on the phase change.
   \hline
   Label& \bf Energy balance on water to find $T_W$\\
   \hline
-  Input&$m_W$, $C_W$, $h_C$, $A_C$, $h_P$, $A_P$, $t_\text{final}$, $T_C$, 
+  Input&$\tau_W$, $\eta$, $t_\text{final}$, $T_C$, 
   $T_\text{init}$, $T_P(t)$ from \iref{epcm}\\
   & The input is constrained so that $T_\text{init} \leq T_C$ (\aref{A_charge})\\
   \hline
@@ -1197,12 +1217,13 @@ of the PCM depend on the phase change.
   Description&$T_W$ is the water temperature (\si{\celsius}).\\
   &$T_P$ is the PCM temperature (\si{\celsius}).\\
   &$T_C$ is the coil temperature (\si{\celsius}).\\
-  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
+  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}) (from \ddref{BalanceConstant1}).\\
   &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
   & The above equation applies as long as the water is in liquid form,
   $0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the melting
-  and boiling points of water, respectively (\aref{A_OpRange}, \aref{A_Pressure}).
-  \\
+  and boiling points of water, respectively (\aref{A_OpRange}, \aref{A_Pressure}).\\
+  &$C_W$ is the specific heat capacity of water.\\
+  &$m_W$ is the mass of the water.\\
   \hline
   Sources&~\cite{Lightstone2012} \ \\
   \hline
@@ -1268,8 +1289,9 @@ which simplifies to
 \end{equation}
 
 \noindent
-Setting $\tau_W = \frac{m_W C_W}{h_C A_C}$ and $\eta = \frac{h_P A_P}{h_C A_C}$, 
-Equation~(\ref{eq:4}) can be written as
+Setting $\tau_W$ $ = \frac{m_W C_W}{h_C A_C}$ (from \ddref{BalanceConstant1}) and $\eta$ 
+  $ = \frac{h_P A_P}{h_C A_C}$ (from \ddref{BalanceConstant2}), Equation~(\ref{eq:4}) 
+  can be written as
 
 \begin{equation*}
 \\ \frac{dT_W}{dt} = \frac{1}{\tau_W} (T_C - T_W) + 
@@ -1423,7 +1445,7 @@ to either be in a solid or liquid state (\aref{A_PCM_state}).
 \end{tabular}
 \end{minipage}\\
 
-~\newline
+%~\newline
 
 %Instance Model 4
 
