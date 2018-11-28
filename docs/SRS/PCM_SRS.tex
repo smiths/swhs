@@ -567,7 +567,7 @@ likely change [LC], in which the respective assumption is used.
   negligible [\tref{T_COE}].
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_hcoeff}:] All heat
-  transfer coefficients are constant over time [\dref{NL}].
+  transfer coefficients are constant over time [\tref{NL}].
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_mixed}:] The water in
   the tank is fully mixed, so the temperature is the same throughout the entire
@@ -769,11 +769,6 @@ Equation& $Q(t)$ =
 
 %~\newline
 
-\subsubsection{General Definitions}\label{sec_gendef}
-
-This section collects  the laws and equations that will be used in deriving the
-data definitions, which in turn are used to  build the instance models.
-
 ~\newline
 
 \noindent
@@ -782,14 +777,15 @@ data definitions, which in turn are used to  build the instance models.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{NL}\\
+Number& T\refstepcounter{theorynum}\thetheorynum \label{NL} \wss{Moved to TM
+        from GD}\\
 \hline
 Label &\bf Newton's law of cooling \\
 \hline
 % Units&$MLt^{-3}T^0$\\
 % \hline
-SI Units&\si{\watt\per\square\metre}\\
-\hline
+% SI Units&\si{\watt\per\square\metre}\\
+% \hline
 Equation&$ q(t) = h \Delta T(t)$  \\
 \hline
 Description &
@@ -810,6 +806,11 @@ between the environment and the object (\si{\celsius}).
   \hline
 \end{tabular}
 \end{minipage}\\
+
+\subsubsection{General Definitions}\label{sec_gendef}
+
+This section collects  the laws and equations that will be used in deriving the
+data definitions, which in turn are used to  build the instance models.
 
 ~\newline
 
@@ -922,7 +923,7 @@ Symbol &$q_C$\\
                 ${q_{C}}$ is the heat flux into the water from the coil
                 (\si{\watt\per\square\metre}), is found by assuming that
                 Newton's Law of Cooling applies (\aref{A_Newt_coil}).  This law
-                (\dref{NL}) is used on the surface of the coil \wss{REMOVE -, which has area
+                (\tref{NL}) is used on the surface of the coil \wss{REMOVE -, which has area
                 $A_C$ (\si{\square\metre})}\\
 
                 & ${h_{C}}$ is the convective heat transfer coefficient between
@@ -972,7 +973,7 @@ Symbol &$q_P$\\
   Description & 
                 ${q_{P}}$ is the heat flux into the PCM from water, is found by
                 assuming that Newton's Law of Cooling applies
-                (\aref{A_Newt_pcm}).  This law (\dref{NL}) is used on the
+                (\aref{A_Newt_pcm}).  This law (\tref{NL}) is used on the
                 surface of the PCM \wss{REMOVE - , which has area $A_P$ (\si{\square\metre}) ($\frac{\text{W}}{\text{m}^{2}}$)}\\
 
       & ${h_{P}}$ is the
@@ -1082,35 +1083,79 @@ Ref.\ By & \iref{ewat}\\
 \end{tabular}
 \end{minipage}\\
 
-% ~\newline
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{BalanceSolidPCM}\\
+\hline
+Label& \bf ODE parameter for solid PCM \wss{New DD}\\
+\hline
+Symbol &$\tau^S_P$\\
+\hline
+SI Units & s\\
+\hline
+Equation&$\tau^S_P = \frac{m_P C^S_P}{h_P A_P}$\\
+\hline
+Description & 
+  $\tau^S_P$ is an ODE parameter for solid PCM (s)\\
+  
+  & $m_P$ is the mass of the PCM ($\mathrm{kg}$)\\
+  
+  & $C^S_P$ is the specific heat capacity of the solid PCM 
+  ($\frac{\text{J}}{(\text{kg}{}^{\circ}C)}$) \\
+  
+  & $h_P$ is the heat transfer coefficient of the PCM 
+  ($\frac{\text{W}}{(\text{m}^{2}{}^{\circ}C)}$)\\
+  
+  & $A_P$ is the surface area of the PCM ($\text{m}^{2}$)\\
+\hline
+Sources&~\cite{Lightstone2012}  \\
+\hline
+Ref.\ By & \iref{epcm}\\
+\hline
+\end{tabular}
+\end{minipage}\\
 
-% \noindent
-% \begin{minipage}{\textwidth}
-% \renewcommand*{\arraystretch}{1.5}
-% \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-% \hline
-% \rowcolor[gray]{0.9}
-% Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{BalanceConstant3}\\
-% \hline
-% Label& \bf Energy Balance Constant 3\\
-% \hline
-% Symbol &$\tau_P$\\
-% \hline
-% Units& $T t^3 L^{-2}$\\
-% \hline
-% SI Units &$\frac{{\mathrm{kg}}{\mathrm{^oC}}}{\mathrm{W}}$\\
-% \hline
-% Equation&$\tau_P = \frac{m_P}{h_P A_P}$\\
-% \hline
-% Description & 
-% $\tau_P$ is a constant comprised of the mass of the PCM ($m_P$), the heat transfer 
-% coefficient of the PCM ($h_P$), and the surface area of the PCM ($A_P$).
-% \\
-% \hline
- % Sources&  \\
-% \hline
-% \end{tabular}
-% \end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{BalanceLiquidPCM}\\
+\hline
+Label& \bf ODE parameter for liquid PCM \wss{New DD}\\
+\hline
+Symbol &$\tau^L_P$\\
+\hline
+SI Units & s\\
+\hline
+Equation&$\tau^L_P = \frac{m_P C^L_P}{h_P A_P}$\\
+\hline
+Description & 
+  $\tau^L_P$ is an ODE parameter for liquid PCM (s)\\
+  
+  & $m_P$ is the mass of the PCM ($\mathrm{kg}$)\\
+  
+  & $C^L_P$ is the specific heat capacity of the liquid PCM 
+  ($\frac{\text{J}}{(\text{kg}{}^{\circ}C)}$) \\
+  
+  & $h_P$ is the heat transfer coefficient of the PCM 
+  ($\frac{\text{W}}{(\text{m}^{2}{}^{\circ}C)}$)\\
+  
+  & $A_P$ is the surface area of the PCM ($\text{m}^{2}$)\\
+\hline
+Sources&~\cite{Lightstone2012}  \\
+\hline
+Ref.\ By & \iref{epcm}\\
+\hline
+\end{tabular}
+\end{minipage}\\
 
 ~\newline
 
@@ -1190,7 +1235,6 @@ coupled since the solution for $T_W$ and $T_P$ depend on one another.
 \iref{I_HWAT} can be solved once \iref{ewat} has been solved.  The solution of
 \iref{epcm} and \iref{I_HPCM} are also coupled, since the temperature and energy
 of the PCM depend on the phase change.
-
 
 ~\newline
 
@@ -1354,9 +1398,9 @@ specific ODE depends on $T_P$ as follows:\\
   Description&$T_W$ is water temperature (\si{\celsius}).\\
   &$T_P$ is the PCM temperature (\si{\celsius}).\\
   &$\tau^S_P = \frac{m_P C^S_P}{h_P A_P}$ is a constant
-  (\si{\second}).\\
+  (\si{\second}) (\wss{Add link to DD} From \ddref{BalanceSolidPCM}).\\
   &$\tau^L_P = \frac{m_P C^L_P}{h_P A_P}$ is a constant
-  (\si{\second}).
+  (\si{\second}) (\wss{Add link to DD} From \ddref{BalanceLiquidPCM}).
   \\
   \hline
   Sources&~\cite{Lightstone2012}\ \\
@@ -1890,7 +1934,7 @@ the assumptions.
 \tref{T_COE}        & X& & & & & & & & & & & & & & & & & & \\ \hline
 \tref{T_SHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
 \tref{T_LHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\dref{NL}           & & X& & & & & & & & & & & & & & & & & \\ \hline
+\tref{NL}           & & X& & & & & & & & & & & & & & & & & \\ \hline
 \dref{ROCT}         & & & X& X& X& X& & & & & & & & & & & & & \\ \hline
 \ddref{FluxCoil}    & & & & & & & X& X& X& & & & & & & & & & \\ \hline
 \ddref{FluxPCM}     & & & X& X& & & & & & X& & & & & & & & & \\ \hline
@@ -1918,12 +1962,12 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline        
-	& \tref{T_COE}& \tref{T_SHE}& \tref{T_LHE}& \dref{NL}& \dref{ROCT} & \ddref{FluxCoil}& \ddref{FluxPCM} & \ddref{D_HOF}& \ddref{D_MF}& \iref{ewat}& \iref{epcm}& \iref{I_HWAT}& \iref{I_HPCM} \\
+	& \tref{T_COE}& \tref{T_SHE}& \tref{T_LHE}& \tref{NL}& \dref{ROCT} & \ddref{FluxCoil}& \ddref{FluxPCM} & \ddref{D_HOF}& \ddref{D_MF}& \iref{ewat}& \iref{epcm}& \iref{I_HWAT}& \iref{I_HPCM} \\
 \hline
 \tref{T_COE}     & & & & & & & & & & & & & \\ \hline
 \tref{T_SHE}     & & & X& & & & & & & & & & \\ \hline
 \tref{T_LHE}     & & & & & & & & & & & & & \\ \hline
-\dref{NL}        & & & & & & & & & & & & & \\ \hline
+\tref{NL}        & & & & & & & & & & & & & \\ \hline
 \dref{ROCT}      & X& & & & & & & & & & & & \\ \hline
 \ddref{FluxCoil} & & & & X& & & & & & & & & \\ \hline
 \ddref{FluxPCM}  & & & & X& & & & & & & & & \\ \hline
